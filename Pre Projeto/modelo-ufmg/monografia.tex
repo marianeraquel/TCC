@@ -18,8 +18,11 @@
 \usepackage{graphicx}														%Package para figuras
 \usepackage{float}
 \usepackage{geometry}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
 \usepackage{url}
-\geometry{a4paper,left=3cm,right=2cm,top=3cm,bottom=2cm}
+
+%\geometry{a4paper,left=3cm,right=3cm,top=3cm,bottom=3cm}
 
 %%
 %%	Ainda em teste
@@ -48,6 +51,9 @@
 
 %Altera o espaçamento entre dots
 %\renewcommand\@dotsep{2}
+
+
+
 
 %Altera forma de montagem do table of contents
 \renewcommand\l@chapter[2]{
@@ -149,14 +155,23 @@
 	\ifthenelse{\boolean{ABNTNextOutOfTOC}}
 		{\markboth{\ABNTnextmark}{\ABNTnextmark}}
 		{\chaptermark{#1}
-		\pagestyle{\chaptertitlepagestyle}}}
+}}
+
 
 % Redefine o tipo de numeração das páginas
 \renewcommand{\ABNTBeginOfTextualPart}{
-	\renewcommand{\chaptertitlepagestyle}{plainheader}
+	\renewcommand{\chaptertitlepagestyle}{plain}
 	\renewcommand{\thepage}{\arabic{page}}
 %	\setcounter{page}{1}
 }
+
+% set headings
+\lhead{}
+
+\rhead
+      {\fancyplain{}{\footnotesize\rightmark}}
+
+\cfoot{}
 
 \makeatother
 
@@ -168,17 +183,12 @@
 % ********************************
 \begin{document}
 
+
+% set headings
+
+
 \include{capa}
 
-%\include{folharosto}
-
-%\include{folhaaprovacao}
-
-%\include{dedicatoria}
-
-%\include{agradecimentos}
-
-%\include{epigrafe}
 
 \sumario
 
@@ -192,19 +202,6 @@
 % Forma de uso: \sigla{sigla}{Descrição}
 %\listadesiglas
 
-%\include{resumo}
-
-%\include{abstract}
-
-%\include{introducao}
-
-%\include{referecialTeorico}
-
-%\include{metodologia}
-
-%\include{resultados}
-
-%\include{conclusao}
 
 \include{proposta}
 
@@ -212,26 +209,5 @@
 %\bibliographystyle{abnt-alf}	 % Existem ainda: abbrv, acm, alpha, amsalpha, amsplain
 \bibliographystyle{abnt-alf}
 \bibliography{bibliografia} % o nome do arquivo .bib com as referências
-\include{bibliografia}															
-
-%\include{apendice1}
-
-% \chapter{Entrada de Símbolos e Siglas}
-% \par Para fazer a entrada de um símbolo, $\backslash$símbolo\{\simbolo{$\sigma$}{Descrição}\} \{Descriçao\} é a forma % correta. E, para definir uma sigla, $\backslash$sigla\{\sigla{ABNT}{Associação Brasileira de Normas Técnicas}\} % \{Descrição\} deve ser utilizado.
-%  \par Obs.: Quando a sigla ou o símbolo aparecerem novamente no texto, não repita o comando, para que a sigla ou símbolo não se repita na lista correspondente.
-
-% *********** APÊNDICES ***********
-% ** Condicionados à necessidade **
-% \apendice
-% \chapter{Primeiro apêndice}
-% \par Apêndices são textos elaborados pelo autor a fim de complementar sua argumentação.
-
-% ************ ANEXOS *************
-% ** Condicionados à necessidade **
-% \anexo
-% \chapter{Primeiro anexo}
-% \par Anexos são documentos não elaborados pelo autor, que servem de fundamentação, comprovação ou ilustração.
 
 \end{document}
-
-% Quando o número de apêndices ou anexos vier a ser suficiente, é recomendado fazer um sumário separado para os apêndices, localizados imediatamente antes dos apêndices ou anexos. Nesse caso, no sumário principal, apenas é feito referência a este sumário específico.
