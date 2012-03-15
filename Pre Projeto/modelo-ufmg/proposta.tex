@@ -2,14 +2,28 @@
 
 \section{Tema do trabalho}
 
-A ordenação  \\
 
-A computação paralela ...
+A ordenação é o processo de reordenar uma sequência de entrada e produzir uma saída ordenada de acordo com um atributo. 
+A ordenação paralela é o processo de uso de múltiplas unidades de processamento para ordenar em conjunto uma sequência. Na criação de algoritmos de ordenação paralela, é ponto fundamental ordenar coletivamente os dados de cada processo individual, de forma a utilizar todas as unidades de processamento e minimizar os custos de redistribuição de chaves entre os processadores. \cite{Kale:2010} 
+
+
+Fatores como movimentação de dados, balanço de carga, latência de comunicação e distribuição inicial das chaves são considerados ingredientes chave para o bom desempenho da ordenação paralela, e variam de acordo com o algoritmo escolhido como solução. O presente projeto propõe a análise de desempenho, em termos do número de dados a serem ordenados e de máquinas utilizadas, de um ou mais algoritmos de ordenação paralela, implementados de acordo com o modelo MapReduce no ambiente Hadoop.
 
 
 \section{Relevância}
 
-Uso crescente de computação paralela para sistemas computacionais.
+A arquitetura paralela é um conceito conhecido há várias décadas 
+
+%
+%A arquitetura paralela foi construída há muito tempo, mas somente recentemente po- demos experimentá-la a custo razoável, ampliando seu acesso. A literatura indica que estamos experimentando as primeiras versões de arquiteturas multicore e a tendência é de que elas evoluam cada vez mais, marcando o início de uma era de computadores cada vez mais poderosos. O estudo da programação paralela torna-se fundamental neste con- texto, pois essa é a única forma de aproveitar toda a e􏰁ciência permitida por tais má- quinas
+
+
+Com a recente mudança de foco no desenvolvimento de algoritmos sequenciais para paralelos, conhecer os modelos de programação paralela se tornou uma grande necessidade na computação. Os algoritmos paralelos ainda são um ramo pouco explorado, devido a  maior complexidade no desenvolvimento e recentes aplicações em sistemas \textit{multicore}.
+
+
+Uso crescente de computação paralela para sistemas computacionais gera a necessidade de algoritmos de ordenação inovadores, desenvolvidos para dar suporte a essas aplicações. 
+O MapReduce\cite{Dean:2008}  é um modelo de programação paralela criado pela Google para processamento e geração de grandes volumes de dados em \textit{clusters}. Esse modelo propõe simplificar a computação paralela e ser de fácil uso, abstraindo conceitos complexos da paralelização - como tolerância a falhas, distribuição de dados e balanço de carga - e utilizando duas funções principais: map e reduce. A complexidade do algoritmo paralelo não é vista pelo desenvolvedor, que pode se ocupar em desenvolver a solução proposta. O Hadoop \cite{Hadoop:2010} é uma implementação do MapReduce, um \textit{framework} open source que provê o gerenciamento de computação distribuída. 
+
 
 \section{Objetivos}
 
@@ -24,13 +38,14 @@ O projeto propõe a
 
 Com a realização do trabalho, busca-se ampliar e consolidar conhecimentos adquiridos na área de computação paralela, assim como
 a capacidade de análise e desenvolvimento de algoritmos paralelos. 
-Os resultados esperados incluem entendimento do modelo MapReduce, implementação de algoritmos de ordenação paralela em ambiente Hadoop, assim como testes para comparação de desempenho entre dois ou algoritmos. 
+Os resultados esperados incluem entendimento do modelo MapReduce, implementação de algoritmos de ordenação paralela em ambiente Hadoop e realização de experimentos para comparação de desempenho entre dois ou mais algoritmos.  
 
 \section{Metodologia}
 
-vamos estudar a importancia da computacao paralela. da ordenaçao.
-Vamos estudar o map reduce. do hadoop.
-implementar. testar. melhorar se possível. refazer os testes comparando implementacoes e analisar os resultados. 
+O início do projeto será destinado ao estudo da computação paralela, algoritmos de ordenação paralela, dos fatores que influenciam o desempenho de tais algoritmos, o modelo MapReduce e a plataforma Hadoop. O passo seguinte é conhecer detalhadamente o algoritmo paralelo a ser implementado e definir as estratégias para sua implentação ambiente Hadoop. 
+O algoritmo implementado deve ser cuidadosamente avaliado para verificar um funcionamento adequado com diferentes entradas e número de máquinas. 
+Em seguida, serão realizados experimentos para testes de desempenho dos algoritmos com relação à quantidade de máquinas, quantidade de dados e conjunto de dados.  Os resultados obtidos serão analisados e permitirão comparar a performance dos algoritmos em cada situação. 
+
 
 \section{Infraestrutura necessária}
 
@@ -50,19 +65,19 @@ O cluster a ser utilizado apresenta as seguintes características:
 
 \section{Cronograma de trabalho}
 
-\begin{table}
+\begin{table}[h]
 \begin{center}
 \renewcommand{\arraystretch}{1.5}
 \setlength\tabcolsep{7pt}
 
 \begin{tabular}{|p{2cm} p{11.5cm}|}
 \hline
-Fevereiro & Definição do tema de trabalho\\ 
-Março & Pesquisa bibliográfica e escrita da proposta de projeto\\
-Abril & Pesquisa bibliográfica e início da escrita do projeto\\
-Maio & Aplicação da metodologia proposta no desenvolvimento de algoritmo e realização de testes \\
-Junho & Finalização da escrita do projeto e entrega \\
-Julho & Desenvolvimento e testes de algoritmos paralelos\\
+%Fevereiro & Definição do tema de trabalho. \\ 
+Março & Pesquisa bibliográfica e escrita da proposta de projeto. \\
+Abril & Pesquisa bibliográfica, contextualização de algoritmos de ordenação paralelos, familiarização com ambiente Hadoop e com o modelo MapReduce. Escrita dos itens introdução e referencial teórico do projeto. \\
+Maio & Realização de experimentos com o algoritmo de ordenação paralela encontrado na literatura ou desenvolvido de acordo com a metodologia proposta. Descrição dos experimentos e da metodologia no texto do projeto.  \\
+Junho & Finalização e entrega do projeto. \\
+Julho & Desenvolvimento  algoritmos de ordenação \\
 Agosto & Desenvolvimento e testes dos algoritmos desenvolvidos \\
 Setembro & Análise dos resultados obtidos até o momento, em busca de pontos de melhorias no projeto \\
 Outubro & Teste final dos algoritmos, análise e escrita dos resultados \\
@@ -75,8 +90,8 @@ Novembro & Finalização da escrita do projeto final, entrega e apresentação \
 \label{tab:valores}
 \end{table}
 
-
+Citações: \\
 \cite{Kale:2010} \\
 \cite{Manferdelli:2008} \\
 \cite{Dean:2008} \\
-\cite{Asanovic:2009}`
+\cite{Asanovic:2009}
