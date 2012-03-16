@@ -1,6 +1,6 @@
 \chapter{Proposta do Projeto}
 
-\section{Tema do trabalho}
+\section{Introdução}
 
 
 A ordenação é o processo de reordenar uma sequência de entrada e produzir uma saída ordenada de acordo com um atributo. 
@@ -37,12 +37,14 @@ O projeto propõe a
 \section{Resultados esperados}
 
 Com a realização do trabalho, busca-se ampliar e consolidar conhecimentos adquiridos na área de computação paralela, assim como
-a capacidade de análise e desenvolvimento de algoritmos paralelos. 
-Os resultados esperados incluem entendimento do modelo MapReduce, implementação de algoritmos de ordenação paralela em ambiente Hadoop e realização de experimentos para comparação de desempenho entre dois ou mais algoritmos.  
+a capacidade de análise e desenvolvimento de algoritmos paralelos no modelo MapReduce. 
+
+
+Ao final do trabalho, espera-se obter a implementação de algoritmos de ordenação paralela em ambiente Hadoop e uma análise comparativa de desempenho entre tais algoritmos.
 
 \section{Metodologia}
 
-O início do projeto será destinado ao estudo da computação paralela, algoritmos de ordenação paralela, dos fatores que influenciam o desempenho de tais algoritmos, o modelo MapReduce e a plataforma Hadoop. O passo seguinte é conhecer detalhadamente o algoritmo paralelo a ser implementado e definir as estratégias para sua implentação ambiente Hadoop. 
+O início do projeto será destinado ao estudo mais detalhado da computação paralela, em especial os algoritmos de ordenação paralela, dos fatores que influenciam o desempenho de tais algoritmos, o modelo MapReduce e a plataforma Hadoop. O passo seguinte é conhecer detalhadamente o algoritmo paralelo a ser implementado e definir as estratégias para sua implentação ambiente Hadoop. 
 O algoritmo implementado deve ser cuidadosamente avaliado para verificar um funcionamento adequado com diferentes entradas e número de máquinas. 
 Em seguida, serão realizados experimentos para testes de desempenho dos algoritmos com relação à quantidade de máquinas, quantidade de dados e conjunto de dados.  Os resultados obtidos serão analisados e permitirão comparar a performance dos algoritmos em cada situação. 
 
@@ -65,30 +67,65 @@ O cluster a ser utilizado apresenta as seguintes características:
 
 \section{Cronograma de trabalho}
 
+Na Tabela \ref{tab:cronograma} está descrito o cronograma esperado para o desenvolvimento do projeto. Cada atividade foi descrita para se adequar da melhor maneira ao tempo disponível do projeto, mas é possível que o cronograma seja refinado posteriormente, com a inclusão de novas atividades ou redistribuição das tarefas existentes. 
+
 \begin{table}[h]
 \begin{center}
 \renewcommand{\arraystretch}{1.5}
-\setlength\tabcolsep{7pt}
+\setlength\tabcolsep{3pt}
 
-\begin{tabular}{|p{2cm} p{11.5cm}|}
+\begin{tabular}{| p{8cm} | p{0.5cm} | p{0.5cm} | p{0.5cm} | p{0.5cm} | p{0.5cm} | p{0.5cm} | p{0.5cm} | p{0.5cm} | p{0.5cm} | p{0.5cm} |}
 \hline
-%Fevereiro & Definição do tema de trabalho. \\ 
-Março & Pesquisa bibliográfica e escrita da proposta de projeto. \\
-Abril & Pesquisa bibliográfica, contextualização de algoritmos de ordenação paralelos, familiarização com ambiente Hadoop e com o modelo MapReduce. Escrita dos itens introdução e referencial teórico do projeto. \\
-Maio & Realização de experimentos com o algoritmo de ordenação paralela encontrado na literatura ou desenvolvido de acordo com a metodologia proposta. Descrição dos experimentos e da metodologia no texto do projeto.  \\
-Junho & Finalização e entrega do projeto. \\
-Julho & Desenvolvimento  algoritmos de ordenação \\
-Agosto & Desenvolvimento e testes dos algoritmos desenvolvidos \\
-Setembro & Análise dos resultados obtidos até o momento, em busca de pontos de melhorias no projeto \\
-Outubro & Teste final dos algoritmos, análise e escrita dos resultados \\
-Novembro & Finalização da escrita do projeto final, entrega e apresentação \\
+Atividade &M &A &M &J &J &A &S &O &N &D \\ \hline \hline
+Definição do tema de trabalho. & & & & & & & & & & \\ \hline
+Pesquisa bibliográfica sobre o tema.  & & & & & & & & & &\\ \hline
+Escrita da proposta de projeto.  & & & & & & & & & & \\ \hline
+Estudo mais detalhado dos algoritmos de ordenação paralela,  modelo MapReduce e Hadoop.  & & & & & & & & & &\\ \hline
+Escrita da introdução e do referencial teórico do projeto.  & & & & & & & & & &\\ \hline
+Configuração do ambiente Hadoop no laboratório.  & & & & & & & & & &\\ \hline
+Testes iniciais para conhecer o funcionamento do Hadoop.  & & & & & & & & & &\\ \hline
+Realização de experimentos com o algoritmo de ordenação paralela encontrado na literatura ou desenvolvido de acordo com a metodologia proposta.  & & & & & & & & & &\\ \hline
+Descrição dos experimentos e da metodologia no texto do projeto.  & & & & & & & & & & \\ \hline
+Finalização e entrega do projeto.  & & & & & & & & & &\\ \hline
+Desenvolvimento  algoritmos de ordenação. & & & & & & & & & & \\ \hline
+Desenvolvimento e testes dos algoritmos desenvolvidos  & & & & & & & & & & \\ \hline
+Análise dos resultados obtidos até o momento, em busca de pontos de melhorias no projeto  & & & & & & & & & & \\ \hline
+Teste final dos algoritmos, análise e escrita dos resultados  & & & & & & & & & & \\ \hline
+Escrita e revisão do projeto final.  & & & & & & & & & &\\ \hline
+Entrega e apresentação.  & & & & & & & & & & \\ \hline
+Revisão nas observações realizadas pela banca.  & & & & & & & & & &\\ \hline
 \hline
 \end{tabular}
 
 \caption{Cronograma proposto para o projeto}
 \end{center}
-\label{tab:valores}
+\label{tab:cronograma}
 \end{table}
+
+%\begin{table}[h]
+%\begin{center}
+%\renewcommand{\arraystretch}{1.5}
+%\setlength\tabcolsep{7pt}
+%
+%\begin{tabular}{|p{2cm} p{11.5cm}|}
+%\hline
+%%Fevereiro & Definição do tema de trabalho. \\ 
+%Março & Pesquisa bibliográfica e escrita da proposta de projeto. \\
+%Abril & Pesquisa bibliográfica, contextualização de algoritmos de ordenação paralelos, familiarização com ambiente Hadoop e com o modelo MapReduce. Escrita dos itens introdução e referencial teórico do projeto. \\
+%Maio & Realização de experimentos com o algoritmo de ordenação paralela encontrado na literatura ou desenvolvido de acordo com a metodologia proposta. Descrição dos experimentos e da metodologia no texto do projeto.  \\
+%Junho & Finalização e entrega do projeto. \\
+%Julho & Desenvolvimento  algoritmos de ordenação \\
+%Agosto & Desenvolvimento e testes dos algoritmos desenvolvidos \\
+%Setembro & Análise dos resultados obtidos até o momento, em busca de pontos de melhorias no projeto \\
+%Outubro & Teste final dos algoritmos, análise e escrita dos resultados \\
+%Novembro & Finalização da escrita do projeto final, entrega e apresentação \\
+%\hline
+%\end{tabular}
+%
+%\caption{Cronograma proposto para o projeto}
+%\end{center}
+%\label{tab:valores}
+%\end{table}
 
 Citações: \\
 \cite{Kale:2010} \\
