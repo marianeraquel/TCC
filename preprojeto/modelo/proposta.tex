@@ -1,16 +1,18 @@
-\chapter{Proposta do Projeto}
+\chapter{Introdução}
 
-\section{Introdução}
-
-
-A ordenação é o processo de reordenar uma sequência de entrada e produzir uma saída ordenada de acordo com um atributo. 
-A ordenação paralela é o processo de uso de múltiplas unidades de processamento para ordenar em conjunto uma sequência. Na criação de algoritmos de ordenação paralela, é ponto fundamental ordenar coletivamente os dados de cada processo individual, de forma a utilizar todas as unidades de processamento e minimizar os custos de redistribuição de chaves entre os processadores. \cite{Kale:2010} 
+\section{Tema do projeto}
 
 
-Fatores como movimentação de dados, balanço de carga, latência de comunicação e distribuição inicial das chaves são considerados ingredientes chave para o bom desempenho da ordenação paralela, e variam de acordo com o algoritmo escolhido como solução. O presente projeto propõe a análise de desempenho, em termos do número de dados a serem ordenados e de máquinas utilizadas, de um ou mais algoritmos de ordenação paralela, implementados de acordo com o modelo MapReduce no ambiente Hadoop.
-
+A ordenação é o processo de reordenar uma sequência de entrada e produzir uma saída ordenada de acordo com um atributo. A ordenação paralela realiza esse processo através de múltiplas unidades de processamento, que ordenam em conjunto a sequência de entrada. Na criação de algoritmos de ordenação paralela, é ponto fundamental ordenar coletivamente os dados de cada processo individual, de forma a utilizar todas as unidades de processamento e minimizar os custos de redistribuição de chaves entre os processadores. \cite{Kale:2010} 
 
 \section{Relevância}
+
+%1. porque computação paralela
+
+Com a recente mudança de foco no desenvolvimento de algoritmos sequenciais para paralelos, conhecer os modelos de programação paralela se tornou uma grande necessidade na computação. Os algoritmos paralelos ainda são um ramo pouco explorado, devido a  maior complexidade no desenvolvimento e recentes aplicações em sistemas \textit{multicore}.
+
+%
+%Over the last couple of decades, the computer industry has been witnessing massive improvements in commodity hardware and software technology.
 
 A arquitetura paralela é um conceito conhecido há várias décadas 
 
@@ -18,16 +20,27 @@ A arquitetura paralela é um conceito conhecido há várias décadas
 %A arquitetura paralela foi construída há muito tempo, mas somente recentemente po- demos experimentá-la a custo razoável, ampliando seu acesso. A literatura indica que estamos experimentando as primeiras versões de arquiteturas multicore e a tendência é de que elas evoluam cada vez mais, marcando o início de uma era de computadores cada vez mais poderosos. O estudo da programação paralela torna-se fundamental neste con- texto, pois essa é a única forma de aproveitar toda a e􏰁ciência permitida por tais má- quinas
 
 
-Com a recente mudança de foco no desenvolvimento de algoritmos sequenciais para paralelos, conhecer os modelos de programação paralela se tornou uma grande necessidade na computação. Os algoritmos paralelos ainda são um ramo pouco explorado, devido a  maior complexidade no desenvolvimento e recentes aplicações em sistemas \textit{multicore}.
 
+%2. porque ordenação paralela
 
 Uso crescente de computação paralela para sistemas computacionais gera a necessidade de algoritmos de ordenação inovadores, desenvolvidos para dar suporte a essas aplicações. 
-O MapReduce\cite{Dean:2008}  é um modelo de programação paralela criado pela Google para processamento e geração de grandes volumes de dados em \textit{clusters}. Esse modelo propõe simplificar a computação paralela e ser de fácil uso, abstraindo conceitos complexos da paralelização - como tolerância a falhas, distribuição de dados e balanço de carga - e utilizando duas funções principais: map e reduce. A complexidade do algoritmo paralelo não é vista pelo desenvolvedor, que pode se ocupar em desenvolver a solução proposta. O Hadoop \cite{Hadoop:2010} é uma implementação do MapReduce, um \textit{framework} open source que provê o gerenciamento de computação distribuída. 
+
+Um grande número de aplicações paralelas possui uma fase de computação intensa, na qual um lista de elementos deve ser ordenada com base em algum de seus atributos. Um exemplo é o algoritmo de Page Rank \cite{PageRank:1999} da Google: as páginas de resultado de uma consulta são rankeadas de acordo com sua relevância, e então precisam ser ordenadas de maneira eficiente.   \cite{Kale:2010} 
+
+Fatores como movimentação de dados, balanço de carga, latência de comunicação e distribuição inicial das chaves são considerados ingredientes chave para o bom desempenho da ordenação paralela, e variam de acordo com o algoritmo escolhido como solução. 
+No exemplo do Page Rank, o número de páginas é enome, e elas são recolhidas de diversos servidores da Google; é uma questão fundamental escolher algoritmo paralelo com o melhor desempenho dentre as soluções possíveis.
+
+
+%3. porque map reduce
+
+
+O MapReduce\cite{Dean:2008}  é um modelo de programação paralela criado pela Google para processamento e geração de grandes volumes de dados em \textit{clusters}. Esse modelo propõe simplificar a computação paralela e ser de fácil uso, abstraindo conceitos complexos da paralelização - como tolerância a falhas, distribuição de dados e balanço de carga - e utilizando duas funções principais: map e reduce. A complexidade do algoritmo paralelo não é vista pelo desenvolvedor, que pode se ocupar em desenvolver a solução proposta. O Hadoop \cite{Hadoop:2010} é uma das implementações do MapReduce, um \textit{framework} open source que provê o gerenciamento de computação distribuída. Foi desenvolvido por 
+
 
 
 \section{Objetivos}
 
-O projeto propõe a 
+Implementar e realizar a análise de desempenho, em termos do número de dados a serem ordenados e de máquinas utilizadas, de algoritmos de ordenação paralela, implementados de acordo com o modelo MapReduce no ambiente Hadoop.
 
 (i) Estudar a programação paralela, seus algoritmos e suas possibilidades de implementação em ambiente paralelo multicore;
 (ii) Implementar e avaliar o desempenho de um algoritmo de ordenação paralela;
