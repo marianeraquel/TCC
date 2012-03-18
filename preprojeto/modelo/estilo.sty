@@ -12,10 +12,13 @@
 \RequirePackage{fancyhdr}
 \pagestyle{fancy}
 
+% Define o tipo de numeração das páginas
+\renewcommand{\chaptertitlepagestyle}{plain}
+
 % Cabeçalhos
 \lhead{}
 \rhead{\fancyplain{}{\footnotesize\rightmark}}
-\cfoot{}
+\cfoot{\thepage}
 
 %Altera o tamanho do parágrafo
 \setlength{\parindent}{1.5cm}
@@ -102,40 +105,5 @@
 	\@tempdima 2.0em
 	\advance\leftskip \@tempdima \null\nobreak\hskip -\leftskip
 	{Tabela \normalfont #1}\nobreak \tabfillnum{#2}}
-
-%% Define os comandos que montam a lista de símbolos
-%\newcommand{\listadesimbolos}{\pretextualchapter{Lista de Símbolos}\@starttoc{lsb}}
-%\newcommand{\simbolo}[2]{{\addcontentsline{lsb}{simbolo}{\numberline{#1}{#2}}}#1}
-%\newcommand{\l@simbolo}[2]{
-%	\vspace{-0.75cm}
-%	\leftskip 0em
-%	\parindent 0em
-%	\@tempdima 5em
-%	\advance\leftskip \@tempdima \null\nobreak\hskip -\leftskip
-%	{\normalfont #1}\hfil\nobreak\par}
-
-% Define o tipo de numeração das páginas
-\renewcommand{\chaptertitlepagestyle}{plain}
-
-% Altera a posição da numeração de páginas dos elementos pré-textuais
-%\renewcommand\pretextualchapter{
-%	\if@openright\cleardoublepage\else\clearpage\fi
-%	\pagestyle{\chaptertitlepagestyle}
-%	\global\@topnum\z@
-%	\@afterindentfalse
-%	\@schapter}
-
-% Altera a posição da numeração de páginas dos elementos textuais
-\renewcommand{\ABNTchaptermark}[1]{
-	\ifthenelse{\boolean{ABNTNextOutOfTOC}}
-		{\markboth{\ABNTnextmark}{\ABNTnextmark}}
-		{\chaptermark{#1}}}
-
-%% Redefine o tipo de numeração das páginas
-%\renewcommand{\ABNTBeginOfTextualPart}{
-%	\renewcommand{\chaptertitlepagestyle}{plain}
-%	\renewcommand{\thepage}{\arabic{page}}
-%	\setcounter{page}{2}
-%}
 
 \makeatother
