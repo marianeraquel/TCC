@@ -5,32 +5,30 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{estilo}
 \RequirePackage{listings} %pacote para algoritmos
-\RequirePackage[alf]{abntcite} % citações na forma alf
-\RequirePackage{abnt-alf} %abnt na forma alfa (como as normas abnt)
 \RequirePackage{url}
 \RequirePackage[brazil]{babel}
 \RequirePackage{fancyhdr}
 \pagestyle{fancy}
 
+\bibliographystyle{abnt-alf} % Existem ainda: abbrv, acm, alpha, amsalpha, amsplain
+
 % Define o tipo de numeração das páginas
 \renewcommand{\chaptertitlepagestyle}{plain}
-\setlength{\headheight}{13.5pt}
+\setlength{\headheight}{30pt}
 
 % Cabeçalhos
 \lhead{}
-\rhead{\fancyplain{}{\footnotesize\rightmark}}
+\rhead{\fancyplain{}{\small\rightmark}}
 \cfoot{\thepage}
 
 %Altera o tamanho do parágrafo
 \setlength{\parindent}{1.5cm}
 
-\bibliographystyle{abnt-alf} % Existem ainda: abbrv, acm, alpha, amsalpha, amsplain
-
 \makeatletter	%Para que ele entenda o @
 
 % Altera o tamanho das fontes dos capítulos e dos apêndices
-\renewcommand{\ABNTchaptersize}{\LARGE}
-\renewcommand{\ABNTchapterfont}{\bfseries}
+\renewcommand{\ABNTchaptersize}{\Large}
+\renewcommand{\ABNTchapterfont}{\scshape\bfseries}
 \renewcommand{\ABNTtocchapterfont}{\scshape\bfseries}
 
 %Altera o espaçamento entre dots
