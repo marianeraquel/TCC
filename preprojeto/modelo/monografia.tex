@@ -2,24 +2,22 @@
 % incluir o pacote estilo.
 % <mariane.raquel@ymail.com>
 
-\documentclass[a4paper,12pt, normaltoc, pnumplain, normalfigtabnum, pagestart=fistchapter, tocpage=plain]{abnt}
+\documentclass[a4paper,12pt, normaltoc, pnumplain, normalfigtabnum]{abnt}
 \usepackage[brazil]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{indentfirst}
-\usepackage{graphicx}											
-\usepackage{float}
-\usepackage{geometry}
+\usepackage{graphicx}	
+\usepackage[left=3cm,right=3cm,top=3cm,bottom=3cm]{geometry}
 \usepackage{fancyhdr}
 \usepackage{url}
 \usepackage{estilo}
-\usepackage[font=small,labelfont=bf]{caption} \geometry{a4paper,left=3cm,right=3cm,top=3cm,bottom=3cm}
-
+\usepackage[font=small,labelfont=bf]{caption}
 
 % ***** Início do Documento ******
 \begin{document}
 \include{capa}
-\sumario
+\tableofcontents
 \include{proposta}
 \bibliography{bibliografia}
 \end{document}
