@@ -1,4 +1,4 @@
-\chapter{Proposta de Projeto}
+\chapter{Introdução}
 
 Este texto apresenta uma proposta de projeto para a disciplina Trabalho de Conclusão de Curso, como parte dos requisitos exigido para obtenção de créditos e aprovação do projeto. 
 
@@ -16,7 +16,7 @@ O modelo de programação \textit{single core} (sequencial) está sendo substitu
 
 % Aumento de desempenho
 Arquiteturas \textit{multi-core} podem oferecer um aumento significativo de desempenho sobre as arquiteturas de núcleo único, de acordo com as tarefas paralelizadas. No entanto, muitas vezes isto exige novos paradigmas de programação para utilizar eficientemente a arquitetura envolvida \cite{Prinslow:2011}. A ordenação
-é um exemplo de tarefa que pode ter seu desempenho aumentado com o uso de paralelismo. 
+é um exemplo de tarefa que pode ter seu desempenho melhorado com o uso de paralelismo. 
 A ordenação paralela é o processo de reorganizar uma sequência de entrada e produzir uma saída ordenada de acordo com um atributo através de múltiplas unidades de processamento, que ordenam em conjunto a sequência de entrada. 
 
 
@@ -35,7 +35,7 @@ O limite físico de aumento na frequência de operação dos processadores levou
 
 %2. porque ordenação paralela
 
-Um grande número de aplicações paralelas possui uma fase de computação intensa, na qual um lista de elementos deve ser ordenada com base em algum de seus atributos. Um exemplo é o algoritmo de Page Rank \cite{PageRank:1999} da Google: as páginas de resultado de uma consulta são rankeadas de acordo com sua relevância, e então precisam ser ordenadas de maneira eficiente \cite{Kale:2010}.
+Um grande número de aplicações paralelas possui uma fase de computação intensa, na qual uma lista de elementos deve ser ordenada com base em algum de seus atributos. Um exemplo é o algoritmo de Page Rank \cite{PageRank:1999} da Google: as páginas de resultado de uma consulta são classificadas de acordo com sua relevância, e então precisam ser ordenadas de maneira eficiente \cite{Kale:2010}.
 
 Na criação de algoritmos de ordenação paralela, é ponto fundamental ordenar coletivamente os dados de cada processo individual, de forma a utilizar todas as unidades de processamento e minimizar os custos de redistribuição de chaves entre os processadores. Fatores como movimentação de dados, balanço de carga, latência de comunicação e distribuição inicial das chaves são considerados ingredientes chave para o bom desempenho da ordenação paralela, e variam de acordo com o algoritmo escolhido como solução\cite{Kale:2010}. 
 No exemplo do Page Rank, o número de páginas a serem ordenadas é enorme, e elas são recolhidas de diversos servidores da Google; é uma questão fundamental escolher algoritmo paralelo com o melhor desempenho dentre as soluções possíveis.
@@ -44,28 +44,31 @@ No exemplo do Page Rank, o número de páginas a serem ordenadas é enorme, e el
 
 O MapReduce\cite{Dean:2008}  é um modelo de programação paralela criado pela Google para processamento de grandes volumes de dados em \textit{clusters}. Esse modelo propõe simplificar a computação paralela e ser de fácil uso, abstraindo conceitos complexos da paralelização - como tolerância a falhas, distribuição de dados e balanço de carga - e utilizando duas funções principais: map e reduce. A complexidade do algoritmo paralelo não é vista pelo desenvolvedor, que pode se ocupar em desenvolver a solução proposta. O Hadoop \cite{Hadoop:2010} é uma das implementações do MapReduce, um \textit{framework open source } desenvolvido por Doug Cutting em 2005 que provê o gerenciamento de computação distribuída. %Foi, e é amplamente apoiadO e utilizado pela Yahoo!.
 
-\textit{Não é fácil medir o volume total de dados armazenados digitamente, mas uma estimativa da IDC colocou o tamanho do "universo digital" em 0,18 zettabytes em 2006, e previa um crescimento dez vezes até 2011 (para 1,8 zettabytes).
- \textit{The New York Stock Exchange} gera cerca de um terabyte de novos dados comerciais por dia. \textit{The Internet Archive} armazena aproximadamente petabytes de dados, com aumento de 20 terabytes por mês
-\cite{Hadoop:2010}. Estima-se que dados não estruturados são a maior porção e de a mais rápido crescimento dentro das empresas, o que torna o processamento de tal volume de dados muitas vezes inviável.}
+O desenvolvimento de soluções capazes de lidar com grandes volumes de dados é uma das preocupações atuais, tendo em vista a quantidade de dados processados diariamente, e o rápido crescimento desse volume de dados.
+Não é fácil medir o volume total de dados armazenados digitamente, mas uma estimativa da IDC colocou o tamanho do "universo digital" em 0,18 zettabytes em 2006, e previa um crescimento dez vezes até 2011 (para 1,8 zettabytes).
+ \textit{The New York Stock Exchange} gera cerca de um terabyte de novos dados comerciais por dia. O Facebook armazena aproximadamente 10 bilhões de fotos, que ocupam mais de um petabyte. \textit{The Internet Archive} armazena aproximadamente 2 petabytes de dados, com aumento de 20 terabytes por mês
+\cite{Hadoop:2010}. Estima-se que dados não estruturados são a maior porção e de a mais rápido crescimento dentro das empresas, o que torna o processamento de tal volume de dados muitas vezes inviável.
 
 % Com grande processamento de dados
-MapReduce e sua implementação open source Hadoop representam uma alternativa economicamente atraente oferecendo uma plataforma eficiente de computação distribuída para lidar com grandes volumes de dados e mineração de petabytes de informações não estruturadas \cite{Cherkasova:2011}.
+MapReduce e sua implementação \textit{open source} Hadoop representam uma alternativa economicamente atraente oferecendo uma plataforma eficiente de computação distribuída para lidar com grandes volumes de dados e mineração de petabytes de informações não estruturadas \cite{Cherkasova:2011}.
 
 Devido ao grande número de algoritmos de ordenação paralela e variadas arquiteturas paralelas, estudos experimentais assumem uma importância crescente na avaliação e seleção de algoritmos apropriados para multiprocessadores.
 
-\section{Objetivos}
+\chapter{Objetivos}
 
-\begin{itemize}
-\item Estudar a programação paralela aplicada à algoritmos de ordenação
-\item Implementar uma ou mais soluções no modelo MapReduce, com o software Hadoop
-\item Comparar duas ou mais implementações de algoritmos paralelos de ordenação 
-\end{itemize}
+Os objetivos deste trabalho são:
+
+\begin{packed_enum}
+\item Estudar a programação paralela aplicada à algoritmos de ordenação;
+\item Implementar um ou mais algoritmos de ordenação paralela no modelo MapReduce, com o software Hadoop;
+\item Comparar duas ou mais implementações de algoritmos paralelos de ordenação.
+\end{packed_enum}
 
 O trabalho desenvolvido por \cite{Paula:2011} apresentou um estudo sobre a computação paralela e algoritmos de ordenação no modelo MapReduce, através da implementação do algoritmo de Ordenação por Amostragem feita em ambiente Hadoop. 
 
-Este projeto busca continuar o estudo sobre ordenação paralela feito no trabalho citado, através da análise de desempenho de dois ou mais algoritmos de ordenação - sendo um deles o algoritmo de ordenação por amostragem. A análise busca compará-los com relação à quantidade de dados a serem ordenados, variabilidade dos dados de entrada e número máquinas utilizadas. 
+Este projeto busca continuar o estudo sobre ordenação paralela feito no trabalho citado, com a da análise de desempenho de dois ou mais algoritmos de ordenação - sendo um deles o algoritmo de ordenação por amostragem. A análise busca compará-los com relação à quantidade de dados a serem ordenados, variabilidade dos dados de entrada e número máquinas utilizadas. 
 
-\section{Resultados esperados}
+\chapter{Resultados esperados}
 
 Com a realização do trabalho, busca-se ampliar e consolidar conhecimentos adquiridos na área de computação paralela, assim como
 a capacidade de análise e desenvolvimento de algoritmos paralelos no modelo MapReduce. 
@@ -75,7 +78,7 @@ Ao final do trabalho, espera-se obter a implementação de algoritmos de ordena�
 
 A comparação entre os resultados poderá mostrar como o uso de um determinado algoritmo em uma situação específica pode influenciar no tempo de processamento e no desempenho geral do sistema.
 
-\section{Metodologia}
+\chapter{Metodologia}
 
 O início do projeto será destinado ao estudo mais detalhado da computação paralela, em especial os algoritmos de ordenação paralela, dos fatores que influenciam o desempenho de tais algoritmos, o modelo MapReduce e a plataforma Hadoop. O passo seguinte é conhecer detalhadamente o algoritmo paralelo a ser implementado e definir as estratégias para sua implentação ambiente Hadoop. 
 O algoritmo implementado deve ser cuidadosamente avaliado para verificar um funcionamento adequado com diferentes entradas e número de máquinas. 
@@ -87,21 +90,36 @@ Em seguida, serão realizados experimentos para testes de desempenho dos algorit
 
 A infra estrutura necessária ao desenvolvimento do projeto será fornecida pelo Laboratório de Redes e Sistemas (LABORES) do Departamento de Computação (DECOM). Esse laboratório possui um \textit{cluster} formado por cinco máquinas Dell Optiplex 380, que serão utilizadas na realização dos testes dos algoritmos. Os algoritmos serão desenvolvidos em linguagem Java, de acordo com o modelo MapReduce, no ambiente Hadoop. 
 
-O \textit{cluster} a ser utilizado apresenta as seguintes características:
-\begin{itemize}
-\item 5 nodos
+Cada máquina do \textit{cluster} apresenta as seguintes características:
+\begin{packed_enum}
 \item Processador Intel Core 2 Duo de 3.0 GHz
 \item Disco rígido SATA de 500 GB 7200 RPM
 \item Memória RAM de 4 GB
 \item Placa de rede Gigabit Ethernet
-\item Sistema operacional Linux Ubunbu 10.04 32 bits (kernel 2.6.\textbf{XX})
+\item Sistema operacional Linux Ubunbu 10.04 32 bits %(kernel 2.6.\textbf{XX})
 \item Sun Java JDK 1.6.0 19.0-b09 
 \item Hadoop 0.20.2
-\end{itemize}
+\end{packed_enum}
 
-\section{Cronograma de trabalho}
+\chapter{Cronograma de trabalho}
 
-Na Tabela \ref{tab:cronograma} está descrito o cronograma esperado para o desenvolvimento do projeto. Cada atividade foi descrita para se adequar da melhor maneira ao tempo disponível, mas é possível que o cronograma seja refinado posteriormente, com a inclusão de novas atividades ou redistribuição das tarefas existentes. 
+
+O cronograma de trabalho inclui as atividades que devem ser realizadas e como elas devem ser alocadas durante as disciplinas TCC I e TCC II para que o projeto possa ser concluído com sucesso.
+As tarefas a serem desenvolvidas estão descritas a seguir:
+
+\begin{num_enum}
+ \item \label{c1} Pesquisa bibliográfica sobre o tema do projeto e escrita da proposta
+ \item \label{c2} Estudo mais detalhado dos algoritmos de ordenação paralela,  modelo MapReduce e Hadoop.
+ \item \label{c3} Configuração do ambiente Hadoop no laboratório.
+ \item \label{c4} Implementação e testes.
+ \item \label{c5} Escrita, revisão e entrega do relatório. 
+ \item \label{c7} Análise comparativa entre os resultados.
+ \item \label{c8} Escrita e revisão do projeto final.
+ \item \label{c9} Entrega e apresentação.
+ \end{num_enum}
+ 
+ 
+Na Tabela \ref{tab:cronograma} está descrito o cronograma esperado para o desenvolvimento do projeto. Cada atividade foi alocada para se adequar da melhor maneira ao tempo disponível, mas é possível que o cronograma seja refinado posteriormente, com a inclusão de novas atividades ou redistribuição das tarefas existentes. 
 
 \begin{table}[h]
 
@@ -115,9 +133,8 @@ Atividade &Fev &Mar &Abr &Mai &Jun &Jul &Ago &Set &Out &Nov \\ \hline \hline
 \ref{c1}   &$\bullet$ &$\bullet$ & & & & & & & & \\ \hline
 \ref{c2}   & &$\bullet$ &$\bullet$ & & & & & & & \\ \hline
 \ref{c3}   & & &$\bullet$ & & & & & & & \\ \hline
-\ref{c4}   & & &$\bullet$ &$\bullet$ & & & & & & \\ \hline
+\ref{c4}   & & &$\bullet$ &$\bullet$ & &$\bullet$ &$\bullet$ & & & \\ \hline
 \ref{c5}   & & & &$\bullet$ &$\bullet$ & & & & & \\ \hline
-\ref{c6}   & & & & & &$\bullet$ &$\bullet$ & & & \\ \hline
 \ref{c7}   & & & & & & & &$\bullet$ & & \\ \hline
 \ref{c8}   & & & & & & & & &$\bullet$ & \\ \hline
 \ref{c9}   & & & & & & & & & &$\bullet$ \\ 
@@ -128,17 +145,7 @@ Atividade &Fev &Mar &Abr &Mai &Jun &Jul &Ago &Set &Out &Nov \\ \hline \hline
 \label{tab:cronograma}
 \end{table}
 
-\begin{enumerate}
- \item \label{c1} Pesquisa bibliográfica sobre o tema do projeto e escrita da proposta
- \item \label{c2} Estudo mais detalhado dos algoritmos de ordenação paralela,  modelo MapReduce e Hadoop.
- \item \label{c3} Configuração do ambiente Hadoop no laboratório.
- \item \label{c4} Implementação e testes.
- \item \label{c5} Escrita, revisão e entrega do relatório. 
- \item \label{c6} Implementação e testes.
- \item \label{c7} Análise comparativa entre os resultados.
- \item \label{c8} Escrita e revisão do projeto final.
- \item \label{c9} Entrega e apresentação.
- \end{enumerate}
+
  
 
 %Citações: 

@@ -1220,7 +1220,7 @@ Para mais informacoes, leia o manual da classe.\MessageBreak%
 %  \noindent\rule{\textwidth}{1.7pt}\\\par
   \normalfont\ABNTchaptersize\ABNTchapterfont%
   \espaco{simples}%
-  \vspace*{10pt}%
+  \vspace*{0pt}%
   \noindent%
   \parbox[b]{\textwidth}{%
     \parbox[t]{4ex}{\thechapter}%
@@ -1232,7 +1232,7 @@ Para mais informacoes, leia o manual da classe.\MessageBreak%
       }%
     \vspace*{0cm}
     }\\[2pt]%
-  \vspace{30pt}%
+  \vspace{5pt}%
   }%
 }
 

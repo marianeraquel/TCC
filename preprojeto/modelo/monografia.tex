@@ -14,8 +14,23 @@
 \usepackage{estilo}
 \usepackage[font=small,labelfont=bf]{caption}
 
-% ***** Início do Documento ******
+\newenvironment{packed_enum}{
+\begin{itemize}
+  \setlength{\itemsep}{1.5pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}{\end{itemize}}
+  
+  \newenvironment{num_enum}{
+\begin{enumerate}
+  \setlength{\itemsep}{1.5pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}{\end{enumerate}}
+
+  % ***** Início do Documento ******
 \begin{document}
+
 \include{capa}
 \tableofcontents
 \include{proposta}
