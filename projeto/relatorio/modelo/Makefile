@@ -1,4 +1,4 @@
-NAME=monografia
+NAME=tcc
 
 all: compile clean
 compile: $(NAME).tex
