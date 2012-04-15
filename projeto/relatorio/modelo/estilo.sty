@@ -15,7 +15,7 @@
 \renewcommand{\ABNTtocchapterfont}{\scshape\bfseries}
 
 \renewcommand\section{\ABNTstartsection{section}{1}{\z@}%
-{3.5ex \@plus -1ex \@minus -.2ex} {5.3ex \@plus.2ex}%
+{3.5ex \@plus -1ex \@minus -.2ex} {3.3ex \@plus.2ex}%
 {\espaco{simples}\normalfont  \ABNTsectionfont\large}}
 
 %Altera o tamanho do parágrafo
@@ -55,11 +55,11 @@
 
 \def\@makechapterhead#1{%
   {\normalfont\ABNTchaptersize\ABNTchapterfont%
-   \espaco{simples} \vspace*{0pt} \noindent%
+   \vspace*{1cm} \noindent%
    \parbox[b]{\textwidth}{\parbox[t]{4ex}{\thechapter}%
       \parbox[t]{\textwidth-4ex-1ex} {\interlinepenalty\@M\raggedright%
         \ifthenelse{\boolean{ABNTcapchap}} {\MakeUppercase{#1}} {#1}} \vspace*{0cm}
-   }\\[2pt] \vspace{15pt}}}
+   }\\[2pt] \vspace{10pt}}}
 
 
 % Altera forma de montagem do table of contents: menor espaçamento
