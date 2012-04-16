@@ -7,8 +7,6 @@
 \RequirePackage[brazil]{babel}
 \RequirePackage{fancyhdr}
 
-\bibliographystyle{abnt-alf} % Existem ainda: abbrv, acm, alpha, amsalpha, amsplain
-
 % Altera o tamanho das fontes dos capítulos e das sessões
 \renewcommand{\ABNTchaptersize}{\Large}
 \renewcommand{\ABNTchapterfont}{\scshape\bfseries}
@@ -22,9 +20,10 @@
 \setlength{\parindent}{1.5cm}
 
 %% Cabeçalhos
+\setlength{\headheight}{25pt}
 \fancypagestyle{ruledheader}{% 
 \fancyhf{} % clear all header and footer fields 
-\fancyhead[LE,RO]{\small \rightmark} 
+\fancyhead[RO]{\small \rightmark} 
 \fancyfoot[C]{\thepage}
 }
 %% Cabeçalhos dos capítulos
@@ -55,7 +54,7 @@
 
 \def\@makechapterhead#1{%
   {\normalfont\ABNTchaptersize\ABNTchapterfont%
-   \vspace*{1cm} \noindent%
+   \vspace*{0.5cm} \noindent%
    \parbox[b]{\textwidth}{\parbox[t]{4ex}{\thechapter}%
       \parbox[t]{\textwidth-4ex-1ex} {\interlinepenalty\@M\raggedright%
         \ifthenelse{\boolean{ABNTcapchap}} {\MakeUppercase{#1}} {#1}} \vspace*{0cm}
