@@ -8,7 +8,7 @@ compile: $(NAME).tex
 	pdflatex $(NAME).tex
 	
 clean:
-	rm *.log *.toc *.bbl *.aux *.blg *.lof *.lot
+	rm *.log *.toc *.bbl *.aux *.blg *.lof *.lot *.out
 
 
 
