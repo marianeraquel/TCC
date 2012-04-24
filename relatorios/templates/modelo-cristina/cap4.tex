@@ -1,0 +1,180 @@
+\chapter{Resultados} 
+
+\label{cap:resultados}
+
+
+
+Além do texto, outros elementos utilizados são as figuras, os
+gráficos, as tabelas, as equações e os algoritmos. O  capítulo que
+trata dos resultados normalmente inclui muitos destes elementos. Um
+aspecto importante é que todas as figuras, gráficos e tabelas devem
+ser numeradas, explicadas e referenciadas no texto. Não deixe a
+interpretação dos dados para o leitor. Elabore  e apresente a sua
+interpretação.  A seguir trataremos destes elementos em cada uma das
+seções seguintes.
+
+\section{Tabelas}
+
+Observe as tabelas a seguir e veja o arquivo fonte.
+A Tabela~\ref{tab:valores} apresenta os parâmetros utilizados no 
+modelo do sistema.
+
+
+\begin{table}[h]
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\setlength\tabcolsep{7pt}
+\begin{tabular}{llllll}
+\hline\noalign{\smallskip}
+${\mathrm M}_\odot$ & $\beta_{0}$ & $T_{\mathrm c6}$ & $\gamma$
+  & $N_{\mathrm{crit}}^{\mathrm L}$
+  & $N_{\mathrm{crit}}^{\mathrm{Te}}$\\
+\noalign{\smallskip}
+\hline
+\noalign{\smallskip}
+ 30 & 0.82 & 38.4 & 35.7 & 154 & 320 \\
+ 60 & 0.67 & 42.1 & 34.7 & 138 & 340 \\
+120 & 0.52 & 45.1 & 34.0 & 124 & 370 \\
+\hline
+\end{tabular}
+\caption{Valores críticos de $N$ }
+\end{center}
+\label{tab:valores}
+\end{table}
+
+
+
+A Tabela~\ref{tab:exemplo} apresenta alguns dados do grafo da Internet.
+
+\begin{table}[htb]
+\begin{center}
+\begin{tabular}{|c|c|c|} \hline
+\multirow{2}{32mm}{Vértices Retirados} &\multicolumn{2}{|c|}{Componentes Excluídos} \\ \cline{2-3}
+  &Quantidade &Vértices do maior componente\\ \hline\hline
+Original &0	   &- \\ \hline
+1\%	 &4	   &3 \\ \hline
+5\%      &14	   &3 \\ \hline
+10\%	 &31	   &5 \\ \hline
+20\%	 &66	   &5 \\ \hline
+30\%	 &94	   &5 \\ \hline
+40\%	 &110	   &5 \\ \hline
+50\%	 &166	   &5 \\ \hline
+75\%	 &352	   &6 \\ \hline
+90\%	 &688	   &19 \\ \hline
+\end{tabular}
+\caption{Componentes desconectados na remoção híbrida}
+\end{center}
+\label{tab:exemplo}
+\end{table} 
+
+
+
+
+\section{Gráficos}
+
+
+A Figura~\ref{fig:grafomediana} apresenta um exemplo de inclusão de gráfico. A referência é feita no texto da seguinte forma: o gráfico da Figura~\ref{fig:grafomediana} mostra a relação
+entre o maior grau e o percentual de redução do tamanho do grafo.
+
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[scale=0.4, angle=270]{./graficos/GrauMediana.eps}
+\caption{Relação entre o maior grau e percentual reduzido}
+\end{center}
+\label{fig:grafomediana}
+\end{figure}
+
+
+A Figura~\ref{graf:acessohoradia} apresenta o perfil de acesso a Internet
+de acordo com a hora do dia.
+
+\begin{figure}[htb]
+\centering 
+\includegraphics[scale=0.6]{./graficos/acessohoradia.eps}
+\caption{Frequência média de acesso por hora do dia.}
+\label{graf:acessohoradia}
+\end{figure}
+
+A Figura~\ref{graf:perfiluso} mostra que frequência de sessões de usuários e
+pontos de acesso utilizados na rede sem fio.
+
+
+\begin{figure}[hbt]
+\centering
+\includegraphics[scale=0.5]{./graficos/usersXsessionsPDFCDF.eps}
+\includegraphics[scale=0.5]{./graficos/usersXhotspotsPDFCDF.eps}
+\caption{Número de sessões por usuário (esq.) e número de pontos de
+  acesso utilizados por usuário (dir.) durante o perído analisado.}
+\label{graf:perfiluso}
+\end{figure}
+
+
+Observação importante: os gráficos são feitos em formato {\tt eps}. Os gráficos devem ficar em um diretório separado para melhor organização dos arquivos fontes.
+
+
+
+\section{Figuras}
+
+
+As figuras devem estar também em formato {\tt eps}. Utilize um 
+ programa que trata imagens para mudar o formato de uma imagem para
+o formato {\tt .eps}. Um exemplo de programa que faz esta transformação é  o Gimp.  A Figura~\ref{graf:mapa} é um exemplo. 
+
+
+
+
+\begin{figure}[tbh]
+\centering \includegraphics[scale=0.6]{./graficos/ilesansfil-core.eps}
+\caption{Localização dos pontos de acesso da rede na cidade de
+  Montreal (citar a fonte)}
+\label{graf:mapa}
+\end{figure}
+
+
+\section{Equações}
+
+
+As equações são facilmente feitas e podem também ter números que são utilizados para referenciá-las.
+
+
+
+\begin{equation}
+  \psi (u) = \int_{o}^{T} \left[\frac{1}{2}
+  \left(\Lambda_{o}^{-1} u,u\right) + N^{\ast} (-u)\right] dt
+\end{equation}
+
+
+
+\begin{equation}
+  \left(\frac{a^{2} + b^{2}}{c^{3}} \right) = 1 \quad
+  \mbox{ se } c\neq 0 \mbox{ e se } a,b,c\in \cal{R} \enspace.
+\end{equation}
+
+
+
+\section{Algoritmos}
+
+
+Os algoritmos devem ser feitos segundo o modelo abaixo. 
+Para isso, usar o comando  \verb+\usepackage[ruled, portugues]{algorithm2e}+ no início do arquivo principal.
+
+
+\begin{algorithm}
+\KwIn{o número $n$ de vértices a remover, grafo original $G(V, E)$}
+\KwOut{grafo reduzido $G'(V,E)$}
+\SetLine
+ $removidos \leftarrow 0$ \\
+ \While {removidos $<$ n } {
+   $v \leftarrow$ Random$(1, ..., k) \in V$ \\
+     \For {$u \in adjacentes(v)$} {
+	remove aresta (u, v)\\
+	$removidos \leftarrow removidos + 1$\\
+     }
+     \If {há  componentes desconectados} {
+	remove os componentes desconectados\\
+     }
+   }
+\caption{Algoritmo para remoção aleatória de vértices}
+\end{algorithm}
+

@@ -1,0 +1,78 @@
+% Modelo da Raquel - Este modelo foi baseado em: modelo-ufpr.tex,v 1.1 2003/06/30 
+
+% <mariane.raquel@ymail.com>
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{estilo}
+\RequirePackage[brazil]{babel}
+\RequirePackage{fancyhdr}
+
+% Altera o tamanho das fontes dos capítulos e das sessões
+\renewcommand{\ABNTchaptersize}{\Large}
+\renewcommand{\ABNTchapterfont}{\scshape\bfseries}
+\renewcommand{\ABNTtocchapterfont}{\scshape\bfseries}
+
+\renewcommand\section{\ABNTstartsection{section}{1}{\z@}%
+{3.5ex \@plus -1ex \@minus -.2ex} {3.3ex \@plus.2ex}%
+{\espaco{simples}\normalfont  \ABNTsectionfont\large}}
+
+%Altera o tamanho do parágrafo
+\setlength{\parindent}{1.5cm}
+
+%% Cabeçalhos
+\setlength{\headheight}{25pt}
+\fancypagestyle{ruledheader}{% 
+\fancyhf{} % clear all header and footer fields 
+\fancyhead[RO]{\small \rightmark} 
+\fancyfoot[C]{\thepage}
+}
+%% Cabeçalhos dos capítulos
+\fancypagestyle{plainheader}{% 
+\fancyhf{} % clear all header and footer fields 
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+}
+
+% Listas com menor espaçamento
+\newenvironment{packed_enum}{
+\begin{itemize}
+  \setlength{\itemsep}{1.5pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}{\end{itemize}}
+  
+\newenvironment{num_enum}{
+\begin{enumerate}
+  \setlength{\itemsep}{1.5pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}{\end{enumerate}}
+
+
+% Alterar a marcação de capítulos da ABNT para diminuir o espaçamento nos títulos de capítulo
+\makeatletter
+
+\def\@makechapterhead#1{%
+  {\normalfont\ABNTchaptersize\ABNTchapterfont%
+   \vspace*{0.5cm} \noindent%
+   \parbox[b]{\textwidth}{\parbox[t]{4ex}{\thechapter}%
+      \parbox[t]{\textwidth-4ex-1ex} {\interlinepenalty\@M\raggedright%
+        \ifthenelse{\boolean{ABNTcapchap}} {\MakeUppercase{#1}} {#1}} \vspace*{0cm}
+   }\\[2pt] \vspace{10pt}}}
+
+
+% Altera forma de montagem do table of contents: menor espaçamento
+\renewcommand\l@chapter[2]{%
+\espaco{simples} % adicionado para diminuir espaço no sumário
+  \ifnum \c@tocdepth >\m@ne \addpenalty{-\@highpenalty}%
+    \vskip 1.0em \@plus\p@ \setlength\@tempdima{1.5em}%
+    \begingroup \ifthenelse{\boolean{ABNTpagenumstyle}}
+        {\renewcommand{\@pnumwidth}{3.5em}} {} \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth \leavevmode \normalsize\ABNTtocchapterfont
+      \advance\leftskip\@tempdima \hskip -\leftskip #1\nobreak\hfil \nobreak%
+      \ifthenelse{\boolean{ABNTpagenumstyle}} {\hb@xt@\@pnumwidth{\hss 
+            \ifthenelse{\not\equal{#2}{}}{{\normalfont p.\thinspace#2}}{}}\par}
+         {\hb@xt@\@pnumwidth{\hss #2}\par}
+      \penalty\@highpenalty \endgroup \fi}
+
+\makeatother

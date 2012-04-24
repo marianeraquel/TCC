@@ -1,0 +1,58 @@
+This is BibTeX, Version 0.99d (TeX Live 2011)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: tcc.aux
+The style file: acmtrans.bst
+A level-1 auxiliary file: 1-capa.aux
+A level-1 auxiliary file: 5-introducao.aux
+A level-1 auxiliary file: 6-referecialTeorico.aux
+A level-1 auxiliary file: 7-metodologia.aux
+A level-1 auxiliary file: 8-resultados.aux
+A level-1 auxiliary file: 9-conclusao.aux
+Database file #1: bibliografia.bib
+Warning--empty publisher in Cherkasova:2011
+Warning--empty address in Cherkasova:2011
+Warning--empty publisher in Ernst:2009
+Warning--empty address in Ernst:2009
+Warning--empty address in Hadoop:2010
+You've used 9 entries,
+            2969 wiz_defined-function locations,
+            760 strings with 6934 characters,
+and the built_in function-call counts, 7122 in all, are:
+= -- 562
+> -- 595
+< -- 0
++ -- 186
+- -- 206
+* -- 679
+:= -- 1304
+add.period$ -- 37
+call.type$ -- 9
+change.case$ -- 73
+chr.to.int$ -- 9
+cite$ -- 14
+duplicate$ -- 195
+empty$ -- 390
+format.name$ -- 226
+if$ -- 1324
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 10
+newline$ -- 45
+num.names$ -- 90
+pop$ -- 74
+preamble$ -- 1
+purify$ -- 128
+quote$ -- 0
+skip$ -- 202
+stack$ -- 0
+substring$ -- 311
+swap$ -- 68
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 170
+warning$ -- 5
+while$ -- 89
+width$ -- 0
+write$ -- 119
+(There were 5 warnings)

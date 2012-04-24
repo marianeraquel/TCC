@@ -1,0 +1,352 @@
+% \input{style.tex}
+\documentclass[12pt, a4paper, oneside, portuges, brazil, english]{article}
+\PassOptionsToPackage{pdftex}{graphicx}
+\usepackage{epstopdf}
+\usepackage{multirow}
+\usepackage{tabularx}
+% 
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage{subfig}
+%\usepackage{appendix}
+\usepackage{psfrag}
+\usepackage{lscape} %para colocar páginas no modo paisagem \begin{landscape} \end{landscape}
+\usepackage{fancyvrb}
+\usepackage{ulem}
+\parskip   1em
+\parindent 0pt	
+\usepackage[ansinew]{inputenc}                           
+\usepackage[T1]{fontenc} 
+\usepackage[brazil]{babel}
+\usepackage{ae}
+\RequirePackage[numbers]{natbib}
+
+% aumentando as margens originais do documento
+\addtolength{\hoffset}{-1.5cm}
+\addtolength{\textwidth}{3cm}
+\addtolength{\voffset}{-1.5cm}
+\addtolength{\textheight}{3cm}
+
+% 
+\begin{document}
+
+\selectlanguage{brazil}
+
+% -------------------------------
+% \pagestyle{empty}
+\thispagestyle{empty}
+\sffamily
+\noindent
+\begin{center}
+    \Large
+    Universidade Federal de Minas Gerais\\
+    Escola de Engenharia\\
+    Programa de Pós-Graduação em Engenharia Elétrica\\
+    Plano de Curso de Doutorado
+\end{center}
+
+\vfill
+\begin{center}
+    \huge\bfseries
+% Processamento paralelo em GPU na solução de problemas usando métodos sem malha em 3D
+% Solução do método sem malha ``Local Petrov-Galerkin'' usando o paralelismo das unidades de processamento gráfico (GPUs)
+Solução de métodos sem malha usando o paralelismo das unidades de processamento gráfico (GPUs)
+%     Programação Paralela Usando GPUs em Problemas da Geometria Computacional
+\end{center}
+
+\vfill
+\begin{center}
+    \LARGE\bfseries
+    Lucas Pantuza Amorim
+\end{center}
+
+\vfill\vfill\vfill
+\begin{center}
+    \large
+    Orientador: Prof. Renato Cardoso Mesquita\\
+    Área de Concentração: Sistemas de Computação e Telecomunicações\\
+    Linhas de Pesquisa: Eletromagnetismo Aplicado (APE)
+\end{center}
+\vfill\vfill
+\begin{center}
+\large
+    Belo Horizonte, Fevereiro de 2012
+\end{center}
+% -------------------------------
+\pagebreak
+% \chapter{}
+
+
+% Reabilita numero da pagina, reinicia contador, seta formato arabico
+\pagestyle{plain}
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+
+
+
+\section*{Resumo}
+
+Apresentaremos aqui, uma proposta de pesquisa a ser realizada no programa de doutorado do Programa de Pós-Graduação em Engenharia Elétrica. Como alternativa aos métodos computacionais que trazem soluções aproximadas, como o método dos elementos finitos (FEM) \cite{Hughes2000b}, existe o método sem malha (\textit{Meshless}), que basicamente oferece resultados aproximados tão bons quanto sem ter que tratar problemas inerentes à geração da malha. Existe, no entanto, um alto custo de processamento neste método, que vem sendo tratado usando-se algoritmos paralelos, como nos trabalhos de \citet{RAMOS}, \citet{Gobbetti:2007:GAM:1281500.1281568}, \citet{Nakata} e \citet{DBLP:journals/cphysics/YokotaNSKOY09}.
+
+% A proposta desta pesquisa, assim como \citet{Nakata} fez usando ``\textit{Radial Point Interpolation Method (RPIM)}'' em duas dimensões, tratar a paralelização da solução usando unidade de processamento gráfico (GPUs). Para isso, estenderemos 
+Nossa proposta é estender a pesquisa realizada por \citet{RAMOS}, que implementou uma solução paralela em CPUs do método sem malha ``Local Petrov-Galerkin'' para a arquitetura CUDA da nVidia \cite{nVIDIA}, fazendo uso dos múltiplos núcleos das modernas placas de vídeo (GPUs). A idéia é tratarmos tanto problemas bidimensionais (2D) quanto tridimensionais (3D).
+
+% Ainda, como objetivo secundário, trataremos de problemas de volume, onde cada ponto possui coordenadas nos eixos $x$, $y$ e $z$ (três dimensões).
+
+
+
+
+
+\section{Objetivo}
+
+O objetivo desta pesquisa é apresentar a solução de métodos sem malha em unidade de processamento gráfico (GPUs). Para isso, partiremos da solução apresentada por \citet{RAMOS} adaptando os algoritmos que proveem o paralelismo em processadores com múltiplos núcleos para a arquitetura CUDA da nVidia \cite{nVIDIA}. Ainda, como objetivo secundário, estenderemos a solução para problemas em 3D.
+
+
+% soluções computacionais essencialmente paralelizáveis e executáveis  para métodos sem malha em problemas 3D da engenharia.
+%  de três dimensões (3D), utilizando 
+
+
+
+\section{Relevância da Contribuição}
+
+Vários fenômenos físicos tratados pelas Engenharias e pela Física podem ser descritos por equações diferenciais parciais em conjunto com restrições adicionais, as chamadas condições de contorno ou condições de fronteira \cite{Jeffrey2003}. 
+% A solução para este tipo de problema, é aquela que satisfaz a equação diferencial e as condições de contorno, sendo que para as condições dadas para o problema, ela deve ser única e depender continuamente das condições de entrada.
+
+Quando tratamos problemas de geometria simples podemos, em alguns casos, resolvê-lo analiticamente. Para todos os demais precisamos utilizar métodos computacionais que trazem soluções aproximadas, como o método dos elementos finitos (FEM) \cite{Hughes2000b} e o método das diferenças finitas (FDM) \cite{taflove00b}. Ambos necessitam de uma malha para representar o domínio do problema e, por isso, a precisão dos resultados numéricos destes métodos está diretamente ligada à boa formação dos elementos que a constituem. Uma alternativa é o método sem malha, que não necessita de uma malha para representar o domínio e depende, exclusivamente, de uma nuvem de um conjunto de nós independentes.
+
+Existem diversos métodos sem malhas, como por exemplo os mais tradicionais ``\textit{Element-Free Galerkin (EFG)}'' \cite{art11} e ``\textit{Meshless Local Petrov-Galerkin (MLPG)}'' \cite{art12} e outros como o ``\textit{Radial Point Interpolation Method (RPIM)}'' \cite{art13}.
+
+Em particular, \citet{RAMOS} apresentou um trabalho utilizando o MLPG. 
+% método sem malha ``Local Petrov-Galerkin''. um misto que combina o método de mínimos quadrados móveis (MLS) para os nós do interior do domínio e funções de base radial associadas com termos polinomiais (RPIMp) para nós da fronteira
+Durante a implementação da solução, percebeu-se que as contribuições dos nós para o sistema matricial global são independentes. Trata-se, portanto, do cumprimento de uma das premissas base para o paralelismo na solução do problema, alternativa testada e validada utilizando processadores de 4 núcleos.
+
+
+\begin{figure}[h!]
+\centering
+%\includegraphics[width=0.6\textwidth]{gpu3.png}
+\caption[]
+{Comparativo entre GPUs e CPUs em termos de  \textit{Floating point operations} (FLOPs). Gráfico retirado de \cite{GPUtrends}}
+\label{fig:caleat}
+\end{figure}
+
+
+Em alguns casos, diferente da abordagem seguida por \citet{RAMOS}, aplicações científicas são adaptadas para execução nas modernas unidade de processamento gráfico (GPUs) ou mesmo clusters de GPUs, cuja capacidade de processamento tem evoluído a um ritmo exponencial \cite{piccdis, piccart} (Figura \ref{fig:caleat}). Tradicionalmente, a diferença fundamental entre os processadores (CPUs) e GPUs é o fato de que as CPUs são otimizadas para cálculos sequenciais (executando aplicativos diversos), enquanto as GPUs são otimizadas para cálculos massivamente paralelos. Há um tempo atrás essa divisão era bem mais nítida, já que as placas 3D processavam apenas triângulos, texturas e efeitos simples. Entretanto, com a introdução do uso de \textit{shaders} (que nada mais são do que pequenos aplicativos destinados a executarem tarefas específicas na composição das cenas) elas ganharam a capacidade de também executarem código sequencial, assim como os processadores \cite{nVIDIA}. Desta forma, além do processamento de gráficos para o qual originalmente foram desenvolvidas, as GPUs são capazes de assumir o processamento de aplicações mais elaboradas que eram exclusivamente realizados em CPUs.
+
+
+Existe, então, uma nova abordagem para solução de problemas usando métodos sem malha: com o objetivo de diminuir o tempo de processamento até a solução do problema segundo quaisquer um dos métodos já citados, autores como \citet{RAMOS}, \citet{Gobbetti:2007:GAM:1281500.1281568},  \citet{DBLP:journals/cphysics/YokotaNSKOY09} veem trabalhando com processamento paralelo em CPUs, mas pouco foi feito explorando GPUs, como o trabalho apresentado por \citet{Nakata} usando RPIM. 
+
+
+
+
+
+\subsection{Linguagem de Programação}
+
+Com o novo potencial das GPUs, os fabricantes investiram em ferramentas de desenvolvimento capazes de liberar o potencial oculto das placas \cite{MORIMOTO}. A \textit{nVidia} apresentou o CUDA, a ATI o Brook+, e em seguida surgiu o OpenCL, um \textit{framework} de computação desenhado para possibilitar o desenvolvimento de software para plataformas e ambientes heterogêneos \cite{opencl}.
+
+O CUDA, particularmente, permite acessar as funções das placas usando funções em $C$ ($C$ for CUDA), o que o torna uma ferramenta relativamente simples para desenvolvedores familiarizados com a linguagem. Existem também \textit{wrappers} que permitem desenvolver em Java (jCUDA), $C$\# (CUDA.NET) ou até mesmo Python (PyCUDA) \cite{nVIDIA}. Embora os potenciais benefícios sejam grandes, as dificuldades também são, já que o desenvolvimento de aplicativos massivamente paralelos exige não apenas um bom domínio da linguagem escolhida, mas toda uma nova metodologia de desenvolvimento, especialmente em situações onde o paralelismo não é óbvio.
+
+
+
+
+\subsection{Problemas em três dimensões (3D)}
+
+Independente do método sem malha adotado, é notório que a maior parte dos trabalhos são desenvolvidos utilizando problemas de geometria em 2D. Isto se deve ao fato de ter implementação muito mais simples e, muitas vezes, ser suficiente para testar a hipótese do trabalho. No entanto, em problemas reais, precisamos muitas vezes trabalhar com problemas 3D. Existem trabalhos, como o desenvolvido por \citet{Atluri} que tratam geometrias em 3D, mas ainda há muito o que se explorar cientificamente, sobretudo com propostas de soluções de processamento paralelo em GPUs, objetivo desta pesquisa.
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Metodologia, Disciplinas a Serem Cursadas e Cronograma}
+
+\begin{enumerate}
+\item \label{c1} Fundamentação teórica para realização da pesquisa cursando disciplinas relacionadas a métodos sem malha, eletromagnetismo computacional e processamento paralelo:
+  \begin{itemize}
+    \item EEE933D: Tóp. Especiais em Eng. Comp. e Teleco, Métodos sem Malhas;
+    \item EEE933A: Tóp. Especiais em Eng. Comp. e Teleco, Planejamento e Análise de Experimentos;
+    \item DCC865: Projeto e Análise de Algoritmos;
+    \item DCC837: Programação Paralela;
+  \end{itemize}
+
+% \item Verificação da hipótese de pesquisa;
+%   \begin{enumerate}
+\item \label{c2} Pesquisa bibliográfica em Métodos sem Malha e outros métodos e suas implementações em GPUs, como por exemplo:
+  \begin{itemize}
+%     \item ...
+    \item \textit{Total Lagrangian Explicit Dynamic algorithm (TLED, FEM)} \cite{Olivier};
+    \item \textit{Parallel realisation of the element-by-element FEM} \cite{Imre};
+    \item \textit{Modified radial point interpolation method (Modified RPIM, Meshless)} \cite{Nakata}.
+  \end{itemize}
+
+\item \label{c3} Estudo exaustivo de códigos OpenCL e Cuda;
+
+%   \item Estudos aprofundados do método sem malha ``Local Petrov-Galerkin'' e de detalhes da implementação feita no trabalho de \citet{RAMOS};
+\item \label{c4} Proposição de uma abordagem de implementação para Métodos sem Malha adaptada para execução em GPUs;
+\item \label{c5} Exame de qualificação;
+\item \label{c5b} Extensão da solução para problemas em três dimensões;
+%   \end{enumerate}
+
+\item \label{c6} Apresentação dos resultados para a comunidade científica que tratam de métodos sem malha e/ou processamento paralelo em GPUs, através de publicação em revista.
+
+\item \label{c7} Doutorado sanduíche;
+\item \label{c8} Redação da tese de doutorado;
+\item \label{c9} Defesa da tese de doutorado.
+
+\end{enumerate}
+
+
+
+% \subsection{Cronograma}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+\hline
+\multirow{2}{*}{Tarefas} & \multicolumn{8}{c|}{Semestres}  \\ \cline{2-9} & { }{ }1{ }{ } & { }{ }2{ }{ } & { }{ }3{ }{ } & { }{ }4{ }{ } & { }{ }5{ }{ } & { }{ }6{ }{ } & { }{ }7{ }{ } & { }{ }8{ }{ }\\ %[0.5ex]
+\hline
+\ref{c1}  & $\bullet$ & $\bullet$ & $\bullet$ &           &           &           &           &           \\
+\ref{c2}  &           & $\bullet$ & $\bullet$ & $\bullet$ &           &           &           &           \\
+\ref{c3}  & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ &           &           &           &           \\
+\ref{c4}  &           &           & $\bullet$ & $\bullet$ &           &           &           &           \\
+\ref{c5}  &           &           &           & $\bullet$ &           &           &           &           \\
+\ref{c5b} &           &           &           &           & $\bullet$ & $\bullet$ &           &           \\
+\ref{c6}  &           &           &           & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ &           \\
+\ref{c7}  &           &           &           &           & $\bullet$ & $\bullet$ &           &           \\
+\ref{c8}  &           &           &           &           & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ \\
+\ref{c9}  &           &           &           &           &           &           &           & $\bullet$ \\
+\hline
+\end{tabular}
+\caption{Cronograma}
+\end{table}
+
+
+
+
+% 
+% % \footnote{As disciplinas listadas são as de meu interesse inicial. Em reunião com o orientador serão escolhidas, dentre estas ou outras não citadas, as necessárias para completar os créditos.}
+% \section{Disciplinas a Serem Cursadas}
+% 
+% As disciplinas, até o número de créditos exigidos, serão cursadas nos três primeiros semestres do curso. Das listadas abaixo, ``Seminários e Projeto de Tese'' são obrigatórias. Já ``Métodos sem Malhas'', disciplina ministrada pelo orientador deste trabalho, Renato Mesquita, é altamente recomendada por ter grande contribuição com o projeto aqui proposto.
+% 
+% As demais são sugestões baseadas na disponibilidade da disciplinas, horário, e principalmente pela relevância da contribuição para o trabalho desenvolvido. No entanto, podem ser substituídas devido eventual oferta de disciplina ainda mais relevante, tanto do departamento de Engenharia Elétrica quanto no de Ciência da Computação.
+% 
+% \subsection{Primeiro Semestre}
+% \begin{itemize}
+% \item Seminários B
+% % \item EEE935A: Tóp. Especiais em Sinais e Sistemas, Planej. de Mov. Estratégias Controle de Robôs %1 semestre
+% \item EEE933D: Tóp. Especiais em Eng. Comp. e Teleco, Métodos sem Malhas %1 semestre
+% \item EEE933A: Tóp. Especiais em Eng. Comp. e Teleco, Planejamento e Análise de Experimentos %1/2 semestre
+% % \item EEE882: Computação Evolucionária %1 semestre
+% % \item EEE903: Introdução à Teoria de Controle Geométrico  %2 semestre
+% \end{itemize}
+% 
+% \subsection{Segundo Semestre}
+% \begin{itemize}
+% \item Projeto de Tese I
+% \item DCC865: Projeto e Análise de Algoritmos
+% \item DCC837: Programação Paralela
+% \end{itemize}
+% 
+% \subsection[]{Terceiro Semestre}
+% \begin{itemize}
+% \item Projeto de Tese II
+% \end{itemize}
+% 
+
+
+
+
+
+
+% 
+% 
+% 
+% 
+% \section{Cronograma}\label{cronograma}
+% 
+% \begin{table}[h]
+% \centering
+% \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+% \hline
+% \multirow{2}{*}{Tarefas} & \multicolumn{8}{c|}{Semestres}  \\ \cline{2-9} & { }{ }1{ }{ } & { }{ }2{ }{ } & { }{ }3{ }{ } & { }{ }4{ }{ } & { }{ }5{ }{ } & { }{ }6{ }{ } & { }{ }7{ }{ } & { }{ }8{ }{ }\\ %[0.5ex]
+% \hline
+% \ref{c1}  & $\bullet$ & $\bullet$ & $\bullet$ &           &           &           &           &           \\
+% \ref{c2}  &           & $\bullet$ & $\bullet$ &           &           &           &           &           \\
+% \ref{c3}  & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ &           &           &           &           \\
+% \ref{c4}  &           &           & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ &           &           \\
+% \ref{c5}  &           &           &           & $\bullet$ &           &           &           &           \\
+% \ref{c6}  &           &           &           &           & $\bullet$ &           &           &           \\
+% \ref{c7}  &           &           &           &           & $\bullet$ & $\bullet$ &           &           \\
+% % \ref{c8}  &           &           & $\bullet$ & $\bullet$ &           &           &           &           \\
+% \ref{c8}  &           &           &           &           & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ \\
+% \ref{c9}  &           &           &           &           &           &           &           & $\bullet$ \\
+% \hline
+% \end{tabular}
+% \caption{Cronograma}
+% \end{table}
+% 
+ \begin{enumerate}
+ \item \label{c1} Cumprimento das disciplinas
+ \item \label{c2} Projeto de Tese (I e II)
+ \item \label{c3} Estudo exaustivo de códigos OpenCL e Cuda
+ % \item \label{c3} Seleção de problemas da Geometria Computacional para os quais serão propostas soluções em GPU
+ \item \label{c4} Experimentos
+ \item \label{c5} Exame de qualificação
+ % \item \label{c4} Desenvolvimento das abordagens e algoritmos paralelos em GPU
+ % \item \label{c5} Submissão de resultados preliminares em congresso
+ \item \label{c6} Submissão de resultados a uma revista científica
+ \item \label{c7} Doutorado sanduíche
+ \item \label{c8} Redação da tese de doutorado
+ \item \label{c9} Defesa da tese de doutorado
+ \end{enumerate}
+% 
+% 
+% 
+
+
+
+
+
+
+
+
+
+
+
+% \chapter{Recursos}
+\section{Regime de dedicação e recursos} \label{chapter:regime}
+
+Durante todo o curso será adotado o regime de dedicação exclusiva, com carga horária cumprida nos laboratórios de otimização e projeto assistido por computador (LOPAC), onde os recursos de infraestrutura estarão disponíveis.
+% 
+% em escritório particular ou laboratórios de computação do PPGEE (Programa de Pós-Graduação em Engenharia Elétrica), 
+
+% Já os recursos financeiros que sustentarão o regime adotado (Seção \ref{chapter:regime})
+
+
+
+
+
+% *************** Bibliography ***************
+
+% \bibliographystyle{plain}
+\bibliographystyle{plainnat}
+\bibliography{reference.bib}
+
+\begin{figure}[h!]
+\centering
+%\includegraphics[width=1\textwidth]{carta_aceite_Orientacao_doutorado.pdf}
+\end{figure}
+
+
+
+\end{document}
+

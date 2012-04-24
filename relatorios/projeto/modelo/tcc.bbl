@@ -1,0 +1,59 @@
+\begin{thebibliography}{}
+
+\bibitem[\protect\citeauthoryear{Asanovic, Bodik, Demmel, Keaveny, Keutzer,
+  Kubiatowicz, Morgan, Patterson, Sen, Wawrzynek, Wessel, and Yelick}{Asanovic
+  et~al\mbox{.}}{2009}]{Asanovic:2009}
+{\sc Asanovic, K.}, {\sc Bodik, R.}, {\sc Demmel, J.}, {\sc Keaveny, T.}, {\sc
+  Keutzer, K.}, {\sc Kubiatowicz, J.}, {\sc Morgan, N.}, {\sc Patterson, D.},
+  {\sc Sen, K.}, {\sc Wawrzynek, J.}, {\sc Wessel, D.}, {\sc and} {\sc Yelick,
+  K.} 2009.
+\newblock A view of the parallel computing landscape.
+\newblock {\em Commun. ACM\/}~{\em 52,\/}~10 (Oct.), 56--67.
+
+\bibitem[\protect\citeauthoryear{Cherkasova}{Cherkasova}{2011}]{Cherkasova:2011}
+{\sc Cherkasova, L.} 2011.
+\newblock Performance modeling in mapreduce environments: challenges and
+  opportunities.
+\newblock In {\em ICPE'11}. 5--6.
+
+\bibitem[\protect\citeauthoryear{de~Morais~Pinh{\~a}o}{de~Morais~Pinh{\~a}o}{2011}]{Paula:2011}
+{\sc de~Morais~Pinh{\~a}o, P.} 2011.
+\newblock Ordenação paralela no ambiente hadoop.
+
+\bibitem[\protect\citeauthoryear{Dean and Ghemawat}{Dean and
+  Ghemawat}{2008}]{Dean:2008}
+{\sc Dean, J.} {\sc and} {\sc Ghemawat, S.} 2008.
+\newblock Mapreduce: simplified data processing on large clusters.
+\newblock {\em Commun. ACM\/}~{\em 51,\/}~1 (Jan.), 107--113.
+
+\bibitem[\protect\citeauthoryear{Ernst, Wittman, Harvey, Murphy, and
+  Wrinn}{Ernst et~al\mbox{.}}{2009}]{Ernst:2009}
+{\sc Ernst, D.}, {\sc Wittman, B.}, {\sc Harvey, B.}, {\sc Murphy, T.}, {\sc
+  and} {\sc Wrinn, M.} 2009.
+\newblock Preparing students for ubiquitous parallelism.
+\newblock In {\em SIGCSE}. 136--137.
+
+\bibitem[\protect\citeauthoryear{Kale and Solomonik}{Kale and
+  Solomonik}{2010}]{Kale:2010}
+{\sc Kale, V.} {\sc and} {\sc Solomonik, E.} 2010.
+\newblock Parallel sorting pattern.
+\newblock In {\em Proceedings of the 2010 Workshop on Parallel Programming
+  Patterns}. ParaPLoP '10. ACM, New York, NY, USA, 10:1--10:12.
+
+\bibitem[\protect\citeauthoryear{Page, Brin, Motwani, and Winograd}{Page
+  et~al\mbox{.}}{1999}]{PageRank:1999}
+{\sc Page, L.}, {\sc Brin, S.}, {\sc Motwani, R.}, {\sc and} {\sc Winograd, T.}
+  1999.
+\newblock The pagerank citation ranking: Bringing order to the web.
+
+\bibitem[\protect\citeauthoryear{Prinslow}{Prinslow}{2011}]{Prinslow:2011}
+{\sc Prinslow, G.} 2011.
+\newblock Overview of performance measurement and analytical modeling
+  techniques for multi-core processors.
+
+\bibitem[\protect\citeauthoryear{White}{White}{2009}]{Hadoop:2010}
+{\sc White, T.} 2009.
+\newblock {\em Hadoop: The Definitive Guide\/}, first edition ed.
+\newblock O'Reilly.
+
+\end{thebibliography}

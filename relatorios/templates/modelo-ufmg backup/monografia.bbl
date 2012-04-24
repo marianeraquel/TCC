@@ -1,0 +1,43 @@
+\providecommand{\abntreprintinfo}[1]{%
+ \citeonline{#1}}
+\begin{thebibliography}{}
+\providecommand{\abntrefinfo}[3]{}
+\providecommand{\abntbstabout}[1]{}
+\abntbstabout{1.42.2.1 }
+
+\bibitem{anatel}
+\abntrefinfo{Anatel}{ANATEL}{2010}
+{ANATEL. \emph{Acessos moveis ultrapassam 187 milhoes assinantes em julho}. 08
+  2010.
+\url{http://www.anatel.gov.br/Portal/exibirPortalNoticias.do?acao=carregaNoticia&codigo=21052}.}
+
+\bibitem{CorreioBraziliense}
+\abntrefinfo{CorreioBraziliense}{CORREIOBRAZILIENSE}{2010}
+{CORREIOBRAZILIENSE. \emph{Venda de smartphones registra crescimento em todo o
+  mundo}. 07 2010.
+\url{http://www.correiobraziliense.com.br/app/noticia182/2010/07/27/tecnologia,i=204536/VENDA+DE+SMARTPHONES+REGISTRA+CRESCIMENTO+EM+TODO+O+MUNDO.shtml}.}
+
+\bibitem{NPD-PressRelease}
+\abntrefinfo{NPD}{NPD}{2010}
+{NPD, C. M.~R. \emph{Android Shakes Up U.S. Smartphone Market}. 2010.
+\url{http://www.npd.com/press/releases/press_100510.html}.}
+
+\bibitem{r2g-half}
+\abntrefinfo{research2guidance}{RESEARCH2GUIDANCE}{2010a}
+{RESEARCH2GUIDANCE. \emph{Smartphone application market has reached more than
+  2.2 bilion dollars in the first half of 2010}. 07 2010.
+\url{http://www.research2guidance.com/the-smartphone-application-market-has-reached-more-than-2.2-billion-dollars-in-the-first-half-of-2010/}.}
+
+\bibitem{r2g}
+\abntrefinfo{research2guidance}{RESEARCH2GUIDANCE}{2010b}
+{RESEARCH2GUIDANCE. \emph{Smartphone Application Market To Reach US\$15.65
+  Billion In 2013}. 03 2010.
+\url{http://www.research2guidance.com/smartphone-application-market-to-reach-us15-65-billion-in-2013/
+  }.}
+
+\bibitem{clouds}
+\abntrefinfo{Armbrust et al.}{ARMBRUST et al.}{2009}
+{ARMBRUST, M. et al. \emph{Above the Clouds: A Berkeley View of Cloud
+  Computing}. 02 2009.}
+
+\end{thebibliography}

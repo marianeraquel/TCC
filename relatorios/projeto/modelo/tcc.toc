@@ -1,0 +1,19 @@
+\select@language {brazil}
+\contentsline {chapter}{\numberline {1}Introdu\IeC {\c c}\IeC {\~a}o}{3}
+\contentsline {section}{\numberline {1.1}Defini\IeC {\c c}\IeC {\~a}o do Problema}{3}
+\contentsline {section}{\numberline {1.2}Motiva\IeC {\c c}\IeC {\~a}o}{3}
+\contentsline {section}{\numberline {1.3}Objetivos}{5}
+\contentsline {section}{\numberline {1.4}Estado da Arte}{6}
+\contentsline {section}{\numberline {1.5}Organiza\IeC {\c c}\IeC {\~a}o }{6}
+\contentsline {chapter}{\numberline {2}Referencial Te\IeC {\'o}rico}{7}
+\contentsline {section}{\numberline {2.1}Computa\IeC {\c c}\IeC {\~a}o Paralela}{7}
+\contentsline {section}{\numberline {2.2}Ordena\IeC {\c c}\IeC {\~a}o Paralela}{7}
+\contentsline {section}{\numberline {2.3}Algoritmos}{8}
+\contentsline {subsection}{\numberline {2.3.1}Sample Sort}{8}
+\contentsline {subsection}{\numberline {2.3.2}Quick Sort}{8}
+\contentsline {chapter}{\numberline {3}Metodologia}{9}
+\contentsline {section}{\numberline {3.1}Recursos necess\IeC {\'a}rios}{9}
+\contentsline {section}{\numberline {3.2}Desenvolvimento //}{9}
+\contentsline {section}{\numberline {3.3}Descri\IeC {\c c}\IeC {\~a}o dos experimentos}{9}
+\contentsline {chapter}{\numberline {4}Resultados Preliminares}{10}
+\contentsline {chapter}{\numberline {5}Conclus\IeC {\~o}es e Propostas de Continuidade}{11}

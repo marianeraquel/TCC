@@ -1,0 +1,64 @@
+This is BibTeX, Version 0.99d (TeX Live 2011)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: modelo.aux
+The style file: abnt-alf.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Database file #1: modelo.bib
+Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
+Reallocated global_strs (elt_size=5001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=4) to 20 items from 10.
++---------------------------------------------------------+
+| Estilo bibliográfico abnt-alf.bst versão 1.45.2.1           |
+| Em caso de dúvidas ou problemas com este estilo procure |
+| http://abntex.codigolivre.org.br                        |
++---------------------------------------------------------+
+You've used 4 entries,
+            6480 wiz_defined-function locations,
+            1193 strings with 10105 characters,
+and the built_in function-call counts, 4784 in all, are:
+= -- 537
+> -- 159
+< -- 13
++ -- 107
+- -- 47
+* -- 358
+:= -- 677
+add.period$ -- 22
+call.type$ -- 4
+change.case$ -- 51
+chr.to.int$ -- 13
+cite$ -- 4
+duplicate$ -- 204
+empty$ -- 266
+format.name$ -- 225
+if$ -- 1129
+int.to.chr$ -- 0
+int.to.str$ -- 0
+missing$ -- 74
+newline$ -- 34
+num.names$ -- 20
+pop$ -- 107
+preamble$ -- 1
+purify$ -- 18
+quote$ -- 0
+skip$ -- 240
+stack$ -- 1
+substring$ -- 216
+swap$ -- 123
+text.length$ -- 10
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 1
+warning$ -- 0
+while$ -- 35
+width$ -- 0
+write$ -- 88

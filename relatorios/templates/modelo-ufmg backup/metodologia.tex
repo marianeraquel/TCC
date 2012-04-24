@@ -1,0 +1,44 @@
+
+\section{Tipo de Pesquisa}
+Este projeto de pesquisa, ao contrário do normalmente esperado na academia não é de cunho teórico e
+sim aplicado. Portanto pode-se classificar-lo como um projeto de pesquisa aplicada de cunho
+tecnológico, uma vez que não se pretende aprimorar ou desenvolver novos paradigmas na computação
+móvel. Busca-se aplicar a teoria consolidada da literatura em um aplicativo comercial.
+
+\section{Procedimentos metodológicos}
+O desenvolvimento deste projeto pode ser dividido em dois subprojetos: O aplicativo para a plataforma
+\emph{Android} e o servidor que funcionará na nuvem. Cada um destes subprojetos possuem
+características diferenciadas e no final devem estar completamente integrados.\\
+
+\subsection{O aplicativo para \emph{Android}}
+Este aplicativo deve enviar mensagens periodicamente para o servidor, informando suas
+coordenadas no sistema \emph{GPS}\footnote{Global Positioning System}. Além disto deve ser capaz de
+reconhecer mensagens provindas do servidor e realizar as instruções remotas solicitadas. Para
+concluir este objetivo, deve-se primeiro entender o processo de criação de aplicativos para a
+plataforma android através da API\footnote{\url{http://developer.android.com/guide/index.html}}
+disponível, entender
+como manipular mensagens, como obter informações do \emph{GPS} e analisar como a aplicação pode comunicar efetivamente com
+o serviço na nuvem. 
+
+\subsection{\emph{Web service} na nuvem}
+Este servidor deve ser criado utilizando o paradigma de computação em nuvens e para este proposito
+foi escolhido a plataforma de desenvolvimento da \emph{Google} conhecida como \emph{Google App
+Engine}. Basicamente este \emph{Web Service} deve ser capaz de comunicar com a aplicação
+\emph{Android}, deve prover uma interface \emph{Web} amigável para os clientes poderem enviar
+comandos remotos aos seus \emph{smartphones} cadastrados. Além disto, este servidor deve ser integrado diretamente com o serviço \emph{Google Maps}, portanto as 
+mensagens enviadas periodicamente pelos \emph{smartphones} devem ser utilizadas para atualizar
+dinamicamente as posições no mapa.\\ 
+
+Para este proposito ser atingido, deve-se primeiro entender o processo de criação de \emph{Web
+Services} na API\footnote{\url{http://code.google.com/appengine/docs/}}. Uma vez pesquisado isto,
+deve-se entender como se integra o \emph{Web Service} aos diversos serviços \emph{Google} e após
+isto concretizar a comunicação com o aplicativo diretamente com o serviço para finalmente criar
+tanto a interface de autenticação quanto a interface do serviço.
+
+\subsection{Recursos necessários}
+Para o pleno desenvolvimento deste projeto será necessário apenas uma estação de trabalho conectada
+com a internet, a plataforma de \emph{Web Services} da \emph{Google App Engine}, o ambiente de
+desenvolvimento para \emph{Android}  chamado \emph{Android
+SDK}\footnote{\url{http://developer.android.com/sdk/index.html}} com o simulador do S.O. Para os
+testes finais do projeto será necessário um \emph{smartphone} \emph{Android} com plano de dados ativo para criar
+uma simulação mais realista.

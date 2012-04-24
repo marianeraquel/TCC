@@ -1,0 +1,35 @@
+\chapter{Referencial Teórico}
+
+\section{Computação Paralela}
+
+\section{Ordenação Paralela}
+
+%A ordenação paralela consiste no processo de uso de múltiplas unidades de processamento para ordenar coletivamente uma sequência desordenada. A sequência inicial é decomposta em subsequências disjuntas e cada uma é associada a uma única unidade de processamento. Na implementação de algoritmos de ordenação paralela, a questão funda- mental é coletivamente ordenar os dados pertencentes a processos individuais, de tal forma que todas as unidades de processamento sejam utilizadas e, ao mesmo tempo, sejam minimizados os custos de redistribuição de chaves entre os processadores [Kale e Solomonik 2010].
+
+
+\textbf{Condições de implementação de algoritmos paralelos de ordenação}
+
+\paragraph*{Habilidade de explorar distribuições iniciais parcialmente ordenadas}
+
+Alguns algoritmos podem se beneficiar de cenários nos quais a sequência de entrada dos dados é mesma, ou pouco alterada. Nesse caso, é possível obter melhor desempenho ao realizar menos trabalho e movimentação de dados. 
+Se a alteração na posição dos elementos da sequência é pequena o suficiente, grande parte dos processadores mantém seus dados iniciais e precisa se comunicar apenas com os processadores vizinhos.
+
+
+\paragraph*{Movimentação dos dados}
+A movimentação de dados entre processadores deve ser mínima durante a execução do algoritmo. Em um sistema de memória distribuída, a quantidade de dados a ser movimentada é um ponto crítico, pois o custo de troca de dados pode dominar o custo de execução total e limitar a escalabilidade.
+
+
+\paragraph*{Balanceamento de carga} 
+O algoritmo de ordenação paralela deve assegurar o balanceamento de carga ao distribuir os dados entre os processadores. Cada processador deve receber uma parcela equilibrada dos dados para ordenar, uma vez que o tempo de execução da aplicação é tipicamente limitada pela execução do processador mais sobrecarregado. 
+
+\paragraph*{Latência de comunicação}
+A latência de comunicação é definida como o tempo médio necessário para enviar uma mensagem de um processador a outro. 
+Em grandes sistemas distribuídos, reduzir o tempo de latência se torna muito importante. 
+
+\paragraph*{Sobreposição de comunicação e computação}
+Em qualquer aplicação paralela, existem tarefas com focos em computação e comunicação. A sobreposição de tais tarefas permite que sejam feitas tarefas de processamento e ao mesmo tempo operações de entrada e saída de dados, evitando que os recursos fiquem ociosos durante o intervalo de tempo necessário para a transmissão da carga de trabalho. 
+
+\section{Algoritmos}
+\subsection{Sample Sort}
+\subsection{Quick Sort}
+

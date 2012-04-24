@@ -1,0 +1,190 @@
+\documentclass[a4paper,oneside,11pt]{book}
+
+\usepackage[brazil]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{amsfonts}
+\usepackage{amssymb} 
+\usepackage{indentfirst} 	
+\usepackage{caption}
+\usepackage{url}
+\usepackage{multirow}
+\usepackage[ruled, portugues]{algorithm2e} % para algoritmos
+\usepackage{fancyhdr}
+\usepackage[small,compact]{titlesec} 	   % títulos menores e compactos
+\setlength{\textheight}{235mm}
+\setlength{\textwidth}{150mm}
+\voffset -10mm
+\hoffset -10mm
+
+
+
+%\usepackage{subfigure}
+%\usepackage{subfig}
+%\usepackage{wrapfig}
+%\usepackage{theorem}
+%\usepackage{graphics}
+%\usepackage{amsmath}
+
+
+%estilos de bibliografia
+%\bibliographystyle{plain}
+%\bibliographystyle{sbc}
+\bibliographystyle{abnt-alf}
+
+%\bibliographystyle{abnt-num}
+
+% para melhorar o posicionamento das figuras no texto
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.75}
+
+
+\begin{document}
+
+\sloppy
+
+% set the space between lines to 1.24
+\renewcommand{\baselinestretch}{1.24}
+\normalsize 
+
+%\setcounter{page}{0} 
+%\pagenumbering{roman}
+
+% set page style with page number
+\setcounter{page}{1} 
+\pagenumbering{arabic}
+\pagestyle{plain}
+\pagestyle{empty}
+
+\include{capa} 
+%\include{dedicatoria}\clearpage
+%\include{agradecimentos}\clearpage
+%\include{abstract}\clearpage
+\include{resumo}
+
+\renewcommand{\figurename}{Figura}
+
+\tableofcontents
+%\clearpage % increment page number
+\listoffigures
+% add the list of figures to the table of contents
+\addcontentsline{toc}{chapter}{\listfigurename} 
+%\clearpage % increment page number
+\listoftables
+% add the list of tables to the table of contents
+\addcontentsline{toc}{chapter}{\listtablename} 
+%\cleardoublepage % add a blank page
+
+
+% set headings
+\pagestyle{fancy}
+\lhead[\fancyplain{}{\footnotesize\thepage}]
+      {\fancyplain{}{\footnotesize\rightmark}}
+\rhead[\fancyplain{}{\footnotesize\leftmark}]
+      {\fancyplain{}{\footnotesize\thepage}}
+
+\cfoot{}
+
+\include{cap1} % Introducao
+\include{cap2} % Trabalhos Relacionados
+\include{cap3} % Metodologia
+\include{cap4} % Resultados
+\include{cap5} % Conclusoes e Trabalhos Futuros
+\include{apendice} % Apendices
+
+
+% add the bibliography section to the table of contents
+\addcontentsline{toc}{chapter}{\bibname} 
+\bibliography{modelo}
+
+\end{document}
+
+
+% 
+% \documentclass[protugues, brazil, a4paper,12pt]{article}
+% \bibliographystyle{plain}
+% \usepackage[brazil]{babel}
+% \usepackage{graphicx}
+% \usepackage{geometry}
+% \usepackage[latin1]{inputenc}
+% \usepackage[T1]{fontenc}
+% \usepackage{url}
+% \geometry{a4paper,left=3cm,right=3cm,top=2.5cm,bottom=2.93cm}
+% \begin{document}
+% \begin{titlepage}
+% 
+%   \vfill
+% 
+%   \begin{center}
+%     \begin{large}
+%       Universidade Federal de Minas Gerais
+%     \end{large}
+%   \end{center}
+% 
+%   \begin{center}
+%     \begin{large}
+%       Instituto de Ciï¿½ncias Exatas
+%     \end{large}
+%   \end{center}
+% 
+%   \begin{center}
+%     \begin{large}
+%       Departamento de Ciï¿½ncia da Computaï¿½ï¿½o
+%     \end{large}
+%   \end{center}
+% 
+%   \vfill
+% 
+%   \begin{center}
+%     \begin{Large}
+%       \textbf{PROJETO E AN\'ALISE DE ALGORITMOS \\[0.4cm] 
+%         Primeiro Trabalho: dispon\'{\i}vel em:
+%         \url{http://www.dcc.ufmg.br/~fbotelho/paatp3}}
+% %         {http://www.dcc.ufmg.br/~fbotelho/paatp3}}               
+%     \end{Large}
+%   \end{center}
+% 
+% 
+%   \vfill
+% 
+%   \begin{center}
+%     \begin{large}
+%       Fabiano Cupertino Botelho
+%     \end{large}
+%   \end{center}
+% 
+%   \begin{center}
+%     \begin{large}
+%       Professor - Nivio Ziviani
+%     \end{large}
+%   \end{center}
+% 
+%   \vfill
+% 
+%   \begin{center}
+%     \begin{large}
+%       Belo Horizonte \\
+%       \today \\
+%     \end{large}
+%   \end{center}
+% 
+% \clearpage
+% \tableofcontents 
+% \end{titlepage}
+% 
+% 
+% \section{Introduï¿½ï¿½o}
+% \cite{mar00} \\
+% \cite{rp99}
+% 
+% \section{Algoritmo e estruturas de dados}
+% 
+% \section{Anï¿½lise de complexidade dos algoritmos}
+% 
+% \section{Apresentaï¿½ï¿½o e discussï¿½o dos resultados empï¿½ricos}
+% 
+% \bibliography{modelo}
+% 
+% \end{document}

@@ -1,0 +1,25 @@
+\chapter{REFERENCIAL TEÓRICO}
+\emph{Cloud Computing} é um paradigma relativamente novo, que se refere tanto para aplicações
+providas como serviço pela internet quanto para o \emph{hardware} e os sistemas de softwares usados
+nos \emph{datacenters} que os provêm. Estes serviços providos são reconhecidos como \emph{Software
+as a Service} e a parte de \emph{datacenters} e \emph{softwares} é definida como uma  
+\emph{cloud}\cite{clouds}. Pretende-se aproveitar de todas  as vantagens providas por este paradigma, destacando entre elas a
+escalabilidade, o  fácil acesso, o baixo custo e a fácil manutenção.\\
+
+Entre as \emph{public clouds} disponíveis ( Amazon EC2, Google Appengine e Windows Azure ),
+escolheu-se a \emph{Google Appengine}\footnote{\url{http://code.google.com/appengine/}} por fornecer um ambiente de desenvolvimento gratuito e por sua
+facilidade de integração tanto com os outros serviços google como para o próprio \emph{Android}, o
+que é vital para o projeto proposto, uma vez que o \emph{google maps} é essencial para a ideia de
+rastreamento.\\
+
+Para o desenvolvimento do aplicativo \emph{Android} será utilizado o ambiente de desenvolvimento
+\emph{Android SDK}\footnote{\url{http://developer.android.com/sdk/index.html}} fornecido pelo
+\emph{Android Open Source Project}\footnote{{http://developer.android.com/index.html}}. \\
+
+Durante o desenvolvimento do serviço na \emph{Cloud Computing} e do aplicativo \emph{Android}
+pretende-se aplicar fundamentos da metodologia de desenvolvimento de software conhecida como
+\emph{scrum}, que é baseada em conceitos da metodologia \emph{agil}, juntamente com a ideia de desenvolvimento baseado em \emph{test driven design},
+em que os testes de unidade são criados primeiro, antes mesmo do próprio código. Espera-se que com a adoção destas práticas o
+processo de desenvolvimento seja mais organizado, mais voltado para \emph{refactoring}\footnote{Processo de re-escrita do código com o intuito de aprimoramento}, respeite todas as especificações, bem documentado e assim contribuir para o alcance dos objetivos do projeto. \\
+
+Quanto a arquitetura dos \emph{softwares} pretende-se utilizar o \emph{design patter} conhecido como \emph{command}. Este padrão foi escolhido pela sua característica principal, nele o objeto \emph{command} encapsula todas as informações necessárias para a sua execução. Este comportamento é perfeito para o projeto proposto, pois o sistema é baseado em execuções de comandos remotos tanto provindos pelos celulares como pelo servidor. 
