@@ -1,0 +1,46 @@
+ordenação:
+\begin{itemize}
+\item uso do modelo map reduce em ordenação 
+\item comparação de algoritmos de ordenação nesse modelo
+\item ordenação é uma tarefa de grande importância
+\item com o crescimento dos dados no mundo, ordenar está cada vez mais complexo
+\item a ordenação paralela pode melhorar essa tarefa
+\item importância da ordenação paralela
+\item formas de ordenação: memória e disco
+\item algoritmos de ordenação paralelos
+\item funcionamento geral 
+\item condições / ingredientes / limites
+\item diferentes algoritmos para diferentes aplicações
+\item descrição de algoritmos (e diagramas): sample sort, quick sort
+\end{itemize}
+
+Sorting is one of the fundamental problems of computer science, and parallel algorithms for sorting have been studied since the beginning of parallel computing. 
+
+Given the large number of parallel sorting algorithms and the wide variety of parallel architectures, it is a difficult task to select the best algorithm for a particular machine and problem instance. The main reason that the choice is more difficult than in sequential machines is because there is no known theoretical model that can be applied to accurately predict an algorithm’s performance on different architectures. Thus, exper- imental studies take on an increased importance for the evaluation and selection of appropriate algorithms for multiprocessors. There have been a number of implementation studies reported in the literature in the past few years (see, e.g., [5, 12]). However, more studies are needed before we can approach the point where a certain algorithm can be recommended for a particular machine with any degree of confidence.
+
+[Amato 1996]
+
+ Sorting, a widely studied problem in computer science, is an important primitive for combinatorial scientific computing. As high performance computers become more a↵ordable due to multi-core CPUs and commodity clustering, more and more scientific codes are written for parallel computers.
+ Parallel sorting can also form a basic building block to implement higher level combinatorial algorithms and computations with irregular communication patterns and workloads - such as parallel sparse matrix computations 
+
+[Cheng 2007]
+
+
+Sorting is a computational building block of fundamental importance and is one of the most widely studied algorith- mic problems. Many algorithms rely on the availability of efficient sorting routines as a basis for their own efficiency. Sorting itself is of central importance in applications rang- ing from database systems to computer graphics, and many other algorithms can be conveniently phrased in terms of sorting. It is therefore important to provide efficient sorting routines on practically any programming platform, and as computer architectures evolve there is a continuing need to explore efficient sorting techniques on emerging architec- tures.
+
+[Satish 2008]
+A classificação é um dos problemas fundamentais da ciência da computação e algoritmos paralelos para classificação têm sido estudados desde o início da computação paralela.
+
+Dado o grande número de algoritmos de ordenação paralelas e uma vasta variedade de arquiteturas paralelas, é uma tarefa difícil escolher o melhor algoritmo para uma determinada máquina e instância do problema. A principal razão que a escolha é mais difícil do que em máquinas sequenciais é porque não existe um modelo teórico conhecido que pode ser aplicado para prever com precisão o desempenho de um algoritmo em arquitecturas diferentes. Assim, exper-imental estudos assumem uma crescente importância para a avaliação e seleção de algoritmos apropriados para multiprocessadores. Tem havido um número de estudos de implementação relatados na literatura nos últimos anos (ver, por exemplo, [5, 12]). No entanto, mais estudos são necessários antes que possamos aproximar-se do ponto onde um determinado algoritmo pode ser recomendado para uma determinada máquina com algum grau de confiança.
+[Amato 1996]
+
+
+Um grande número de aplicações paralelas possui uma fase de computação intensa, na qual uma lista de elementos deve ser ordenada com base em algum de seus atributos. Um exemplo é o algoritmo de Page Rank \citep{PageRank:1999} da Google: as páginas de resultado de uma consulta são classificadas de acordo com sua relevância, e então precisam ser ordenadas de maneira eficiente \citep{Kale:2010}.
+
+
+
+Na criação de algoritmos de ordenação paralela, é ponto fundamental ordenar coletivamente os dados de cada processo individual, de forma a utilizar todas as unidades de processamento e minimizar os custos de redistribuição de chaves entre os processadores. Fatores como movimentação de dados, balanço de carga, latência de comunicação e distribuição inicial das chaves são considerados ingredientes chave para o bom desempenho da ordenação paralela, e variam de acordo com o algoritmo escolhido como solução\citep{Kale:2010}. 
+No exemplo do Page Rank, o número de páginas a serem ordenadas é enorme, e elas são recolhidas de diversos servidores da Google; é uma questão fundamental escolher algoritmo paralelo com o melhor desempenho dentre as soluções possíveis.
+
+
+A ordenação paralela consiste no processo de uso de múltiplas unidades de processamento para ordenar coletivamente uma sequência desordenada. A sequência inicial é decomposta em subsequências disjuntas e cada uma é associada a uma única unidade de processamento. Na implementação de algoritmos de ordenação paralela, a questão funda- mental é coletivamente ordenar os dados pertencentes a processos individuais, de tal forma que todas as unidades de processamento sejam utilizadas e, ao mesmo tempo, sejam minimizados os custos de redistribuição de chaves entre os processadores [Kale e Solomonik 2010].

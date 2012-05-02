@@ -1,0 +1,73 @@
+computação paralela:
+\begin{itemize}
+\item mais poder computacional pode ser conseguido com a) clock  e b) paralelismo
+\item a indústria sabe que agora só é possível trabalhar o paralelismo
+\item mas algoritmos paralelos são muito dependentes de ambiente e distribuição inicial, portanto é importante avaliar o desempenho desses algoritmos
+\end{itemize}
+
+approaches that can enable software development to effectively exploit the many-core architectures. Some of these include encapsulating domain-specific knowledge in reusable components, such as libraries, 
+
+Innovation and advancement in scientific and enter- prise communities have been fueled by the relentless, exponential improvement in the capability of computer hardware over the last 40 years. The driving force for much of this improvement has been the ability to double the number of microelectronic devices onto a constant area of silicon at a nearly constant cost approximately every two years. This exponential improvement in transistor count every two years is widely referred to as Moore’s law.
+
+we can expect very little improvement in serial performance of general- purpose CPUs. The increase in performance will come instead from parallel computing. 
+
+Power dissipation in clocked digital devices is proportional to the clock frequency, imposing a natural limit on clock rates. While compensating scaling has enabled commercial CPUs to increase clock speed by a factor of 4000 in the last ten years, the ability of manufacturers to dissipate heat has reached a physical limit. 
+
+ Computer architects have been forced to turn to parallel architectures to continue to make progress.
+ 
+ The challenge is to use them to deliver performance and power characteristics fit for their intended purpose.
+ [Manferdelli 2008]
+ 
+ 
+Computers will continue to become more and more capable, but programs can no longer simply ride the hardware wave of increasing performance unless they are highly concurrent. 
+ 
+ PROGRAMMING MODELS
+Today, you can express parallelism in a number of differ- ent ways, each applicable to only a subset of programs.
+These parallel programming models differ significantly in two dimensions: the granularity of the parallel opera- tions and the degree of coupling between these tasks.
+ The concurrency revolution is primarily a software revo- lution. The difficult problem is not building multicore hardware, but programming it in a way that lets main- stream applications benefit from the continued exponen- tial growth in CPU performance.
+ 
+ [Sutter 2005]
+ 
+ 
+ 
+ 
+ abordagens que podem permitir o desenvolvimento de software para explorar eficazmente as arquiteturas de múltiplos núcleos. Algumas delas incluem encapsular o conhecimento do domínio-específica em componentes reutilizáveis, tais como bibliotecas,
+
+Inovação e avanço nas comunidades científicas e enter-prêmio ter sido alimentado pela melhora, implacável exponencial da capacidade de hardware do computador nos últimos 40 anos. A força motriz para grande parte dessa melhoria tem sido a capacidade de dobrar o número de dispositivos microeletrônicos em uma área constante de silício a um custo quase constante aproximadamente a cada dois anos. Esta melhoria exponencial na contagem do transistor a cada dois anos é amplamente conhecido como Lei de Moore.
+
+podemos esperar uma melhora muito pequena no desempenho de série de CPUs de propósito geral. O aumento no desempenho virá em vez de computação paralela.
+
+A dissipação de energia em dispositivos digitais com clock é proporcional à freqüência de clock, impondo um limite natural em taxas de clock. Embora a escala de compensação permitiu CPUs comercial para aumentar a velocidade de relógio por um factor de 4000 nos últimos dez anos, a capacidade dos fabricantes para dissipar o calor atingiu um limite físico.
+
+ Arquitetos de computador têm sido forçados a recorrer a arquiteturas paralelas para continuar a fazer progressos.
+ 
+ O desafio é usá-los para proporcionar desempenho e características de potência apto para sua finalidade.
+ [Manferdelli 2008]
+ 
+ 
+Os computadores vão continuar a tornar-se mais e mais capaz, mas os programas não podem mais simplesmente cavalgar a onda de hardware, aumentando o desempenho, a menos que eles são altamente concorrente.
+ 
+ Modelos de programação
+Hoje, você pode expressar paralelismo em um número de diferentes maneiras ent-, cada um aplicável a apenas um subconjunto de programas.
+Estes modelos de programação paralela diferem significativamente em duas dimensões: a granularidade dos paralelos opera-ções e do grau de acoplamento entre essas tarefas.
+ A revolução de concorrência é principalmente um software revo-lução. O problema difícil não é construir hardware multicore, mas programá-lo de uma forma que permite main-stream benefício aplicações a partir do crescimento exponencialmente-cial continuada do desempenho da CPU.
+ 
+ [Sutter 2005]
+
+
+
+As tendências atuais em design de microprocessadores estão mudando fundamentalmente a maneira que o desempenho é obtido a partir de sistemas computacionais. 
+A indústria declarou que seu futuro está em computação paralela, com o aumento crescente do número de núcleos dos processadores \citep{Asanovic:2009}.
+O modelo de programação \textit{single core} (sequencial) está sendo substituído rapidamente pelo modelo \textit{multi-core} (paralelo), e com isso surge a necessidade de escrever software para sistemas com multiprocessadores e memória compartilhada \citep{Ernst:2009}.
+
+% Aumento de desempenho
+Arquiteturas \textit{multi-core} podem oferecer um aumento significativo de desempenho sobre as arquiteturas de núcleo único, de acordo com as tarefas paralelizadas. No entanto, muitas vezes isto exige novos paradigmas de programação para utilizar eficientemente a arquitetura envolvida \citep{Prinslow:2011}. A ordenação
+é um exemplo de tarefa que pode ter seu desempenho melhorado com o uso de paralelismo. 
+A ordenação paralela é o processo de reorganizar uma sequência de entrada e produzir uma saída ordenada de acordo com um atributo através de múltiplas unidades de processamento, que ordenam em conjunto a sequência de entrada. 
+
+
+Uso crescente de computação paralela em sistemas computacionais gera a necessidade de algoritmos de ordenação inovadores, desenvolvidos para dar suporte a essas aplicações. 
+
+
+O limite físico de aumento na frequência de operação dos processadores levou a indústria de hardware a substituir o processador de núcleo único por vários processadores eficientes em um mesmo \textit{chip}, os processadores \textit{multi-core}. 
+É preciso, então, criar aplicações que utilizem efetivamente o crescente número de núcleos dos processadores  \citep{Asanovic:2009}.

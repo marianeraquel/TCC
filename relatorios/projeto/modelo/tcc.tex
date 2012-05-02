@@ -12,22 +12,13 @@
 \usepackage{fancyhdr}
 \usepackage{estilo}
 \usepackage{url}
-%\usepackage[alf]{abntcite}
-\usepackage[square]{natbib}
+\usepackage[square, numbers]{natbib}
 \usepackage[font=small,labelfont=bf]{caption}
-%\usepackage{hyperref}	
-\bibliographystyle{acmtrans}%{abnt-alf}  %{acm} % % Existem ainda: abbrv, acm, alpha, amsalpha, amsplain
-
-% \documentclass[a4paper,11pt, normaltoc, pnumromarab, pagestart=fistchapter, tocpage=plain]{abnt}
-% \geometry{a4paper,left=3cm,right=2cm,top=3cm,bottom=2cm}
-%\usepackage[bookmarks=false]{hyperref}					%Package para hyper-referências
-
-
+\bibliographystyle{abnt-alf-mod} %{acm} {acmtrans}% % % Existem ainda: abbrv, acm, alpha, amsalpha, amsplain
 
 % --------- Início do Documento ---------
 
 \begin{document}
-
 
 \include{1-capa}
 %\include{2-folharosto}
@@ -42,7 +33,7 @@
 \include{8-resultados}
 \include{9-conclusao}
 
-\bibliography{bibliografia} % o nome do arquivo .bib com as referências
-%\include{bibliografia}															
-
+% Referências
+\nocite{abnt-etal-list=0}
+\bibliography{bibliografia,abnt-options} % o nome do arquivo .bib						
 \end{document}

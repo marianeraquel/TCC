@@ -1,16 +1,42 @@
 \chapter{Referencial Teórico}
+\label{cap:referencial}
 
-\section{Computação Paralela}
+\begin{itemize}
+\item computação paralela
+\item modelos de computação paralela (memória compartilhada, distribuida, threads, paralelismo de dados e map reduce)
+\item map reduce
+\item ordenação
+\end{itemize}
 
-\section{Ordenação Paralela}
 
-%A ordenação paralela consiste no processo de uso de múltiplas unidades de processamento para ordenar coletivamente uma sequência desordenada. A sequência inicial é decomposta em subsequências disjuntas e cada uma é associada a uma única unidade de processamento. Na implementação de algoritmos de ordenação paralela, a questão funda- mental é coletivamente ordenar os dados pertencentes a processos individuais, de tal forma que todas as unidades de processamento sejam utilizadas e, ao mesmo tempo, sejam minimizados os custos de redistribuição de chaves entre os processadores [Kale e Solomonik 2010].
+% computação paralela
 
+
+\chapter{Ordenação Paralela}
+\label{cap:ordenacao}
+
+\begin{itemize}
+\item importância da ordenação paralela
+\item formas de ordenação: memória e disco
+\item grandes dados: apenas disco
+\item grandes dados: problematização (tempo, limite de memória)
+\item grandes dados: sort benchmark
+\end{itemize}
+
+
+\begin{itemize}
+\item algoritmos de ordenação paralelos
+\item funcionamento geral 
+\item condições / ingredientes / limites
+\item diferentes algoritmos para diferentes aplicações
+\item descrição de algoritmos (e diagramas): sample sort, quick sort
+
+\end{itemize}
+\section{Algoritmos de ordenação Paralela}
 
 \textbf{Condições de implementação de algoritmos paralelos de ordenação}
 
-\paragraph*{Habilidade de explorar distribuições iniciais parcialmente ordenadas}
-
+\paragraph*{ $\bullet$ Habilidade de explorar distribuições iniciais parcialmente ordenadas}
 Alguns algoritmos podem se beneficiar de cenários nos quais a sequência de entrada dos dados é mesma, ou pouco alterada. Nesse caso, é possível obter melhor desempenho ao realizar menos trabalho e movimentação de dados. 
 Se a alteração na posição dos elementos da sequência é pequena o suficiente, grande parte dos processadores mantém seus dados iniciais e precisa se comunicar apenas com os processadores vizinhos.
 
@@ -29,7 +55,6 @@ Em grandes sistemas distribuídos, reduzir o tempo de latência se torna muito i
 \paragraph*{Sobreposição de comunicação e computação}
 Em qualquer aplicação paralela, existem tarefas com focos em computação e comunicação. A sobreposição de tais tarefas permite que sejam feitas tarefas de processamento e ao mesmo tempo operações de entrada e saída de dados, evitando que os recursos fiquem ociosos durante o intervalo de tempo necessário para a transmissão da carga de trabalho. 
 
-\section{Algoritmos}
 \subsection{Sample Sort}
 \subsection{Quick Sort}
 

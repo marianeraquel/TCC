@@ -1,0 +1,75 @@
+map reduce:
+\begin{itemize}
+\item map reduce como proposta para processamento rápido e fácil de grandes quantidades de dados
+\item com o map reduce, é possível ordenar de forma rápida e fácil
+\end{itemize}
+
+Hadoop, the most well-known open source implementation of MapReduce and a proven commodity easily available to academia.
+
+it becomes clear that the MapReduce programming model is a powerful abstraction that separates the what from the how of data-intensive processing. What’s more revealing and interesting rare the “Big Ideas” that the authors summarize for MapReduce:
+
+scale out, not up
+assumir que falhas são comuns 
+mover o processamento para os dados
+processar os dados sequencialmente e evitar o acesso aleatório
+esconder detalhes de implementação no nível do sistema do desenvolvedor
+escalabilidade 
+
+
+ The focus is on controlling code execution and data flow—to design algorithms that are both scalable and efficient. 
+ 
+ [Lin and Dyer 2010]
+ 
+ 
+ Unstructured data is the largest and fastest growing portion of most enterprise’s assets, often representing 70\% to 80\% of online data. These steep increase in volume of information be- ing produced often exceeds the capabilities of existing commer- cial databases. MapReduce and its open-source implementa- tion Hadoop represent an economically compelling alternative that offers an efficient distributed computing platform for han- dling large volumes of data and mining petabytes of unstruc- tured information.
+ 
+ Currently, there is no available methodology to easily answer this question, and the task of estimating required resources to meet application performance goals is the solely user’s respon- sibility. The users need to perform adequate application test- ing, performance evaluation, capacity planning estimation, and then request appropriate amount of resources from the service provider. 
+
+ One of the major Hadoop benefits is its ability of dealing with failures (disk, processes, node failures) and allowing the user job to complete. 
+
+
+Facebook, Yahoo!, and eBay process terabytes of data and event logs per day on their Hadoop clusters for spam detection, business intel- ligence and different types of optimization. 
+
+ 
+ [Cherkasova 2011]
+ 
+ 
+ 
+ Hadoop, a implementação fonte mais conhecida aberto de MapReduce e uma mercadoria comprovada facilmente disponíveis para a academia.
+
+torna-se claro que o modelo de programação MapReduce é uma poderosa abstração que separa o. que da como de dados de processamento intensivo O que é mais revelador e interessante raros os "Big Ideas" que os autores resumem para MapReduce:
+
+dimensionar, não se
+Que São assumir falhas comuns
+mover o parágrafo OS Processamento Dados
+processar OS Dados sequencialmente e evitar o Acesso aleatório
+Detalhes de implementação esconder nenhum Nível Sistema não fazer desenvolvedor
+escalabilidade
+
+
+ O foco é sobre como controlar a execução de código e de fluxo de dados para algoritmos de design que são escaláveis ​​e eficientes.
+ 
+ [Lin e Dyer 2010]
+ 
+ 
+ Dados não estruturados é a porção maior e mais rápido crescimento dos ativos mais empresa, muitas vezes, representando 70% \ 80% \ de dados on-line. Estes aumento acentuado no volume de informação ser-ing produzido muitas vezes ultrapassa as capacidades existentes de comer-ciais bancos de dados. MapReduce e seu código-fonte aberto imple-ção Hadoop representam uma alternativa economicamente atraente, que oferece uma plataforma de computação distribuída eficiente para han-manuseamento adversas grandes volumes de dados e petabytes de mineração de unstruc-estruturado informações.
+ 
+ Atualmente, não existe uma metodologia disponível facilmente responder a esta pergunta, ea tarefa de estimar os recursos necessários para cumprir as metas de desempenho do aplicativo é o usuário apenas de responsabilidade. Os usuários precisam para realizar adequada aplicação de teste-ing, avaliação de desempenho, a estimativa de planejamento de capacidade, e em seguida, solicitar quantidade adequada de recursos do provedor de serviços.
+
+ Um dos principais benefícios do Hadoop é a sua capacidade de lidar com falhas (disco, processos, falhas de nós) e permitindo que o trabalho do usuário para ser concluído.
+
+
+Facebook, Yahoo!, eBay e terabytes de processo de dados e logs de eventos por dia em seus clusters Hadoop para detecção de spam, negócios intel ligence e diferentes tipos de otimização.
+
+ 
+ [Cherkasova 2011]
+ 
+ 
+ 
+O MapReduce\citep{Dean:2008}  é um modelo de programação paralela criado pela Google para processamento de grandes volumes de dados em \textit{clusters}. Esse modelo propõe simplificar a computação paralela e ser de fácil uso, abstraindo conceitos complexos da paralelização - como tolerância a falhas, distribuição de dados e balanço de carga - e utilizando duas funções principais: map e reduce. A complexidade do algoritmo paralelo não é vista pelo desenvolvedor, que pode se ocupar em desenvolver a solução proposta. O Hadoop \citep{Hadoop:2010} é uma das implementações do MapReduce, um \textit{framework open source } desenvolvido por Doug Cutting em 2005 que provê o gerenciamento de computação distribuída. %Foi, e é amplamente apoiadO e utilizado pela Yahoo!.
+
+
+% Com grande processamento de dados
+MapReduce e sua implementação \textit{open source} Hadoop representam uma alternativa economicamente atraente oferecendo uma plataforma eficiente de computação distribuída para lidar com grandes volumes de dados e mineração de petabytes de informações não estruturadas \citep{Cherkasova:2011}.
+
+Devido ao grande número de algoritmos de ordenação paralela e variadas arquiteturas paralelas, estudos experimentais assumem uma importância crescente na avaliação e seleção de algoritmos apropriados para multiprocessadores.
