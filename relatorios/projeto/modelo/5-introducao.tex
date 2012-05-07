@@ -1,20 +1,24 @@
 \chapter{Introdução}
 \label{cap:introducao}
 
+\textit{Fazer aqui uma introdução geral da área do conhecimento à qual o tema escolhido está ligado.}
+
 \section{Definição do Problema}
 
-A ordenação é um dos problemas fundamentais da ciência da computação e
-e um dos problemas algorítmicos mais estudados. Muitas aplicações dependem de ordenações eficientes como base para seu próprio desempenho. A ordenação por si só é um problema que abrange desde sistemas de banco de dados à computação gráfica, e muitos outros algoritmos podem ser descritos em termos de ordenação  \cite{Satish:2009,Amato:1996}.  
+A ordenação é um dos problemas fundamentais da ciência da computação e um dos problemas algorítmicos mais estudados. Muitas aplicações dependem de ordenações eficientes como base para seu próprio desempenho. A ordenação por si só é um problema que abrange desde sistemas de banco de dados à computação gráfica, e muitos outros algoritmos podem ser descritos em termos de ordenação  \cite{Satish:2009,Amato:1996}.  
 
 Na última década, a quantidade de dados (de trabalho, utilizada pelos sistemas, disponíveis) aumentou várias ordens de grandeza, fazendo o processamento dos dados um desafio para a computação sequencial. Como resultado, torna-se crucial substituir a computação tradicional por computação distribuída eficiente \cite{lin:2010}. A mudança no modelo de programação sequencial para paralelo é um fato inevitável e ocorre gradualmente, desde que a indústria declarou que seu futuro está em computação paralela, com o aumento do número de núcleos dos processadores \cite{Asanovic:2009}. 
 
-Uso crescente de computação paralela em sistemas computacionais gera a necessidade de algoritmos de ordenação inovadores, desenvolvidos para dar suporte a essas aplicações. Consequentemente, é importante desenvolver rotinas eficientes de ordenação em arquiteturas paralelas e distribuídas. 
+Uso crescente de computação paralela em sistemas computacionais gera a necessidade de algoritmos de ordenação inovadores, desenvolvidos para dar suporte a essas aplicações. Isso significa desenvolver rotinas eficientes de ordenação em arquiteturas paralelas e distribuídas. 
 
 O MapReduce é um modelo de programação paralela desenvolvido pela Google para processamento de grandes volumes de dados distribuídos em \textit{clusters} \cite{Dean:2008}. Esse modelo propõe simplificar a computação paralela, escondendo detalhes da paralelização do desenvolvedor e utilizando duas funções principais - map e reduce.
 Uma das implementações mais conhecidas e utilizadas do modelo é o Hadoop \cite{Hadoop:2010}, ferramenta de código aberto, desenvolvida por Doug Cutting em 2005 e apoiada pela Yahoo!. 
 
-O trabalho proposto por \cite{Paula:2011} apresentou uma avaliação da escalabilidade de algoritmos de ordenação paralela no modelo MapReduce. Para tal, foi desenvolvido no ambiente Hadoop o algoritmo de Ordenação por Amostragem, e seu desempenho foi avaliado em relação à quantidade de dados e ao número de máquinas utilizadas. 
-Esse projeto busca continuar tal proposta, com a implementação de outros algoritmos de ordenação no mesmo ambiente, e comparação dos seus desempenhos.
+O trabalho proposto por Pinhão (2011) %\cite{Paula:2011} 
+apresentou uma avaliação da escalabilidade de algoritmos de ordenação paralela no modelo MapReduce. Para tal, foi desenvolvido no ambiente Hadoop o algoritmo de Ordenação por Amostragem, e seu desempenho foi avaliado em relação à quantidade de dados de entrada e ao número de máquinas utilizadas. 
+
+
+Considerando esse contexto, o presente trabalho segue este tema e busca continuar a análise, com a implementação do algoritmo Quick Sort no mesmo ambiente, análise de escalabilidade e comparação do desempenho dos dois algoritmos.
 
 %\begin{itemize}
 %\item crescimento dos dados
@@ -29,56 +33,48 @@ Esse projeto busca continuar tal proposta, com a implementação de outros algor
 
 % 1. crescimento dos dados requer mais poder computacional
 
-O volume de dados que é produzido e manipulado (outra palavra) em indústrias, empresas e até mesmo dados pessoais aumenta a cada ano. O desenvolvimento de soluções capazes de lidar com tais volumes de dados é uma das preocupações atuais, tendo em vista a quantidade de dados processados diariamente, e o rápido crescimento desse volume de dados.
-Não é fácil medir o volume total de dados armazenados digitamente, mas uma estimativa da IDC \cite{Gantz:2008} colocou o tamanho do "universo digital" em 0,18 zettabytes em 2006, e previa um crescimento dez vezes até 2011 (para 1,8 zettabytes).
+O volume de dados que é produzido e manipulado (outra palavra?) em indústrias, empresas e até mesmo em âmbito pessoal aumenta a cada ano. O desenvolvimento de soluções capazes de lidar com tais volumes de dados é uma das preocupações atuais, tendo em vista a quantidade de dados processados diariamente, e o rápido crescimento desse volume de dados.
+Não é fácil medir o volume total de dados armazenados digitamente, mas uma estimativa da IDC \cite{Gantz:2008} colocou o tamanho do "universo digital" em 0,18 zettabytes em 2006, e previa um crescimento dez vezes até 2011 (chegando a 1,8 zettabytes).
  \textit{The New York Stock Exchange} gera cerca de um terabyte de novos dados comerciais por dia. O Facebook armazena aproximadamente 10 bilhões de fotos, que ocupam mais de um petabyte. \textit{The Internet Archive} armazena aproximadamente 2 petabytes de dados, com aumento de 20 terabytes por mês
 \cite{Hadoop:2010}. Estima-se que dados não estruturados são a maior porção e de a mais rápido crescimento dentro das empresas, o que torna o processamento de tal volume de dados muitas vezes inviável.
 
 %2. mais poder computacional pode ser conseguido com a) clock  e b) paralelismo
-Mesmo para os computadores atuais, é um desafio conseguir lidar com quantidades de dados tão grandes. É preciso buscar soluções escaláveis, que apresentem bom desempenho em tais condições. 
-As tendências atuais em \textit{design} de microprocessadores estão mudando fundamentalmente a maneira que se obtém desempenho de sistemas computacionais. 
+Mesmo para os computadores atuais, é um desafio conseguir lidar com quantidades de dados tão grandes. É preciso buscar soluções escaláveis, que apresentem bom desempenho em tais condições. As tendências atuais em \textit{design} de microprocessadores estão mudando fundamentalmente a maneira que se obtém desempenho de sistemas computacionais. 
 
-Nos últimos 40 anos, o aumento no poder computacional deu-se, largamente, ao aumento na capacidade do hardware. 
- O fator principal dessa melhoria foi a capacidade de dobrar, a cada dois anos, o número de dispositivos microeletrônicos em uma mesma área de silício, a um custo quase constante. Esse crescimento exponencial no número de transistores presentes nos processadores é conhecida como Lei de Moore \cite{Manferdelli:2008}. 
-No entanto, o aumento no número de transistores, e consequente aumento na velocidade do processador  foi limitado por questões físicas, como a dissipação do calor, que, proporcional à frequência de \textit{clock}, impõe um limite natural ao seu crescimento.
+Nos últimos 40 anos, o aumento no poder computacional deu-se, largamente, ao aumento na capacidade do hardware. O fator principal dessa melhoria foi a capacidade de dobrar, a cada dois anos, o número de dispositivos microeletrônicos em uma mesma área de silício, a um custo quase constante. Esse crescimento exponencial no número de transistores presentes nos processadores é conhecida como Lei de Moore \cite{Manferdelli:2008}.  No entanto, o aumento no número de transistores, e consequente aumento na velocidade do processador foi limitado por questões físicas, como a dissipação do calor. %, que, proporcional à frequência de \textit{clock}, impõe um limite natural ao seu crescimento.
   
 %3. a indústria sabe que agora só é possível trabalhar o paralelismo
-
-Atualmente, arquitetos de têm sido forçados a recorrer a arquiteturas paralelas para continuar a fazer progressos. O aumento no desempenho virá em vez de computação paralela.
-\cite{Manferdelli:2008}
-  
-A indústria declarou que seu futuro está em computação paralela, com o aumento crescente do número de núcleos dos processadores \cite{Asanovic:2009}.
-
-O modelo de programação \textit{single core} (sequencial) está sendo substituído rapidamente pelo modelo \textit{multi-core} (paralelo), e com isso surge a necessidade de escrever software para sistemas com multiprocessadores e memória compartilhada \cite{Ernst:2009}.
-
-É um caminho natural para o processamento de dados em larga escala o uso de clusters.
+Há alguns anos a indústria percebeu tal fato, e declarou que seu futuro está em computação paralela, com o aumento crescente do número de núcleos dos processadores \cite{Asanovic:2009}. Atualmente, arquitetos sabem que o aumento no desempenho só pode ser alcançado com o uso de computação paralela, e têm recorrido cada vez mais a arquiteturas paralelas para continuar a fazer progressos \cite{Manferdelli:2008}. 
 
 
 % 3.5 computação paralela é dificil
+\textit{Com os novos modelos de processadores \textit{multicore}, o modelo de programação \textit{single core} está sendo substituído rapidamente pelo novo modelo, e com isso surge a necessidade de escrever software para sistemas com multiprocessadores e memória compartilhada \cite{Ernst:2009}. 
 Arquiteturas \textit{multi-core} podem oferecer um aumento significativo de desempenho sobre as arquiteturas de núcleo único, de acordo com as tarefas paralelizadas. No entanto, muitas vezes isto exige novos paradigmas de programação para utilizar eficientemente a arquitetura envolvida \cite{Prinslow:2011}. 
+}
 
-% DIZER COMO É DIFICIL
+A técnicas tradicionais de programação paralelas - como passagem de mensagens e memória compartilhada, em geral são complexas e de difícil entendimento para grande parte dos desenvolvedores. Em tais modelos, é preciso gerenciar localidades temporais e espaciais e lidar explicitamente com concorrência, criando e sincronizando \textit{threads} através de mensagens e \textit{semáforos}. Dessa forma, não é uma uma tarefa simples escrever códigos paralelos corretos e escaláveis para algoritmos não triviais \cite{Ranger:2007}.
 
 % 4. com o map reduce, é possível ordenar de forma rápida e fácil
-O MapReduce\cite{Dean:2008}  é um modelo de programação paralela criado pela Google para processamento de grandes volumes de dados em \textit{clusters}. Esse modelo propõe simplificar a computação paralela e ser de fácil uso, abstraindo conceitos complexos da paralelização - como tolerância a falhas, distribuição de dados e balanço de carga - e utilizando duas funções principais: map e reduce. A complexidade do algoritmo paralelo não é vista pelo desenvolvedor, que pode se ocupar em desenvolver a solução proposta. O Hadoop \cite{Hadoop:2010} é uma das implementações do MapReduce, um \textit{framework open source } desenvolvido por Doug Cutting em 2005 que provê o gerenciamento de computação distribuída.
 
-MapReduce e sua implementação \textit{open source} Hadoop representam uma alternativa economicamente atraente oferecendo uma plataforma eficiente de computação distribuída para lidar com grandes volumes de dados e mineração de petabytes de informações não estruturadas \cite{Cherkasova:2011}.
+O MapReduce surgiu como uma alternativa aos modelos tradicionais, com o objetivo de simplificar a computação paralela. O maior benefício desse modelo é a simplicidade. O foco do programador é a descrição funcional do algoritmo, e não as formas de paralelização. Nos últimos anos o modelo têm se estabelecido como uma das plataformas de computação paralela mais amplamente utilizadas no processamento de terabyte e petabyte de dados \cite{Ranger:2007}.
+%É um caminho natural para o processamento de dados em larga escala o uso de \textit{clusters}. 
+MapReduce e sua implementação \textit{open source} Hadoop oferecem  uma alternativa economicamente atraente através de uma plataforma eficiente de computação distribuída, capaz de lidar com grandes volumes de dados e mineração de petabytes de informações não estruturadas \cite{Cherkasova:2011}.
+
+// texto conector
 
 % 5. com o crescimento dos dados no mundo, ordenar está cada vez mais complexo 
 
-A ordenação é um dos problemas fundamentais da ciência da computação e algoritmos paralelos para classificação têm sido estudados desde o início da computação paralela.
-
-Um grande número de aplicações paralelas possui uma fase de computação intensa, na qual uma lista de elementos deve ser ordenada com base em algum de seus atributos. Um exemplo é o algoritmo de Page Rank \cite{Page:1999} da Google: as páginas de resultado de uma consulta são classificadas de acordo com sua relevância, e então precisam ser ordenadas de maneira eficiente \cite{Kale:2010}.
+A ordenação é um dos problemas fundamentais da ciência da computação e algoritmos paralelos para ordenação têm sido estudados desde o início da computação paralela.
+Os algoritmos ótimos existentes em arquitetura sequencial, como Quick Sort e Heap Sort necessitam de um tempo mínimo \textit{(n log n)} para ordenar uma sequência de \textit{n} elementos \cite{Aho:1974}.
 
 % 6. a ordenação paralela pode melhorar essa tarefa
 
-Os algoritmos ótimos existentes em arquitetura sequencial, como Quick sort e Heap Sort necessitam de um tempo mínimo \textit{(n log n)} para ordenar uma sequência de \textit{n} elementos.  [AHO 1700] 
-A ordenação é um exemplo de tarefa que pode ter seu desempenho melhorado com o uso de paralelismo. Na criação de algoritmos de ordenação paralela, é ponto fundamental ordenar coletivamente os dados de cada processo individual, de forma a utilizar todas as unidades de processamento e minimizar os custos de redistribuição de chaves entre os processadores. Fatores como movimentação de dados, balanço de carga, latência de comunicação e distribuição inicial das chaves são considerados ingredientes chave para o bom desempenho da ordenação paralela, e variam de acordo com o algoritmo escolhido como solução\cite{Kale:2010}. 
-No exemplo do Page Rank, o número de páginas a serem ordenadas é enorme, e elas são recolhidas de diversos servidores da Google; é uma questão fundamental escolher algoritmo paralelo com o melhor desempenho dentre as soluções possíveis.
+Na ordenação paralela, fatores como movimentação de dados, balanço de carga, latência de comunicação e distribuição inicial das chaves são considerados ingredientes chave para o bom desempenho, e variam de acordo com o algoritmo escolhido como solução \cite{Kale:2010}. 
 
 % 7. mas algoritmos paralelos são muito dependentes de ambiente e distribuição inicial, portanto é importante avaliar o desempenho desses algoritmos
-Dado o grande número de algoritmos de ordenação paralelas e uma vasta variedade de arquiteturas paralelas, é uma tarefa difícil escolher o melhor algoritmo para uma determinada máquina e instância do problema. A principal razão que a escolha é mais difícil do que em máquinas sequenciais é porque não existe um modelo teórico conhecido que pode ser aplicado para prever com precisão o desempenho de um algoritmo em arquiteturas diferentes. Assim, experimental estudos assumem uma crescente importância para a avaliação e seleção de algoritmos apropriados para multiprocessadores. Tem havido um número de estudos de implementação relatados na literatura nos últimos anos (ver, por exemplo, [5, 12]). No entanto, mais estudos são necessários antes que possamos aproximar-se do ponto onde um determinado algoritmo pode ser recomendado para uma determinada máquina com algum grau de confiança.
-[Amato 1996]
+Dado o grande número de algoritmos de ordenação paralela e grande variedade de arquiteturas paralelas, é uma tarefa difícil escolher o melhor algoritmo para uma determinada máquina e instância do problema. Além disso, não existe um modelo teórico conhecido que pode ser aplicado para prever com precisão o desempenho de um algoritmo em arquiteturas diferentes \cite{Amato:1996}.
+
+Assim, estudos experimentais assumem uma crescente importância para a avaliação e seleção de algoritmos apropriados para multiprocessadores. É preciso que mais estudos sejam realizados para que determinado algoritmo pode ser recomendado em certa arquitetura com alto grau de confiança.
 
 %\begin{itemize}
 %\item crescimento dos dados requer mais poder computacional
@@ -101,19 +97,17 @@ Os objetivos deste trabalho são:
 \item Comparar duas ou mais implementações de algoritmos paralelos de ordenação.
 \end{packed_enum}
 
-O trabalho desenvolvido por ~\cite{Paula:2011} apresentou um estudo sobre a computação paralela e algoritmos de ordenação no modelo MapReduce, através da implementação do algoritmo de Ordenação por Amostragem feita em ambiente Hadoop. 
+O trabalho desenvolvido por Pinhão (2011) apresentou um estudo sobre a computação paralela e algoritmos de ordenação no modelo MapReduce, através da implementação do algoritmo de Ordenação por Amostragem feita em ambiente Hadoop. 
 
 Este projeto busca continuar o estudo sobre ordenação paralela feito no trabalho citado, com a análise de desempenho dos algoritmos de ordenação ordenação por amostragem e quick sort. A análise busca compará-los com relação à quantidade de dados a serem ordenados, variabilidade dos dados de entrada e número máquinas utilizadas. 
 
+%~\cite{Paula:2011} 
 
 \section{Organização do Texto}
 
-Esse projeto está organizado em 6 capítulos. O próximo capítulo apresenta o referencial teórico para o desenvolvimento do trabalho. %,com modelos de programação paralela aplicados à ordenação. 
-O capítulo ~\ref{cap:ordenacao} complementa o referencial teórico, e apresenta de maneira mais detalhada os conceitos mais importantes da ordenação em ambiente paralelo.
-O capítulo ~\ref{cap:metodologia} descreve a metologia de pesquisa à ser aplicada no desenvolvimento do projeto. Os resultados preliminares obtidos até a entrega do projeto são apresentados no capítulo \ref{cap:resultados}. As conclusões obtidas até o momento e os próximos passos para a conclusão do projeto estão no ~\ref{cap:conclusao}.
-
-
-
+Esse projeto está organizado em \ref{cap:conclusao} capítulos. O próximo capítulo apresenta o referencial teórico para o desenvolvimento do trabalho. %,com modelos de programação paralela aplicados à ordenação. 
+%O capítulo ~\ref{cap:ordenacao} complementa o referencial teórico, e apresenta de maneira mais detalhada os conceitos mais importantes da ordenação em ambiente paralelo.
+O Capítulo \ref{cap:metodologia} descreve a metologia de pesquisa, indicando os passos a serem seguidos durante o desenvolvimento. Os resultados preliminares obtidos até a entrega do projeto são apresentados no Capítulo \ref{cap:resultados}. As conclusões obtidas até o momento e os próximos passos para a conclusão do projeto estão no Capítulo ~\ref{cap:conclusao}.
 
 
 
