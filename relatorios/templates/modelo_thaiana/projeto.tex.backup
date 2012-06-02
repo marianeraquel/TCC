@@ -1,0 +1,63 @@
+%    Modelo de Projeto de dissertação de mestrado
+%
+% Centro Federal de Educação Tecnológica de Minas Gerais - CEFET-MG
+% Departamento de Pesquisa e Pós-Graduação - DPPG
+% Autor: Grupo de Pesquisas em Sistemas Inteligentes (GPSI)
+%
+% Parte: Projeto de Dissertação (Principal)
+
+\documentclass[a4paper,oneside,ruledheader]{abnt}
+
+%--> begin preambulo
+  %--> Pacotes utilizados
+    \usepackage[alf]{abntcite}
+    \usepackage[brazil]{babel}  % em português brasileiro
+    \usepackage[latin1]{inputenc}   % acentuação direta
+    \usepackage[T1]{fontenc}    % codificação da fonte em 8 bits
+    \usepackage{makeidx}        % pacote para produzir índice remissivo (glossario)
+    \usepackage{multind}        % pacote para produzir índices múltiplos
+    \usepackage{acronym}        % pacote para produzir acrônimos
+    \usepackage{graphicx}       % pacote para inserir figuras confeccionados em outros programas
+	\usepackage{amssymb}         % Pacote matemático 
+	\usepackage{amsmath}         % Pacote matemático
+  %-->Índices
+    \makeindex{citacao}     %índice Citações
+    \makeindex{alfa}        %índice Alfanumérico
+
+  %--> Glossario
+    \makeglossary
+
+  %--> Hifenização de palavras desconhecidas
+  \hyphenation{fe-de-ral me-ca-nis-mo con-si-de-ra-do qua-li-da-de mo-de-la-gem so-li-ci-ta-çõ-es me-ta heu-rís-ti-ca}
+
+  %--> Alteração de fonte (Compatível com Arial)
+  \renewcommand{\rmdefault}{phv}
+  \renewcommand{\sfdefault}{phv}
+  \renewcommand{\ttdefault}{phv}
+%--> end preambulo
+
+\begin{document}
+  \include{./pre-textuais/folhaRostoProjeto}
+  %\include{./pre-textuais/folhaAprovProjetoProv}
+  \include{./pre-textuais/resumos/resumoProjeto}
+  %\include{./pre-textuais/resumos/abstractProjeto}
+  %\listoffigures
+  %\listoftables
+  %\include{./pre-textuais/acronProjeto}
+  \tableofcontents          % Localizacao conforme pg. 32 item 2.2.1 (Junia Lessa)
+  %\include{./textuais/introProjeto}
+  %\include{./textuais/caractProjeto}
+  \include{./textuais/objetivosProjeto}
+  \include{./textuais/motivacaoProjeto}
+  \include{./textuais/metodProjeto}
+  %\include{./textuais/cap2Projeto}
+  \include{./textuais/cronogramaProjeto}
+  \include{./textuais/resultadosEsperados}
+  \include{./textuais/infra_necessaria}
+  \include{./textuais/trabalhosFuturos}
+  \include{./pos-textuais/referencias_teste}
+  %\include{./pos-textuais/apendiceProjeto}
+  %\include{./pos-textuais/anexoProjeto}
+  %\include{./pos-textuais/indiceProjeto}
+
+\end{document}

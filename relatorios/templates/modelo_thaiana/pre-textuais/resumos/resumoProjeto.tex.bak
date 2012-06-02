@@ -1,0 +1,33 @@
+%    Modelo de Projeto de dissertação de mestrado
+%
+% Centro Federal de Educação Tecnológica de Minas Gerais - CEFET-MG
+% Departamento de Pesquisa e Pós-Graduação - DPPG
+% Autor: Grupo de Pesquisas em Sistemas Inteligentes (GPSI)
+%
+% Parte: Resumo
+
+\begin{resumo}
+\noindent Este trabalho tem por objetivo a construção da arquitetura
+\emph{Bio-Inspired Multi-Agent System for Combinatorial
+Optimization} (BIMASCO). Esta arquitetura, fundamentada na
+Arquitetura Multiagente para Meta-heurísticas (AMAM), pretende ser
+um \emph{framework} de propósito geral para a solução de problemas
+de otimização combinatória de qualquer classe. Esta arquitetura tem
+como objetivo combinar diversas metaheurísticas por meio de um
+sistema multiagentes e \emph{multithreading}, onde os agentes
+colaborarão entre si através da troca de estímulos, para resolução
+do problema proposto. A BIMASCO funcionará como um sistema dinâmico
+discreto, assíncrono e não determinístico e deverá ser genérica e
+flexível de forma a solucionar problemas de otimização combinatória
+de qualquer classe, sem que seja necessário reescrever os algoritmos
+implementados quando da troca do problema a ser tratado. Da mesma
+forma, novos agentes, que implementam meta-heurísticas específicas,
+poderão ser incluídos com o mínimo de impacto no restante da
+arquitetura. Além disso, Pretende-se criar uma interface amigável
+para entrada de dados referentes aos problemas a serem tratados pela
+arquitetura e também para a adequada parametrização das
+metaheurísticas a serem implementadas na arquitetura.
+
+\noindent \underline{PALAVRAS-CHAVE:} Metaheurísticas; Agentes;
+Multiagentes; Multithreading.
+\end{resumo}

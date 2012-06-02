@@ -1,0 +1,31 @@
+%    Modelo de Projeto de dissertação de mestrado
+%
+% Centro Federal de Educação Tecnológica de Minas Gerais - CEFET-MG
+% Departamento de Pesquisa e Pós-Graduação - DPPG
+% Autor: Grupo de Pesquisas em Sistemas Inteligentes (GPSI)
+%
+% Parte: Folha de rosto projeto
+
+\titulo{\textnormal{\textbf{Desenvolvimento de uma Arquitetura Multiagentes para Aplicação em Problemas de Otimização Combinatória de Diferentes Classes}}}
+
+%\textsc{subtítulo}}
+
+\autor{Marcus Ricardo Aguiar dos Santos}
+
+\orientador{Prof. Dr. Rogério Martins Gomes \par \ac{CEFET-MG}}
+
+\coorientador{Prof. Msc. Edwar Saliba Júnior \par \ac{CEFET-MG}}
+
+\comentario{Trabalho de Conclusão de Curso Apresentado ao Curso de
+Engenharia de Computação do Centro Federal
+de Educação Tecnológica de Minas Gerais, como requisito parcial à
+obtenção do título de Graduado em Engenharia de Computação.}
+
+\instituicao{Graduação em Engenharia de Computação \par
+    Centro Federal de Educação Tecnológica de Minas Gerais \par
+    Departamento de Computação}
+\local{Belo Horizonte - MG}
+
+\data{Março de 2012}
+
+\folhaderosto

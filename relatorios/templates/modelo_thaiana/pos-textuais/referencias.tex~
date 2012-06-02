@@ -1,0 +1,12 @@
+%	 Modelo de Projeto de dissertação de mestrado
+%
+% Centro Federal de Educação Tecnológica de Minas Gerais - CEFET-MG
+% Departamento de Pesquisa e Pós-Graduação - DPPG
+% Autor: Grupo de Pesquisas em Sistemas Inteligentes (GPSI)
+%
+% Parte: Bibliografia do projeto
+
+%\nocite{referencias a serem incluídas independente de estarem no texto}
+
+\bibliographystyle{abnt-alf}		% --> outro padrão de referência
+\bibliography{./bib/exemploProjeto}

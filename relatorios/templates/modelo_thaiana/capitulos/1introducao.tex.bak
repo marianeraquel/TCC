@@ -1,0 +1,37 @@
+%    Trabalho de Conclusão de Curso
+%
+% Centro Federal de Educação Tecnológica de Minas Gerais - CEFET-MG
+% Autor: Thaiana Hofman do Bom Conselho
+%
+% Parte: Introdução
+
+\chapter{Introdução}\label{introducao}
+
+\section{Considerações Iniciais}
+
+\cite{Fernandes:2009} Texto qualquer
+
+\section{Breve Histórico e Motivação}
+
+\section{Objetivos}
+
+\subsection{Objetivo Geral}
+Este trabalho tem como objetivo geral contribuir para o avanço da Robótica com o desenvolvimento de um mecanismo de coordenação sensório-motora utilizando uma rede de neurônios pulsantes de forma que robôs apresentem comportamento inteligente para navegar sem colisões.
+
+
+\subsection{Objetivos Específicos}
+Os objetivos específicos são:
+\begin{itemize}
+    \item Compor um referencial teórico consistente, adequado ao que se pretende contemplar sobre síntese de sistema nervoso artificial, redes neurais biológicas e sistemas dinâmicos.
+    \item Identificar e desenvolver, com base no referencial teórico obtido, um modelo de rede de neurônios pulsantes.
+    \item Determinar o robô que será utilizado, levando em conta aspectos computacionais como: arquitetura de hardware, calibração de sensores e operabilidade em ambiente real.
+    \item Propor uma metodologia para a simulação da estrutura proposta.
+    \item Implementar e validar, através da realização de experimentos, o mecanismo de coordenação proposto  para a navegação sem colisões no robô real escolhido.
+\end{itemize}
+
+
+\section{Justificativa}
+
+\section{Metodologia de Pesquisa}
+
+\section{Estrutura da Dissertação} 

@@ -1,76 +1,83 @@
-@inproceedings{Kale:2010,
- author = {Kale, Vivek and Solomonik, Edgar},
- title = {Parallel sorting pattern},
- booktitle = {Proceedings of the 2010 Workshop on Parallel Programming Patterns},
- series = {ParaPLoP '10},
- year = {2010},
- isbn = {978-1-4503-0127-5},
- location = {Carefree, Arizona},
- pages = {10:1--10:12},
- articleno = {10},
- numpages = {12},
- url = {http://doi.acm.org/10.1145/1953611.1953621},
- doi = {10.1145/1953611.1953621},
- acmid = {1953621},
- publisher = {ACM},
- address = {New York, NY, USA},
-} 
+\documentclass[a4paper,12pt]{article}
+\usepackage[english, brazil]{babel}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[alf]{abntcite}
+\geometry{a4paper,left=3cm,right=3cm,top=2.5cm,bottom=2.5cm}
 
-@article{Manferdelli:2008,
-    author = {Manferdelli, John L. and Govindaraju, Naga K. and Crall, Chris},
-    booktitle = {Proceedings of the IEEE},
-    citeulike-article-id = {2767478},
-    citeulike-linkout-0 = {http://dx.doi.org/10.1109/JPROC.2008.917730},
-    citeulike-linkout-1 = {http://ieeexplore.ieee.org/xpls/abs\_all.jsp?arnumber=4484943},
-    doi = {10.1109/JPROC.2008.917730},
-    issn = {0018-9219},
-    journal = {Proceedings of the IEEE},
-    keywords = {manycore, system},
-    month = may,
-    number = {5},
-    pages = {808--815},
-    posted-at = {2009-05-11 14:04:58},
-    priority = {2},
-    title = {Challenges and Opportunities in {Many-Core} Computing},
-    url = {http://dx.doi.org/10.1109/JPROC.2008.917730},
-    volume = {96},
-    year = {2008}
-}
+\begin{document}
 
-@article{Asanovic:2009,
- author = {Asanovic, Krste and Bodik, Rastislav and Demmel, James and Keaveny, Tony and Keutzer, Kurt and Kubiatowicz, John and Morgan, Nelson and Patterson, David and Sen, Koushik and Wawrzynek, John and Wessel, David and Yelick, Katherine},
- title = {A view of the parallel computing landscape},
- journal = {Commun. ACM},
- issue_date = {October 2009},
- volume = {52},
- number = {10},
- month = oct,
- year = {2009},
- issn = {0001-0782},
- pages = {56--67},
- numpages = {12},
- url = {http://doi.acm.org/10.1145/1562764.1562783},
- doi = {10.1145/1562764.1562783},
- acmid = {1562783},
- publisher = {ACM},
- address = {New York, NY, USA},
-} 
+%\renewcommand{\rmdefault}{phv} % Arial
+%\renewcommand{\sfdefault}{phv} % Arial
 
-@article{Dean:2008,
- author = {Dean, Jeffrey and Ghemawat, Sanjay},
- title = {MapReduce: simplified data processing on large clusters},
- journal = {Commun. ACM},
- issue_date = {January 2008},
- volume = {51},
- number = {1},
- month = jan,
- year = {2008},
- issn = {0001-0782},
- pages = {107--113},
- numpages = {7},
- url = {http://doi.acm.org/10.1145/1327452.1327492},
- doi = {10.1145/1327452.1327492},
- acmid = {1327492},
- publisher = {ACM},
- address = {New York, NY, USA},
-} 
+
+\begin{titlepage}
+
+  \vfill
+
+  \begin{center}
+    \begin{large}
+      Centro Federal de Educação Tecnológica de Minas Gerais
+    \end{large}
+  \end{center}
+
+  \begin{center}
+    \begin{large}
+      Departamento de Computação
+    \end{large}
+  \end{center}
+
+  \vfill
+
+  \begin{center}
+    \begin{Large}
+      \textbf{Algoritmos paralelos de ordenação em Hadoop} \\[1.4cm]            
+    \end{Large}
+  \end{center}
+
+
+  \vfill
+
+  \begin{center}
+    \begin{large}
+      Mariane Raquel Silva Gonçalves	
+    \end{large}
+  \end{center}
+
+  \begin{center}
+    \begin{large}
+      Orientadora: Cristina Duarte Murta
+    \end{large}
+  \end{center}
+
+  \vfill
+
+  \begin{center}
+    \begin{large}
+      Belo Horizonte \\
+      \today \\
+    \end{large}
+  \end{center}
+
+\clearpage
+\tableofcontents 
+\end{titlepage}
+
+
+\section{Tema do trabalho}
+\section{Relevância}
+\section{Objetivos}
+\section{Resultados esperados}
+\section{Metodologia}
+\section{Infraestrutura necessária}
+\section{Cronograma de trabalho}
+
+\cite{Kale:2010} \\
+\cite{Manferdelli:2008} \\
+\cite{Dean:2008} \\
+\cite{Asanovic:2009}
+
+\bibliography{modelo}
+\end{document}

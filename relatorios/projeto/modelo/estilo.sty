@@ -6,22 +6,23 @@
 \ProvidesPackage{estilo}
 \RequirePackage[brazil]{babel}
 \RequirePackage{fancyhdr}
-
-%teste bib
-
-
-
+\RequirePackage{listings}
 
 % Altera o tamanho das fontes dos capítulos e das sessões
-\renewcommand{\ABNTchaptersize}{\Large}
-\renewcommand{\ABNTchapterfont}{\scshape\bfseries}
-\renewcommand{\ABNTtocchapterfont}{\scshape\bfseries}
+\renewcommand{\ABNTchaptersize}{\LARGE}
+\renewcommand{\ABNTchapterfont}{\bfseries}
+%\renewcommand{\ABNTchapterfont}{\scshape\bfseries}
+%\renewcommand{\ABNTtocchapterfont}{\scshape\bfseries}
 
 \renewcommand\section{\ABNTstartsection{section}{1}{\z@}%
 {3.5ex \@plus -1ex \@minus -.2ex} {3.3ex \@plus.2ex}%
 {\espaco{simples}\normalfont  \ABNTsectionfont\large}}
 
 %\renewcommand{\ABNTsubsectionfont}{\normalsize}
+
+% Não coloca subsubsection no sumario
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
 
 %Altera o tamanho do parágrafo
 \setlength{\parindent}{1.5cm}
@@ -55,17 +56,39 @@
   \setlength{\parsep}{0pt}
 }{\end{enumerate}}
 
-
+% Códigos
+\renewcommand{\lstlistingname}{Código}
+ \lstset{
+         basicstyle=\footnotesize\ttfamily, % Standardschrift
+         numbers=left,               % Ort der Zeilennummern
+         numberstyle=\tiny,          % Stil der Zeilennummern
+         numbersep=5pt,              % Abstand der Nummern zum Text
+         tabsize=2,                  % Groesse von Tabs
+         extendedchars=true,         % 
+         breaklines=true,            % Zeilen werden Umgebrochen
+         keywordstyle=\color{red},
+    	 frame=tb,         
+         stringstyle=\color{white}\ttfamily, % Farbe der String
+         showspaces=false,           % Leerzeichen anzeigen ?
+         showtabs=false,             % Tabs anzeigen ?
+         xleftmargin=17pt,
+         framexleftmargin=17pt,
+         framexrightmargin=5pt,
+         framexbottommargin=4pt,
+         showstringspaces=false      % Leerzeichen in Strings anzeigen ?        
+ }
+ 
+ 
 % Alterar a marcação de capítulos da ABNT para diminuir o espaçamento nos títulos de capítulo
 \makeatletter
 
-\def\@makechapterhead#1{%
-  {\normalfont\ABNTchaptersize\ABNTchapterfont%
-   \vspace*{0.5cm} \noindent%
-   \parbox[b]{\textwidth}{\parbox[t]{4ex}{\thechapter}%
-      \parbox[t]{\textwidth-4ex-1ex} {\interlinepenalty\@M\raggedright%
-        \ifthenelse{\boolean{ABNTcapchap}} {\MakeUppercase{#1}} {#1}} \vspace*{0cm}
-   }\\[2pt] \vspace{10pt}}}
+%\def\@makechapterhead#1{%
+%  {\normalfont\ABNTchaptersize\ABNTchapterfont%
+%   \vspace*{0.5cm} \noindent%
+%   \parbox[b]{\textwidth}{\parbox[t]{4ex}{\thechapter}%
+%      \parbox[t]{\textwidth-4ex-1ex} {\interlinepenalty\@M\raggedright%
+%        \ifthenelse{\boolean{ABNTcapchap}} {\MakeUppercase{#1}} {#1}} \vspace*{0cm}
+%   }\\[2pt] \vspace{10pt}}}
 
 
 % Altera forma de montagem do table of contents: menor espaçamento

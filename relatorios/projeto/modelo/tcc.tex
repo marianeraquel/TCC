@@ -2,7 +2,7 @@
 % incluir o pacote estilo.
 % <mariane.raquel@ymail.com>
 
-\documentclass[normaltoc, ruledheader, sumarioincompleto]{abnt} %11pt
+\documentclass[normaltoc, ruledheader, normalfigtabnum, sumarioincompleto]{abnt} %11pt
 \usepackage[brazil]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -12,9 +12,12 @@
 \usepackage{fancyhdr}
 \usepackage{estilo}
 \usepackage{url}
+\usepackage{listings}
+%\usepackage{hyperref}
 \usepackage[square, numbers]{natbib}
 \usepackage[font=small,labelfont=bf]{caption}
 \bibliographystyle{abnt-alf-mod} %{acm} {acmtrans}% % % Existem ainda: abbrv, acm, alpha, amsalpha, amsplain
+ \usepackage{courier}
 
 % --------- Início do Documento ---------
 
@@ -35,5 +38,6 @@
 
 % Referências
 \nocite{abnt-etal-list=0}
+\nocite{Paula:2011}
 \bibliography{bibliografia,abnt-options} % o nome do arquivo .bib						
 \end{document}

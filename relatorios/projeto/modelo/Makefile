@@ -1,7 +1,7 @@
 NAME=tcc
 AUXNAME=$(NAME).aux
 
-all: compile2
+all: compile
 
 compile2: $(NAME).tex
 	@pdflatex -shell-escape -file-line-error $(NAME) | grep -i ".*:[0-9]*:.*\|warning" 
@@ -16,6 +16,6 @@ compile: $(NAME).tex
 	pdflatex $(NAME).tex
 	
 clean:
-	rm *.log *.toc *.bbl *.aux *.blg
+	rm *.log *.toc *.bbl *.aux *.blg *.toc *.tof
 
 

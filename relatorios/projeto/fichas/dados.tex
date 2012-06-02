@@ -22,3 +22,37 @@ O desenvolvimento de soluções capazes de lidar com grandes volumes de dados é
 Não é fácil medir o volume total de dados armazenados digitamente, mas uma estimativa da IDC colocou o tamanho do "universo digital" em 0,18 zettabytes em 2006, e previa um crescimento dez vezes até 2011 (para 1,8 zettabytes).
  \textit{The New York Stock Exchange} gera cerca de um terabyte de novos dados comerciais por dia. O Facebook armazena aproximadamente 10 bilhões de fotos, que ocupam mais de um petabyte. \textit{The Internet Archive} armazena aproximadamente 2 petabytes de dados, com aumento de 20 terabytes por mês
 \citep{Hadoop:2010}. Estima-se que dados não estruturados são a maior porção e de a mais rápido crescimento dentro das empresas, o que torna o processamento de tal volume de dados muitas vezes inviável.
+
+
+The ever-increasing volumes of scien- tific  data  being generated, collected, and stored call for a new class of high-performance computing facil- ity that places emphasis on data, rather than raw computation, as the core focus of the system.
+
+systems comes from the server infrastructures that have been developed to support Internet-based services, such as Web search, social networks, electronic mail, and online shopping. Companies such as Google, Yahoo, Facebook, and Amazon have cre- ated computer systems of unprecedented scale, providing high-level storage and computational capacity and high-level availability, 
+ 
+Scientific computing has traditionally focused on performing numerically intense computations, Some have observed, however, that scientific research increasingly re- lies on computing over large datasets,
+
+
+Data-Intensive Scalable Computing Systems
+Key Principles
+1. Intrinsic rather than extrinsic data. Collecting and maintaining data should be the system’s duties rather than those of individual users.Reliability mechanisms (such as replication and error correction) should be incorporated to ensure data integrity and availability as part of the system function.
+
+2.High-level programming models for expressing computations over the data. The application developer should be provided with power- ful, high-level programming primitives that 
+express natural forms of parallelism and that don’t specify a particular machine configura- tion 
+
+
+3. Interactive access. Users should be able to ex- ecute programs interactively and with widely varying computation and storage require- ments. 
+
+4. Scalable mechanisms to ensure high reliability and availability. A DISC system should em- ploy nonstop reliability mechanisms, where all original and intermediate data are storedin redundant forms. Furthermore, the machine should automatically diagnose and disable failed components;
+
+Many of the above items are interrelated due to the hardware technology’s underlying nature. Magnetic disk storage is currently the best tech- nology for storing large amounts of data with rea- sonable cost and access rates. \\
+Disk drives have widely varying access times, making it more difficult to tightly synchro- nize the nodes’ activities. 
+Disk drives also have a much higher failure rate than purely elec- tronic components,7 increasing the need for fault tolerance mechanisms.
+
+The open source Apache/Hadoop project (http:// hadoop.apache.org) provides capabilities similar to Google’s file system and MapReduce programming model. Apache/Hadoop is finding widespread use within companies, research organizations, and ed- ucational institutions. It can run on configurations as small as a single processor (useful for program development) and as large as systems consisting of thousands of processors. To perform a MapReduce operation with Hadoop, a programmer provides
+two Java classes: one to define the mapping op- eration and one to define the reduction operation. Compared to other systems for developing parallel programs, those based on MapReduce express the overall computation at a much higher level and in a more machine-independent form.
+
+Assessing MapReduce
+The MapReduce programming model provides many advantages for expressing data-intensive ap- plications.
+
+As more scientific applications rely on analyzing very large datasets, the need for cost-efficient, large-scale comput- ing capabilities will continue to in- crease. 
+ By assum- ing instead that every computation or information retrieval step can fail to complete or can return incorrect answers, it’s possible to devise strategies to correct or recover from errors that allow the system to operate continuously.
+ The MapReduce programming environment is a first step in this general direction; 
