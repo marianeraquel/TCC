@@ -1,17 +1,65 @@
 \chapter{Resultados Preliminares}
 \label{cap:resultados}
 
+Neste capítulo são apresentados e analisados os resultados obtidos nessa fase do projeto, de acordo com os testes descritos anteriormente.
+
+\section{Benchmarks: TeraSort e Sort}
+
+A Tabela Tabela \ref{tab:TeraSort-Sort} apresenta os resultados obtidos para os \textit{benchmarks} TeraSort e Sort. 
+
 \begin{table}[htbp]
-\caption{Tempos de Execução com diferentes quantidades de dados}
+\caption{Resultados do benchmark TeraSort para execução em 2 máquinas}
 \begin{center}
-\begin{tabular}{|r|l|l|l|l|l|l|l|l|l|l|l|l|}
-\hline
-\multicolumn{1}{|l|}{4 Máquinas} & \textbf{} &  & \multicolumn{1}{r|}{\textbf{}} &  &  & \multicolumn{1}{r|}{\textbf{}} &  & \multicolumn{1}{r|}{\textbf{}} & \multicolumn{1}{r|}{\textbf{}} &  & \multicolumn{1}{r|}{\textbf{}} &  \\ \hline
-\multicolumn{1}{|l|}{\textbf{}} & \textbf{} & \multicolumn{1}{r|}{\textbf{}} & \multicolumn{1}{r|}{\textbf{}} & \multicolumn{1}{r|}{\textbf{}} & \multicolumn{1}{r|}{\textbf{}} & \multicolumn{1}{r|}{\textbf{}} & \multicolumn{1}{r|}{\textbf{}} & \multicolumn{1}{r|}{\textbf{}} & \multicolumn{1}{r|}{\textbf{}} & \multicolumn{1}{r|}{\textbf{}} & \multicolumn{1}{r|}{\textbf{}} & \multicolumn{1}{r|}{\textbf{}} \\ \hline
-\multicolumn{1}{|l|}{Dados} & \textbf{} & \multicolumn{ 3}{c|}{\textbf{EXECUÇÃO 1}} & \multicolumn{1}{r|}{\textbf{}} & \multicolumn{ 3}{c|}{\textbf{EXECUÇÃO 2}} & \multicolumn{1}{r|}{\textbf{}} & \multicolumn{ 3}{c|}{\textbf{EXECUÇÃO 3}} \\ \hline
-\multicolumn{1}{|l|}{} &  & Tempo & Map & Reduce &  & Tempo & Map & Reduce &  & Tempo & Map & Reduce \\ \hline
-\textbf{$10^{6}$} &  &  &  &  &  &  &  &  &  &  &  &  \\ \hline
+\begin{tabular}{|l|ccc|} \hline
+Algoritmo 		&Tempo (seg)	 	&Tarefas Map 	&Tarefas Reduce \\ \hline \hline
+TeraGen 			&14			&2					&0						\\ \hline 
+TeraSort			&22			&2					&1						\\ \hline 
+TeraValidade 	&22			&1					&1						\\ \hline 
 \end{tabular}
 \end{center}
-\label{Teste}
+\label{tab:TeraSort}
 \end{table}
+
+\begin{table}[htbp]
+\caption{Resultados do benchmark Sort para execução em 4 máquinas}
+\begin{center}
+\begin{tabular}{|l|ccc|} \hline
+Algoritmo 		&Tempo (seg) 	&Tarefas Map 	&Tarefas Reduce\\ \hline \hline
+RandomWriter 	&234				&40					&0						\\ \hline 
+Sort					&2242				&640				&7						\\ \hline 
+\end{tabular}
+\end{center}
+\label{tab:Sort}
+\end{table}
+
+\section{Algoritmo Ordenação por Amostragem}
+
+Os testes feitos com o algoritmo Ordenação por Amostragem tinham como objetivo reproduzir os resultados encontrados no trabalho feito por Pinhão (2011), e gerar resultados 
+que serão utilizados posteriormente na comparação de desempenho dos algoritmos. 
+O resultado dos experimentos está separado de acordo com o tipo de teste realizado, com variação do conjunto de dados, da quantidade de dados ordenada e da quantidade de máquinas utilizadas. 
+
+\noindent
+\textbf{Diferentes conjuntos de dados}
+
+\noindent
+\textbf{Diferentes quantidades de dados}
+
+A Tabela \ref{tab:QuantidadeDados} apresenta os tempos médios de 6 execuções. 
+
+\begin{table}[htbp]
+\caption{Resultados da ordenação diferentes quantidade de dados 4 máquinas}
+\begin{center}
+\begin{tabular}{|l|cc|} \hline
+Dados 						&Tempo Médio (seg)		&Tempo Paula	\\ \hline \hline
+$10^{6}$ (20MB)	 	&40.5								&30				\\ \hline 
+$10^{7}$ (200MB)	&59.66								&55				\\ \hline 
+$10^{8}$ (2GB)	 		&262,37							&231			\\ \hline 
+$10^{9}$ (20GB)	&3448.481						&2.078			\\ \hline 
+$10^{10}$ (200GB) 	&36645.23						&16.321		\\ \hline 
+\end{tabular}
+\end{center}
+\label{tab:QuantidadeDados}
+\end{table}
+
+\noindent
+\textbf{Diferentes quantidades de máquinas}

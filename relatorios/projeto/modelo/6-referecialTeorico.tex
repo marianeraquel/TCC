@@ -3,7 +3,7 @@
 
  
 % computação paralela
-\section{Processamento Distribuído ? / Computação Paralela ?}
+\section{ Computação Paralela}
 
 
 Com o avanço tecnólogico da última década, o volume crescente de dados sendo gerado, coletado e armazenado tornou o processamento dos dados inviável para um único computador. A quantidade de dados atualmente processados cria a necessidade de computação de alto desempenho, cujo foco sejam os dados.  Como resultado, torna-se crucial substituir a computação tradicional por computação distribuída eficiente. 
@@ -17,6 +17,9 @@ Em geral os computadores de \textit{clusters} são de baixo custo, o que permite
 
 \textit{Esta linha de pesquisa envolve vários outros conceitos relacionados à infraestrutura, como comunicação entre os nós, balanceamento de carga e outros discutidos nas próximas seções.}
 
+
+
+// FIGURA ARQUITETURA
 
 \subsection{ Princípios de processamento em cluster? distribuído? de grande volumes de dados? }
 
@@ -43,7 +46,6 @@ Um sistema para computação de grandes volumes de dados deve implementar mecani
 Grandes empresas de serviços de Internet - como Google, Yahoo, Facebook e Amazon - buscam soluções para processamento de dados em grandes conjuntos de máquinas que atendam as características descritas. Com um software que provê tais características é possível alcançar alto grau de escalabilidade e custo-desempenho. 
 
 Dentre as principais propostas está o modelo MapReduce e sua implementação Hadoop, que são soluções escaláveis, capazes de processar grandes volumes de dados, com alto nível de abstração para distribuir a aplicação e mecanismos de tolerância a falhas.
-
 A próxima seção apresenta com mais detalhes o modelo e suas características.
 
 %
@@ -87,27 +89,27 @@ Tipicamente, há apenas zero ou um valores de saída em cada função reduce.
 
 O pseudocódigo a seguir apresenta um exemplo de uso do MapReduce, cujo objetivo é contar a quantidade de ocorrências de cada palavra em um documento. A função Map recebe como valor uma linha do documento texto, e como chave o número da linha. Para cada palavra encontrada na linha recebida, a função emite a palavra e a contagem de uma ocorrência. A função Reduce, recebe como chave uma palavra, e uma lista dos valores emitidos pela função Map, associados com a palavra questão. As ocorrências da palavra são agrupadas e a função retorna palavra e seu total de ocorrências.
 
-\begin{lstlisting}[label=some-code,caption=Pseudocódigo do exemplo de contagem de palavras com o MapReduce]
+\begin{lstlisting}[label=some-code,caption=some-code]
 Function Map (Integer chave, String valor):
-#chave: numero da linha no arquivo.
-#valor: texto da linha correspondente.
-listaDePalavras = split (valor)
-for palavra in listaDePalavras:
-emit (palavra, 1)
+	#chave: número da linha no arquivo.
+	#valor: texto da linha correspondente.
+	listaDePalavras = split (valor)
+	for palavra in listaDePalavras:
+		emit (palavra, 1)
 Function reduce (String chave, Iterator valores):
-#chave: palavra emitida pela funcao Map.
-#valores: conjunto de valores emitidos para a chave.
-total = 0
-for v in valores:
-total = total + 1
-emit (palavra, total)
+	#chave: palavra emitida pela função Map.
+	#valores: conjunto de valores emitidos para a chave.
+	total = 0
+	for v in valores:
+		total = total + 1
+	emit (palavra, total)
 \end{lstlisting}
 
-A Figura \ref{fig:Mapreduceexemplo} ilustra o fluxo de execução para este exemplo. A entrada é um arquivo contendo as linhas "Exemplo conta palavras" e "Hadoop exemplo palavras".
+A Figura \ref{fig:Mapreduceexemplo} ilustra o fluxo de execução para este exemplo. A entrada é um arquivo contendo as linhas "exemplo conta palavras" e "hadoop exemplo palavras".
 
 \begin{figure}[htb]
 \centering
-%\includegraphics[scale=.65]{figuras/HadoopCluster.png}
+\includegraphics[width=\textwidth]{figuras/mrexemplo.png}
 \caption{Fluxo simplificado da contagem de palavras com o MapReduce}
 \label{fig:Mapreduceexemplo}
 \end{figure}
@@ -130,9 +132,10 @@ A Figura \ref{fig:mapreduceoverview} ilustra uma o fluxo de uma execução do mo
 
 
 
- \begin{figure}[htb]
+ \begin{figure}[!htb]
  \centering
-\includegraphics[scale=.65]{figuras/MapReduceOverview.png}
+%trim left, bottom, right and top
+\includegraphics[trim=1cm 0cm 2cm 0cm, width=.7\textwidth, angle=270]{figuras/MapReduceOverflow.pdf}
 \caption{Visão geral do funcionamento do modelo MapReduce.}
 \label{fig:mapreduceoverview}
 \end{figure}
@@ -164,8 +167,6 @@ Uma das implementações mais conhecidas do MapReduce é o Hadoop, desenvolvido 
 
 Facebook, Yahoo! e eBay utilizam o ambiente Hadoop em seus \textit{clusters} para processar diariamente terabytes de dados e logs de eventos para detecção de spam, \textit{business intelligence} e diferentes tipos de otimização \cite{Cherkasova:2011}.
 
-%Os conceitos de nó \textit{Master} e \textit{Worker} do MapReduce, são respectivamente denominados JobTracker e TaskTracker no Hadoop. O sistema de arquivos também foi incorpo
-
 O modelo MapReduce foi criado para permitir o processamento em conjuntos de centenas de máquinas de maneira transparente, o que significa que o usuário não deve ser preocupar com mecanismos de tolerância a falhas, que deve ser provido pelo sistema \cite{Dean:2008}. 
 Um dos principais benefícios do Hadoop é a sua capacidade de lidar com falhas, sejam de disco, processos, ou de nós, e permitir que o trabalho do usuário possa ser concluído.
 
@@ -174,7 +175,7 @@ As tarefas que não foram executadas são reescalonadas para os demais nós. O m
 
 
 
-\subsubsection{HDFS}
+\subsubsection{Sistema de Arquivos Distribuídos}
 
 
 O \textit{ Hadoop Distributed File System} (HDFS) é um sistema de arquivos distribuído desenvolvido para armazenar grandes conjuntos de dados e ser altamente tolerante a falhas \cite{Hadoop:2010}.
@@ -185,18 +186,18 @@ O nó mestre (\textit{NameNode}) é responsável por manter e controlar todos os
 Os nós escravos (\textit{DataNode}) são responsáveis por armazenar e transmitir os dados aos usuários que os requisitarem.
 
 A Figura \ref{fig:hdfs} ilustra a arquitetura do sistema de arquivos distribuídos.
-O Namenode gerencia e manipula todas as informações dos arquivos, tal como a localização e o acesso. Os Datanodes se encarregam da leitura e escrita das informações nos sistemas de arquivos cliente.
-
+O \textit{Namenode} gerencia e manipula todas as informações dos arquivos, tal como a localização e o acesso. Os \textit{Datanodes} se encarregam da leitura e escrita das informações nos sistemas de arquivos cliente. Os conceitos de nó \textit{Master} e \textit{Worker} do MapReduce, são respectivamente denominados JobTracker e TaskTracker no Hadoop.
 \begin{figure}[htb]
 \centering
-\includegraphics[scale=.65]{figuras/HadoopCluster.png}
+%trim left, bottom, right and top
+\includegraphics[trim=0cm 6cm 0cm 2cm, width=0.6\textwidth]{figuras/HadoopCluster.pdf}
 \caption{Visão abstrata do cluster.}
 \label{fig:hdfs}
 \end{figure}
 
 O HDFS incorpora funcionalidades que têm grande impacto no desempenho geral do sistema.
-Uma delas é conhecida como \textit{rack awareness}. Com esse recurso, o sistema de arquivos é capaz de identificar os DataNodes que pertencem a um mesmo \textit{rack}, e distribuir as réplicas de maneira mais inteligente, aumentando a performance e confiabilidade do sistema.
-A outra é a distribuição dos dados. O sistema de arquivos busca manter um balanceamento na ocupação das unidades de armazenamento, e o \textit{framework}, busca atribuir tarefas a um \textit{worker} que possua, em sua unidade de armazenamento local os dados que devem ser processados.
+Uma delas é conhecida como \textit{rack awareness}. Com esse recurso, o sistema de arquivos é capaz de identificar os nós escravos que pertencem a um mesmo \textit{rack}, e distribuir as réplicas de maneira mais inteligente, aumentando a performance e confiabilidade do sistema.
+A outra é a distribuição dos dados. O sistema de arquivos busca manter um balanceamento na ocupação das unidades de armazenamento, e o \textit{framework}, busca atribuir tarefas a um \textit{worker} que possua, em sua unidade de armazenamento local, os dados que devem ser processados.
 Assim, quando executa-se grandes operações MapReduce com um número significante de nós, a maioria dos dados são lidos localmente e o consumo de banda é mínimo.
 
 
@@ -237,46 +238,151 @@ A ordenação em memória interna é caracterizada pelo armazenamento de todos o
 
 Quando a ordenação é feita em um grande conjunto de dados, que não podem ser armazenados em memória principal a ordenação é chamada externa. Apesar do problema nos dois casos ser o mesmo (rearranjar os registros de um arquivo em ordem ascendente ou descendente), não é possível usar as mesmas estratégias da ordenação interna, pois o acesso aos dados é feito em discos, cujo tempo de acesso é muito superior ao da memória principal.  %[Ziviani 2007, Knuth 1973].
 
-Na ordenação externa, os itens que não estão na memória principal devem ser buscados em memória secundária e trazidos para a memória principal, para assim serem comparados. Esse processo se repete inúmeras vezes, o que o torna lento, uma vez que os processadores ficam grande parte do tempo ociosos à espera da chegada dos dados à memória principal para serem processados. Por esse motivo, a grande ênfase de um método de ordenação externa deve ser na minimização do número de vezes que cada item é transferido entre a memória interna e a memória externa. Além disso, cada transferência deve ser realizada de forma tão eficiente quanto as características dos equipamentos disponíveis permitam [Ziviani 2007].
+Na ordenação externa, os itens que não estão na memória principal devem ser buscados em memória secundária e trazidos para a memória principal, para assim serem comparados. Esse processo se repete inúmeras vezes, o que o torna lento, uma vez que os processadores ficam grande parte do tempo ociosos à espera da chegada dos dados à memória principal para serem processados. Por esse motivo, a grande ênfase de um método de ordenação externa deve ser na minimização do número de vezes que cada item é transferido entre a memória interna e a memória externa. Além disso, cada transferência deve ser realizada de forma tão eficiente quanto as características dos equipamentos disponíveis permitam \cite{Ziviani:2007}.
 
 
 
 \section{Algoritmos de Ordenação Paralela}
 
-\subsubsection*{Condições de implementação de algoritmos paralelos de ordenação}
+A ordenação paralela é o processo  de ordenação feito através de múltiplas unidades de processamento, que trabalham em conjunto para ordenar a sequência de entrada. O conjunto inicial é divido em sub-conjuntos disjuntos, que são associados a uma única unidade de processamento. A sequência final ordenada é obtida a partir da composição dos sub-conjuntos ordenados. É um ponto fundamental do algoritmo que a ordenação feita por cada processo individual seja organizada de tal forma que todas as unidades de processamento estejam trabalhando, enquanto o custo de redistribuição de chaves entre os processadores é minimizado. 
 
-\paragraph*{  Habilidade de explorar distribuições iniciais parcialmente ordenadas}
+
+
+\subsection{Condições de implementação de algoritmos paralelos de ordenação}
+ 
+Diversas soluções de ordenação podem ser consideradas ao implementar um algoritmo de ordenação em ambiente paralelo. Cada uma delas atende a cenário, tipo de entrada, plataforma ou arquitetura particulares. Dessa forma, ao implementar algoritmos de ordenação paralela, é importante considerar certas condições que interferem no desempenho final do algoritmo, relacionadas tanto ao ambiente de implementação, quanto ao conjunto de dados que deve ser ordenado. As principais questões a serem analisadas são \cite{Kale:2010} :
+
+\begin{itemize}
+\item \textbf{Habilidade de explorar distribuições iniciais parcialmente ordenadas:}
 Alguns algoritmos podem se beneficiar de cenários nos quais a sequência de entrada dos dados é mesma, ou pouco alterada. Nesse caso, é possível obter melhor desempenho ao realizar menos trabalho e movimentação de dados.
 Se a alteração na posição dos elementos da sequência é pequena o suficiente, grande parte dos processadores mantém seus dados iniciais e precisa se comunicar apenas com os processadores vizinhos.
 
-
-\paragraph*{Movimentação dos dados}
+\item \textbf{Movimentação dos dados:}
 A movimentação de dados entre processadores deve ser mínima durante a execução do algoritmo. Em um sistema de memória distribuída, a quantidade de dados a ser movimentada é um ponto crítico, pois o custo de troca de dados pode dominar o custo de execução total e limitar a escalabilidade.
 
-
-\paragraph*{Balanceamento de carga}
+\item \textbf{Balanceamento de carga:}
 O algoritmo de ordenação paralela deve assegurar o balanceamento de carga ao distribuir os dados entre os processadores. Cada processador deve receber uma parcela equilibrada dos dados para ordenar, uma vez que o tempo de execução da aplicação é tipicamente limitada pela execução do processador mais sobrecarregado.
 
-\paragraph*{Latência de comunicação}
+\item \textbf{Latência de comunicação:}
 A latência de comunicação é definida como o tempo médio necessário para enviar uma mensagem de um processador a outro.
 Em grandes sistemas distribuídos, reduzir o tempo de latência se torna muito importante.
 
-\paragraph*{Sobreposição de comunicação e computação}
+\item \textbf{Sobreposição de comunicação e computação:}
 Em qualquer aplicação paralela, existem tarefas com focos em computação e comunicação. A sobreposição de tais tarefas permite que sejam feitas tarefas de processamento e ao mesmo tempo operações de entrada e saída de dados, evitando que os recursos fiquem ociosos durante o intervalo de tempo necessário para a transmissão da carga de trabalho.
 
+\end{itemize}
+
+
+Além das condições relacionadas à implementação do algoritmo em ambiente paralelo, existem outras condições necessárias, relacionadas principalmente às propriedades do conjunto de elementos a ser ordenado. Considerando um conjunto de elementos $ \tau = {k1, k2, ... , kn} $ distribuído entre $p$ processadores, é que preciso durante a execução de qualquer algoritmo de ordenação paralela: 
+
+\begin{enumerate}
+\item Todas as chaves da sequencia inicial sejam preservadas, ou seja, não se perca nenhuma chave durante a distribuição entre os processadores.
+\item  O conjunto de chaves seja particionada em $p$ sub-conjuntos mutualmente exclusivos, sem nenhuma chave duplicada.
+\item O conjunto de todas as chaves satisfaça as propriedades de um conjunto parcialmente ordenado.
+\end{enumerate}
+
+Após o conjunto estar ordenado, é preciso que pós condições sejam satisfeitas:
+\begin{enumerate}
+
+\item Todas as chaves da sequencia inicial foram preservadas.
+\item Todas as chaves de cada processador estão ordenadas em ordem crescente.
+%$\forall i $ tal que $i < p$, a
+\item A maior chave no processador $p_{i}$ é inferior ou igual ao menor chave no processador $p_{i+1}$.
+\item A saída resultante deve ser uma sequência de chaves que satisfaça as propriedades de um conjunto totalmente ordenado.
+
+\end{enumerate}
+
+\subsection{Fluxo de execução geral}
+
+Na execução de um algoritmo de ordenação paralela, podem ser identificadas algumas tarefas principais,  normalmente realizadas de forma sequencial, que todos os algoritmos precisam realizar em algum momento \cite{Kale:2010}: 
+%visto pela perspectiva da comunicação, pode ser generalizada, uma vez que estão submetidos às mesmas limitações. 
+%A fim de fazer uma generalização sobre o fluxo de controle de algoritmos de ordenação, algumas tarefas podem ser definidas, de maneira superficial, como se segue:
+
+%De forma geral, todos os algoritmos de ordenação paralela executam três funções: 
+
+\begin{itemize}
+\item \textbf{Ordenação Local:} as chaves em cada processador são normalmente ordenadas inicialmente, ou ordenadas em grupos, em algum ponto da execução.
+\item \textbf{Bucketing(?):} muitas vezes é necessário colocar as chaves em grupos, a fim de enviá-las a outros processadores ou calcular histogramas.
+\item \textbf{Agrupamento:} as chaves são ordenadas em sub-sequências e precisam ser combinadas em uma sequência completa.
+\end{itemize}
+
+
+
+// TEXTO
+
+
+1. Realizar processamento local. 
+\\2. Coletar informações relevantes de distribuição de todos os processadores. 
+\\3. Em um único processador, inferir uma divisão de chaves a partir das informações coletadas. 
+\\4. Transmitir aos outros processadores a divisão dos elementos
+\\5. Realizar processamento local. 
+\\6. Mover os dados de acordo com os elementos de divisão. 
+\\7. Realizar processamento local. 
+\\8. Se a divisão foi incompleta (nem todos SPTR definido), retornar ao passo 1.
+
+
+%\begin{lstlisting}[label=passos,caption=Passos gerais da ordenação paralela]
+%Realizar processamento local. 
+%Coletar informações relevantes de distribuição de todos os processadores. 
+%Em um único processador, inferir uma divisão de chaves a partir das informações coletadas. 
+%Transmitir aos outros processadores a divisão dos elementos
+%Realizar processamento local. 
+%Mover os dados de acordo com os elementos de divisão. 
+%Realizar processamento local. 
+%Se a divisão foi incompleta (nem todos SPTR definido), retornar ao passo 1.
+%\end{lstlisting}
+
+%This analysis gives us a few insights towards communica- tion efficiency of parallel sortng algorithms. First, there are two major communication functions, figuring out a global splitting vector and transposing the data to the proper pro- cessors. The second insight is that most algorithms have multiple stages of local work and it can be very beneficial to try to overlap this local work with the communication. 
+%Finally, if overlap can be achieved between local work and the third step (sequential splitter determination), a proces- sor can be reserved for the splitting work, shortening the critical path.
+%The cost of the communication a parallel sorting algorithm needs (to infer the splitting and move the data) and the cost of local work that can be overlapped with, gives us a very good idea of the comparative parallel scalability of parallel sorting algorithms.
+
+De acordo com essa generalização, é possível identificar pontos que se relacionam diretamente com as condições que limitam o desempenho dos algoritmos de ordenação paralela, e fornecem ideias para a análise de eficiência da comunicação dos algoritmos. 
+Primeiro, há duas funções principais de comunicação: descobrir um vetor de divisão global e enviar os dados para os processadores adequados. 
+Em segundo lugar, a maioria dos algoritmos têm múltiplos estágios de computação local e pode ser muito vantajoso sobrepor este processamento local e a comunicação. 
+%Finalmente, se é possível realizar sobreposição entre o processamento local e a determinação do vetor de divisão, um processador pode ser reservado para o trabalho de divisão, encurtando o caminho crítico. 
+O custo da comunicação necessária em um algoritmo (para determinar a divisão e mover os dados) e o custo do processamento local que pode ser sobreposto à essa comunicação é um bom indicativo para comparação da escalabilidade dos algoritmos de ordenação paralela.
+
+%4.1.1 General terminology
+%The following terms will be used repeatedly throughout the solution section.
+%• n - total number of elements to be sorted.
+%• p - number of processing units
+%• Π[1,p] - unsorted initial sequences. Processing unit k posseses Πk for k ∈ [1, p].
+%• len[1,p] - length of initial sequences. Πk has length k fork∈[1,p].
+%• Ξ[1,p] - sorted final sequences. Processing unit k poss- esesΞk fork∈[1,p].
+%• flen[1,p] - length of final sequences. Ξk has length flenk fork∈[1,p].
+%• threshold - the maximum number of extra keys each
+%processor can end up with. More precisely, for all k ∈
+%[1, p], f lenk ≤ n + threshold. p
+
+%4.1.2 Splitting of data
+%A fundamental problem of parallel sorting is ensuring that each Ξk has a continuous portion of the entire key set. This requirement is necessary to achieve globally sorted order over all processors. The requirement could be rephrased to say that for k ∈ [2,p − 1], Ξk has all existing keys in the range [Sptr[k − 1], Sptr[k]], Ξ1 has all keys smaller than Sptr[1] and, Ξp has all keys larger than Sptr[p − 1]. Sptr is commonly referred to as a splitting vector and has length p−1.
+%Most modern parallel sorting algorithms find Sptr explicitly in order to determine what processor each key belongs on. The difficulty lies in that Sptr directly dictates the load balance of the final sequence sizes. As previously mentioned,
+%￼￼
+%f lenk should be smaller than n + threshold for all k ∈ [1, p]. p
+%It is therefore necessary to find a splitting vector, Sptr, such that for each of p key ranges generated by elements Sptr, the number of existing keys in the range is smaller than
+%n +threshold. p
+%At a high level, we can gain the insight that a splitting vector needs to properly relate the distribution of keys within the key range with the corresponding key values.
+%There are three commonly used methods for determining the splitting vector, Sptr:
+%1. Pre-emptive: Use application-level knowledge to es- tablish Sptr directly. Or, simply assume Sptr to be uniform.
+%2. Sample [7] : draw a sample from the global key set and select Sptr from the sample.
+%3. Histogram [8]: make a naive guess at Sptr, then iter- atively adjust it by computing how many keys belong to each range.
+%Many parallel sorting algorithms use modified versions of these techniques but most use at least one at a high level. Notably, some algorithms do not determine Sptr all at once but rather in multiple iterations or levels of recursion.
+
+
+
 \subsection{Sample Sort}
-%O algoritmo de Ordenação por Amostragem [White 2009, Venner 2009] é um método de ordenação externa para ordenar grandes quantidades de dados. A ideia desse algoritmo é dividir um conjunto de dados a ser ordenado em subconjuntos (partições) de forma que os elementos da partição à esquerda sejam menores do que os elementos à direita da partição, isto é, todas as chaves da partição i são menores que as chaves da partição i + 1. Cada uma das partições é designada a um processador para ordenação (ordenação interna) e, assim, é produzido um conjunto de arquivos ordenados que, se concatenados, formam um arquivo globalmente ordenado.
-%
-%A divisão dos dados em partições (particionamento) é feita por meio de uma estratégia de amostragem. Essa estratégia baseia-se na análise de um subconjunto de dados, denomi- nado amostra, ao invés de todo o conjunto, para estimar a distribuição de chaves e, assim, construir partições balanceadas.
-%
-%Existem três tipos de estratégias de amostragem: SplitSampler, IntervalSampler e Ran- domSampler. O SplitSampler seleciona apenas os n primeiros registros do arquivo para for- mar a amostra. Já o IntervalSampler forma a amostra por meio da escolha de chaves em intervalos regulares no arquivo. No RandomSampler, a amostra é constituída por chaves selecionadas aleatoriamente no conjunto.
-%
+
+O algoritmo \textit{Sample Sort}, ou Ordenação por Amostragem, é um método de ordenação baseado na divisão do arquivo de entrada em subconjuntos, de forma que as chaves de um subconjunto $i$ sejam menores que as chaves do subconjunto $i+1$. Após a divisão, cada subconjunto é enviado a um processador, que ordena os dados localmente. Ao final, todos os subconjuntos são concatenados e formam um arquivo globalmente ordenado.
+
+Nesse algoritmo, o ponto chave é dividir as partições de maneira balanceada, para que cada processador receba aproximadamente a mesma carga de dados. Para isso, é preciso estimar o número de elementos que devem ser destinados a uma certa partição, que é feita através da amostragem das chaves do arquivo original. Essa estratégia baseia-se na análise de um subconjunto de dados, denominado amostra, ao invés de todo o conjunto, para estimar a distribuição de chaves e, assim, construir partições balanceadas.
+
+Existem três tipos de estratégias de amostragem: \textit{SplitSampler}, \textit{IntervalSampler} e \textit{RandomSampler}. O \textit{SplitSampler} seleciona os $n$ primeiros registros do arquivo para formar a amostra. O \textit{IntervalSampler} cria a amostra com a seleção de chaves em intervalos regulares no arquivo. No \textit{RandomSampler}, a amostra é constituída por chaves selecionadas aleatoriamente no conjunto. A melhor estratégia de amostragem depende diretamente dos dados de entrada. O \textit{SplitSampler} não é recomendado para arquivos quase ordenados, pois as chaves selecionadas serão as iniciais, que não são representativas do conjunto como um todo. Nesse caso, a melhor escolha é o \textit{IntervalSampler} pelo fato de selecionar chaves que representam melhor a distribuição do conjunto. O \textit{RandomSampler} é considerado um bom amostrador de propósito geral [White 2009], e foi utilizado na implementação do algoritmo feito por Pinhão (2011) e utilizado neste trabalho.
+Para criar a amostra, o \textit{RandomSampler} necessita de alguns parâmetros, como a probabilidade de escolha de uma chave, o número máximo de amostras a serem selecionadas para realizar a amostragem e o número máximo de partições que podem ser utilizadas.
+
+// descrever o algoritmo em map reduce
 %Após a formação das amostras, são definidos os limites para as partições, isto é, o intervalo de valores compreendido por cada partição. A quantidade de limites amostrados (qla) é determinada pelo equação: qla = np - 1, onde np é o número de partições (np = nc x nmaq, sendo nc o número de cores e nmaq o número de máquinas). As informações das partições são armazenadas em um arquivo e transmitidas para as máquinas participantes por meio de cache distribuído.
 %
-%O melhor tipo de estratégia de amostragem é determinado pela entrada de dados. Para arquivos quase ordenados, o SplitSampler não é recomendado, uma vez que não seleciona as chaves de todo o conjunto e, assim, não produz bons resultados. Nesse caso, a melhor escolha é o IntervalSampler pelo fato de selecionar chaves que representam melhor a distribuição do conjunto. O RandomSampler é considerado um bom amostrador de propósito geral [White 2009], por isso será utilizado neste trabalho.
-%
-%O RandomSampler apresenta os seguintes parâmetros de balanceamento: probabilidade de escolha de uma chave, o número máximo de amostras a serem selecionadas para realizar a amostragem e o número máximo de partições que podem ser utilizadas. Ele termina quando algum dos parâmetros é atingido.
-%
+
 %A Figura 4.6 apresenta um esquema da estrutura de funcionamento do algoritmo, quando implementado em MapReduce no ambiente Hadoop. O algoritmo pode ser di- vidido em duas fases: Map e Reduce.
 %
 %Na fase Map, os arquivos de entrada são lidos, ocorre a formação do vetor inicial e dos pares (chave, valor) dos valores lidos (passos 1.1 e 1.2). Depois disso, os dados são divididos em partições cujo número é determinado pelo número de máquinas e seus núcleos de processamento (passo 1.3). No exemplo apresentado, são utilizados dois núcleos de pro- cessamento (cores). Portanto, existem duas partições e, dessa forma, deve ser escolhido apenas um limite para as partições. Esse limite é definido por meio da seleção do ele- mento que melhor representa a distribuição de chaves na amostra formada pela estratégia RandomSampler. Para esse exemplo o limite escolhido foi o número 13, o que implica que em uma partição estarão valores menores e iguais a 13 e, na outra, valores maiores que 13. Por meio de cache distribuído, as informações das partições são transmitidas para as máquinas participantes e os dados particionados. Cada partição é então atribuída a uma tarefa Reduce (processador) diferente.
