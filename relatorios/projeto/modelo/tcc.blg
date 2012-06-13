@@ -1,0 +1,67 @@
+This is BibTeX, Version 0.99d (TeX Live 2011)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: tcc.aux
+The style file: abnt-alf-mod.bst
+A level-1 auxiliary file: 1-capa.aux
+A level-1 auxiliary file: 5-introducao.aux
+A level-1 auxiliary file: 6-referecialTeorico.aux
+A level-1 auxiliary file: 7-metodologia.aux
+A level-1 auxiliary file: 8-resultados.aux
+A level-1 auxiliary file: 9-conclusao.aux
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Database file #1: bibliografia.bib
+Warning--I didn't find a database entry for "Toth:2008"
+Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
+Reallocated global_strs (elt_size=5001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=4) to 20 items from 10.
+You've used 14 entries,
+            6475 wiz_defined-function locations,
+            1267 strings with 11712 characters,
+and the built_in function-call counts, 12379 in all, are:
+= -- 1012
+> -- 425
+< -- 20
++ -- 208
+- -- 127
+* -- 999
+:= -- 1667
+add.period$ -- 53
+call.type$ -- 14
+change.case$ -- 66
+chr.to.int$ -- 29
+cite$ -- 14
+duplicate$ -- 633
+empty$ -- 958
+format.name$ -- 622
+if$ -- 2930
+int.to.chr$ -- 0
+int.to.str$ -- 0
+missing$ -- 257
+newline$ -- 69
+num.names$ -- 70
+pop$ -- 342
+preamble$ -- 1
+purify$ -- 57
+quote$ -- 0
+skip$ -- 658
+stack$ -- 0
+substring$ -- 442
+swap$ -- 348
+text.length$ -- 15
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 4
+warning$ -- 0
+while$ -- 103
+width$ -- 0
+write$ -- 236
+(There was 1 warning)

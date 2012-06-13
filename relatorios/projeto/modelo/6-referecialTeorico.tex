@@ -9,11 +9,11 @@
 Com o avanço tecnólogico da última década, o volume crescente de dados sendo gerado, coletado e armazenado tornou o processamento dos dados inviável para um único computador. A quantidade de dados atualmente processados cria a necessidade de computação de alto desempenho, cujo foco sejam os dados.  Como resultado, torna-se crucial substituir a computação tradicional por computação distribuída eficiente. 
 É um caminho natural para o processamento de dados em larga escala o uso de \textit{clusters} ~\cite{Lin:2010}.
 
-Clusters são conjuntos de máquinas, ligadas em rede, que comunicam-se através do sistema, trabalhando como se fossem uma única máquina de grande porte. 
-Dentre algumas características observadas em um \textit{cluster}, é possível destacar: o baixo custo se comparado a supercomputadores; a proximidade geografica dos nós. altas taxas de transferência nas conexões entre as máquinas e o uso de máquinas homogêneas \cite{Toth:2008}.
+\textit{Clusters} são conjuntos de máquinas, ligadas em rede, que comunicam-se através do sistema, trabalhando como se fossem uma única máquina de grande porte. 
+Dentre algumas características observadas em um \textit{cluster}, é possível destacar: o baixo custo se comparado a supercomputadores; a proximidade geografica dos nós. altas taxas de transferência nas conexões entre as máquinas e o uso de máquinas em geral homogêneas \cite{Toth:2008}.
 
 Apesar dos computadores em um \textit{cluster} não precisarem processar necessariamente a mesma aplicação, a grande vantagem de tal organização é a habilidade de cada nó processar individualmente uma fração da aplicação, resultando em desempenho que pode ser comparado ao de um supercomputador.
-Em geral os computadores de \textit{clusters} são de baixo custo, o que permite que um grande número de máquinas seja interligadas, garantindo grande desempenho e melhor custo-benefício que supercomputadores, o que apresenta grande vantagem. Outro ponto importante é que novas máquinas podem ser facilmente incorporadas  ao \textit{cluster}, tornando-o uma solução mais flexível, principalmente por ser formado por maquinas de capacidade de processamento similar.
+Em geral os computadores de \textit{clusters} são de baixo custo, o que permite que um grande número de máquinas seja interligado, garantindo desempenho e melhor custo-benefício que supercomputadores, o que apresenta grande vantagem. Outro ponto importante é que novas máquinas podem ser facilmente incorporadas  ao \textit{cluster}, tornando-o uma solução mais flexível, principalmente por ser formado por máquinas de capacidade de processamento similar.
 
 \textit{Esta linha de pesquisa envolve vários outros conceitos relacionados à infraestrutura, como comunicação entre os nós, balanceamento de carga e outros discutidos nas próximas seções.}
 
@@ -23,7 +23,7 @@ Em geral os computadores de \textit{clusters} são de baixo custo, o que permite
 
 \subsection{ Princípios de processamento em cluster? distribuído? de grande volumes de dados? }
 
-O processamento de grandes volumes de dados em \textit{clusters} deve suportar alguns princípios para garantir a escalabilidade e o bom desempenho \cite{Bryant:2011}:
+O processamento de grandes volumes de dados em \textit{clusters} deve ser baseado em alguns princípios para garantir a escalabilidade e o bom desempenho \cite{Bryant:2011}:
 
 
 
@@ -33,7 +33,7 @@ O sistema deve recuperar informações atualizadas através de rede e realizar c
 Mecanismos de confiabilidade, como replicação e de correção de erros devem ser incorporados como parte do sistema, de modo a garantir integridade e disponibilidade dos dados.
 
 \paragraph{Modelo de programação paralelo de alto nível}
-O desenvolvedor da aplicação deve fazer uso de primitivas de programação de alto nível, capazes de expressar formas naturais de paralelismo, que não incluam cofigurações específicas de uma máquina. O trabalho de mapear essas computações para a máquina de forma eficiente deve ficar a cargo do sistema, compilador e runtime.
+O desenvolvedor da aplicação deve fazer uso de primitivas de programação de alto nível, capazes de expressar formas naturais de paralelismo, que não incluam cofigurações específicas de uma máquina. O trabalho de Mapear essas computações para a máquina de forma eficiente deve ficar a cargo do sistema, compilador e runtime.
 
 \paragraph{Acesso interativo} 
 Os usuários devem ser capazes de executar programas de forma interativa, com variação dos requisitos de computação e armazenamento O sistema deve responder a consultas e cálculos simples rapidamente, e responder aos complexos sem degradar o desempenho geral. Para suportar a computação interativa, deve haver oferta de recursos. O custo consequente do aumento dos recursos ofertados pode ser justificado com base no aumento da produtividade dos usuários do sistema.
@@ -50,7 +50,7 @@ A próxima seção apresenta com mais detalhes o modelo e suas características.
 
 %
 %
-%\textit{modelos de computação paralela (memória compartilhada, distribuida, threads, paralelismo de dados e map reduce)}
+%\textit{modelos de computação paralela (memória compartilhada, distribuida, threads, paralelismo de dados e Map Reduce)}
 %
 % More precise simulations or the simulations of larger problems need greater and greater computing power and memory space. In the last decades, high-performance research included new developments in parallel hard- ware and software technologies, and a steady progress in parallel high-performance computing can be observed.
 % Multicore architectures in the form of single multicore processors, shared mem- ory systems of several multicore processors, or clusters of multicore processors with a hierarchical interconnection network will have a large impact on software development.
@@ -79,13 +79,13 @@ A próxima seção apresenta com mais detalhes o modelo e suas características.
 
 
 \section{MapReduce}
-O MapReduce é um modelo de programação paralela criado pela Google para processamento de grandes volumes de dados em \textit{clusters}. Esse modelo propõe simplificar a computação paralela e ser de fácil uso, abstraindo conceitos complexos da paralelização - como tolerância a falhas, distribuição de dados e balanço de carga - e utilizando duas funções principais: Map e reduce. A complexidade do algoritmo paralelo não é vista pelo desenvolvedor, que pode se ocupar em desenvolver a solução proposta \cite{Dean:2008}.
+O MapReduce é um modelo de programação paralela criado pela Google para processamento de grandes volumes de dados em \textit{clusters}. Esse modelo propõe simplificar a computação paralela e ser de fácil uso, abstraindo conceitos complexos da paralelização - como tolerância a falhas, distribuição de dados e balanço de carga - e utilizando duas funções principais: Map e Reduce. A complexidade do algoritmo paralelo não é vista pelo desenvolvedor, que pode se ocupar em desenvolver a solução proposta \cite{Dean:2008}.
 
-Esse modelo de programação é inspirado em linguagens funcionais, tendo como base as primitivas Map e reduce.
+Esse modelo de programação é inspirado em linguagens funcionais, tendo como base as primitivas Map e Reduce.
 Os dados de entrada são específicos para cada aplicação, e descritos pelo usuário. A saída é um conjunto de pares no formato (chave, valor).
-A função Map é aplicada aos dados de entrada e produz uma lista intermediária de pares (chave, valor). Todos os valores intermediários associados a uma mesma chave são agrupados e enviados à função reduce.
-A função reduce é então aplicada para todos os pares intermediários com a mesma chave. A função combina esses valores para formar um conjunto menor de resultados.
-Tipicamente, há apenas zero ou um valores de saída em cada função reduce.
+A função Map é aplicada aos dados de entrada e produz uma lista intermediária de pares (chave, valor). Todos os valores intermediários associados a uma mesma chave são agrupados e enviados à função Reduce.
+A função Reduce é então aplicada para todos os pares intermediários com a mesma chave. A função combina esses valores para formar um conjunto menor de resultados.
+Tipicamente, há apenas zero ou um valores de saída em cada função Reduce.
 
 O pseudocódigo a seguir apresenta um exemplo de uso do MapReduce, cujo objetivo é contar a quantidade de ocorrências de cada palavra em um documento. A função Map recebe como valor uma linha do documento texto, e como chave o número da linha. Para cada palavra encontrada na linha recebida, a função emite a palavra e a contagem de uma ocorrência. A função Reduce, recebe como chave uma palavra, e uma lista dos valores emitidos pela função Map, associados com a palavra questão. As ocorrências da palavra são agrupadas e a função retorna palavra e seu total de ocorrências.
 
@@ -96,7 +96,7 @@ Function Map (Integer chave, String valor):
 	listaDePalavras = split (valor)
 	for palavra in listaDePalavras:
 		emit (palavra, 1)
-Function reduce (String chave, Iterator valores):
+Function Reduce (String chave, Iterator valores):
 	#chave: palavra emitida pela função Map.
 	#valores: conjunto de valores emitidos para a chave.
 	total = 0
@@ -105,13 +105,14 @@ Function reduce (String chave, Iterator valores):
 	emit (palavra, total)
 \end{lstlisting}
 
-A Figura \ref{fig:Mapreduceexemplo} ilustra o fluxo de execução para este exemplo. A entrada é um arquivo contendo as linhas "exemplo conta palavras" e "hadoop exemplo palavras".
+A Figura \ref{fig:MapReduceexemplo} ilustra o fluxo de execução para este exemplo. A entrada é um arquivo contendo as linhas "exemplo conta palavras" e "hadoop exemplo palavras".
 
 \begin{figure}[htb]
 \centering
-\includegraphics[width=\textwidth]{figuras/mrexemplo.png}
+%trim left, bottom, right and top
+\includegraphics[trim=0cm 9cm 0cm 1cm, width=\textwidth]{figuras/MapReduceExemplo.pdf}
 \caption{Fluxo simplificado da contagem de palavras com o MapReduce}
-\label{fig:Mapreduceexemplo}
+\label{fig:MapReduceexemplo}
 \end{figure}
 
 \subsubsection{Arquitetura do MapReduce}
@@ -126,18 +127,18 @@ A arquitetura também é inclui um sistema de arquivos distribuídos, onde ficam
 \subsubsection{Visão geral do fluxo de execução}
 
 
-As chamadas da função map são distribuídas automaticamente entre as diversas máquinas através do particionamento dos dados de entrada em \textit{M} conjuntos. Cada conjunto pode ser processado em paralelo por diferentes máquinas. As chamadas da função reduce são distribuídas pelo do particionamento do conjunto intermediário de pares em \textit{R} partes. O número de partições \textit{R} pode ser definido pelo usuário.
+As chamadas da função Map são distribuídas automaticamente entre as diversas máquinas através do particionamento dos dados de entrada em \textit{M} conjuntos. Cada conjunto pode ser processado em paralelo por diferentes máquinas. As chamadas da função Reduce são distribuídas pelo do particionamento do conjunto intermediário de pares em \textit{R} partes. O número de partições \textit{R} pode ser definido pelo usuário.
 
-A Figura \ref{fig:mapreduceoverview} ilustra uma o fluxo de uma execução do modelo MapReduce \cite{Dean:2008}. A sequência de ações descrita a seguir explica o que ocorre em cada um dos passos. A numeração dos itens a seguir corresponde à numeração da figura.
+A Figura \ref{fig:MapReduceoverview} ilustra uma o fluxo de uma execução do modelo MapReduce \cite{Dean:2008}. A sequência de ações descrita a seguir explica o que ocorre em cada um dos passos. A numeração dos itens a seguir corresponde à numeração da figura.
 
 
 
  \begin{figure}[!htb]
  \centering
 %trim left, bottom, right and top
-\includegraphics[trim=1cm 0cm 2cm 0cm, width=.7\textwidth, angle=270]{figuras/MapReduceOverflow.pdf}
+\includegraphics[trim=0cm 2cm 0cm 1cm, width=\textwidth]{figuras/MapReduceOverflow.pdf}
 \caption{Visão geral do funcionamento do modelo MapReduce.}
-\label{fig:mapreduceoverview}
+\label{fig:MapReduceoverview}
 \end{figure}
 
 
@@ -379,7 +380,7 @@ Nesse algoritmo, o ponto chave é dividir as partições de maneira balanceada, 
 Existem três tipos de estratégias de amostragem: \textit{SplitSampler}, \textit{IntervalSampler} e \textit{RandomSampler}. O \textit{SplitSampler} seleciona os $n$ primeiros registros do arquivo para formar a amostra. O \textit{IntervalSampler} cria a amostra com a seleção de chaves em intervalos regulares no arquivo. No \textit{RandomSampler}, a amostra é constituída por chaves selecionadas aleatoriamente no conjunto. A melhor estratégia de amostragem depende diretamente dos dados de entrada. O \textit{SplitSampler} não é recomendado para arquivos quase ordenados, pois as chaves selecionadas serão as iniciais, que não são representativas do conjunto como um todo. Nesse caso, a melhor escolha é o \textit{IntervalSampler} pelo fato de selecionar chaves que representam melhor a distribuição do conjunto. O \textit{RandomSampler} é considerado um bom amostrador de propósito geral [White 2009], e foi utilizado na implementação do algoritmo feito por Pinhão (2011) e utilizado neste trabalho.
 Para criar a amostra, o \textit{RandomSampler} necessita de alguns parâmetros, como a probabilidade de escolha de uma chave, o número máximo de amostras a serem selecionadas para realizar a amostragem e o número máximo de partições que podem ser utilizadas.
 
-// descrever o algoritmo em map reduce
+// descrever o algoritmo em Map Reduce
 %Após a formação das amostras, são definidos os limites para as partições, isto é, o intervalo de valores compreendido por cada partição. A quantidade de limites amostrados (qla) é determinada pelo equação: qla = np - 1, onde np é o número de partições (np = nc x nmaq, sendo nc o número de cores e nmaq o número de máquinas). As informações das partições são armazenadas em um arquivo e transmitidas para as máquinas participantes por meio de cache distribuído.
 %
 

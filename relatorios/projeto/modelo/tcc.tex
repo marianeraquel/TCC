@@ -17,9 +17,26 @@
 \usepackage{courier}
 \usepackage[font=small,labelfont=bf]{caption}
 %\usepackage{hyperref}
-\usepackage[square, numbers]{natbib}
+%\usepackage[square]{natbib}
 \bibliographystyle{abnt-alf-mod} %{acm} {acmtrans}% % % Existem ainda: abbrv, acm, alpha, amsalpha, amsplain
- 
+
+\let\oldbibliography\thebibliography
+\renewcommand{\thebibliography}[1]{%
+  \oldbibliography{#1}%
+  \setlength{\itemsep}{10pt}%
+\onehalfspacing
+}
+%\setcitestyle{authoryear,square,semicolon,aysep={},yysep={,}}
+% \makeatletter
+%\def\@lbibitem[#1]#2{%
+%\if\relax\@extra@b@citeb\relax\else
+%\@ifundefined{br@#2\@extra@b@citeb}{}{%
+%\@namedef{br@#2}{\@nameuse{br@#2\@extra@b@citeb}}}\fi
+%\@ifundefined{b@#2\@extra@b@citeb}{\def\NAT@num{}}{\NAT@parse{#2}}%
+%\item[\hfil\hyper@natanchorstart{#2\@extra@b@citeb}\citep{#2}%
+%\hyper@natanchorend]%
+%\NAT@ifcmd#1(@)(@)\@nil{#2}}
+%\makeatother
 
 % --------- Início do Documento ---------
 
@@ -39,7 +56,7 @@
 \include{9-conclusao}
 
 % Referências
-\nocite{abnt-etal-list=0}
-\nocite{Paula:2011}
-\bibliography{bibliografia,abnt-options} % o nome do arquivo .bib						
+%\nocite{abnt-etal-list=0}
+%\nocite{Paula:2011}
+\bibliography{bibliografia} % o nome do arquivo .bib						
 \end{document}
