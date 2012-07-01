@@ -3,7 +3,7 @@
 
 \section{Metodologia}
 
-A primeira fase do projeto será destinado ao estudo mais detalhado da computação paralela, em especial os algoritmos de ordenação paralela, dos fatores que influenciam o desempenho de tais algoritmos, o modelo MapReduce e a plataforma Hadoop. O passo seguinte é conhecer detalhadamente o algoritmo paralelo a ser implementado e definir as estratégias para sua implentação ambiente Hadoop. 
+A primeira fase do projeto será destinada ao estudo mais detalhado da computação paralela, em especial os algoritmos de ordenação paralela, dos fatores que influenciam o desempenho de tais algoritmos, o modelo MapReduce e a plataforma Hadoop. O passo seguinte é conhecer detalhadamente o algoritmo paralelo a ser implementado e definir as estratégias para sua implentação ambiente Hadoop. 
 O algoritmo implementado deve ser cuidadosamente avaliado para verificar um funcionamento adequado com diferentes entradas e número de máquinas. 
 
 Em seguida, serão realizados experimentos para testes de desempenho dos algoritmos com relação à quantidade de máquinas, quantidade de dados e conjunto de dados.  Os resultados obtidos serão analisados e permitirão comparar a desempenho dos algoritmos em cada situação. 
@@ -28,57 +28,22 @@ Cada máquina do \textit{cluster} apresenta as seguintes características:
 \section{Descrição dos experimentos}
 
 A primeira parte dos experimentos consitiu em reproduzir os resultados já encontrados no trabalho de referência: testes de ordenação com os \textit{benchmarks} TeraSort e Sort, e com o algoritmo Ordenação por Amostragem. 
-Em todos os casos, os testes são compostos de duas partes: geração da carga de dados, seguida da ordenação. %A seguir são discutidos os testes.
+Em todos os casos, os testes são compostos de duas partes: geração da carga de dados, seguida da ordenação. 
 
-
-\subsection{Testes com benchmarks: TeraSort e Sort}
+\subsection{Benchmarks: TeraSort e Sort}
 
 Os \textit{benchmarks} TeraSort e Sort foram os primeiros testes de ordenação realizados. O uso de algoritmos conhecidos e consolidados na ordenação no ambiente Hadoop permite compreender o funcionamento dos algoritmos e do ambiente dos testes.
 
 \subsubsection{Terasort}
-%
-%This package consists of 3 map/reduce applications for Hadoop to compete in the annual terabyte sort competition.
-%
-%    * TeraGen is a map/reduce program to generate the data.
-%    * TeraSort samples the input data and uses map/reduce to sort the data into a total order.
-%    * TeraValidate is a map/reduce program that validates the output is sorted. 
 
 O TeraSort consiste de três algoritmos, que são responsáveis pela geração dos dados, ordenação e validação. 
-
-A geração dos dados é feita pelo algoritmo TeraGen. Os registros gerados têm um formato específico, descrito na Figura \ref{fig:formato-teragen} (incluir figura!). O registro é formado por uma chave, um id e um valor.
-
-\begin{description}
- \item[Chave] as chaves são caracteres aleatórios do conjunto ' ' .. '~'.
- \item[Id] um valor inteiro
- \item[Valor] consiste de 70 caracteres de 'A' a 'Z'. 
- \end{description}
+A geração dos dados é feita pelo algoritmo TeraGen. Os registros gerados têm um formato específico, formado por uma chave, um id e um valor. As  chaves são caracteres aleatórios do conjunto ' ' .. '~'. O id é um valor inteiro que representa a linha, e o valor consiste de 70 caracteres de 'A' a 'Z'. 
 
 O número de registros gerados é um parâmetro definido pelo usuário, e os dados gerados são dividos em dois arquivos. Nos testes realizados, foram gerados dois arquivos, cada um contendo 50 mil linhas. 
 
 O TeraSort lê tais arquivos e realiza a ordenação. Após a ordenação, os dados são validados pelo TeraValidade. Caso haja algum erro na ordenação, o algoritmo escreve um arquivo informando quais foram as chaves com erros. 
 
 
-
-% TeraGen generates output data that is byte for byte equivalent to the C version including the newlines and specific keys. It divides the desired number of rows by the desired number of tasks and assigns ranges of rows to each map. The map jumps the random number generator to the correct value for the first row and generates the following rows.
-% 
-% TeraSort is a standard map/reduce sort, except for a custom partitioner that uses a sorted list of N-1 sampled keys that define the key range for each reduce. In particular, all keys such that sample[i-1] <= key < sample[i] are sent to reduce i. This guarantees that the output of reduce i are all less than the output of reduce i+1. To speed up the partitioning, the partitioner builds a two level trie that quickly indexes into the list of sample keys based on the first two bytes of the key. TeraSort generates the sample keys by sampling the input before the job is submitted and writing the list of keys into HDFS. The input and output format, which are used by all 3 applications, read and write the text files in the right format. The output of the reduce has replication set to 1, instead of the default 3, because the contest does not require the output data be replicated on to multiple nodes.
-% 
-% TeraValidate ensures that the output is globally sorted. It creates one map per a file in the output directory and each map ensures that each key is less than or equal to the previous one. The map also generates records with the first and last keys of the file and the reduce ensures that the first key of file i is greater that the last key of file i-1. Any problems are reported as output of the reduce with the keys that are out of order. 
-
-
-% Rodar o terasort e obter arquivo ordenado.
-% Validar a ordenação feita com o TeraValidade.
-% 
-% 3.1) Terasort
-% Os dados utlizados para ordenação com o TeraSort foram gerados através do algoritmo TeraGen. 
-% São dois arquivos de 50 mil linhas cada. (+- 10 MB)
-% 
-
-% 1.2) Sort (4 máquinas)
-% Ordenar normalmente. 
-% (sugestão: usar o mesmo arquivo de entrada do terasort e conferir o resultado com o do teravalidade).
-% 
-%
 \subsubsection{Sort}
 
 Sort é um dos \textit{benchmarks}  de ordenação de dados mais conhecidos para Hadoop. Ele é uma aplicação MapReduce, que realiza uma ordenação dos dados de entrada. Além da ordenação, é fornecido um programa padrão para geração de dados aleatórios de entrada, o RandomWriter. 
@@ -90,13 +55,15 @@ Os dados utilizados para os testes de ordenação com o Sort foram gerados pelo 
 % 3.3) Ordenação por Amostragem
 
 
-\subsection{Testes com o Algoritmo Ordenação por Amostragem}
+\subsection{Ordenação por Amostragem}
 
-(A escrever)
+Para o algoritmo ordenação por amostragem foram feitos três tipos de experimentos diferentes, com alterações no número de arquivos ou máquinas. O primeiro experimento manteve constante o tamanho do arquivo a ser ordenado e o número de máquinas utilizadas na ordenação. O segundo experimento manteve constante o número de máquinas utilizadas e variou o tamanho do arquivo a ser ordenado. O terceiro experimento manteve constante o número de dados e alterou a quantidade de máquinas utilizadas. 
+
+Cada um dos testes é 
 
 (GeraDados)
 Programa implementado em Java para geração de chaves inteiras aleatórias.
-Foram gerados 10 conjuntos de chaves entre $10^{6}$ (2MB) e  $10^{10}$ (20GB) chaves inteiras. 
+Foram gerados 10 conjuntos de chaves entre $10^{6}$ (12MB) e  $10^{10}$ (120GB) chaves inteiras. 
 Anotar os tempos de execução de cada algoritmo.
 
 \subsubsection{Variando o conjunto de dados} 

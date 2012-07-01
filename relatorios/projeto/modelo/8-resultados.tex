@@ -38,8 +38,9 @@ Os testes feitos com o algoritmo Ordenação por Amostragem tinham como objetivo
 que serão utilizados posteriormente na comparação de desempenho dos algoritmos. 
 O resultado dos experimentos está separado de acordo com o tipo de teste realizado, com variação do conjunto de dados, da quantidade de dados ordenada e da quantidade de máquinas utilizadas. 
 
-\noindent
-\textbf{Diferentes conjuntos de dados}
+%
+%\noindent
+%\textbf{Diferentes conjuntos de dados}
 
 \noindent
 \textbf{Diferentes quantidades de dados}
@@ -49,13 +50,15 @@ A Tabela \ref{tab:QuantidadeDados} apresenta os tempos médios de 6 execuções.
 \begin{table}[htbp]
 \caption{Resultados da ordenação diferentes quantidade de dados 4 máquinas}
 \begin{center}
-\begin{tabular}{|l|cc|} \hline
-Dados 						&Tempo Médio (seg)		&Tempo Paula	\\ \hline \hline
-$10^{6}$ (20MB)	 	&40.5								&30				\\ \hline 
-$10^{7}$ (200MB)	&59.66								&55				\\ \hline 
-$10^{8}$ (2GB)	 		&262,37							&231			\\ \hline 
-$10^{9}$ (20GB)	&3448.481						&2.078			\\ \hline 
-$10^{10}$ (200GB) 	&36645.23						&16.321		\\ \hline 
+\begin{tabular}{|l|c|l|l|} \hline
+\multirow{2}{*}{Dados} & \multirow{2}{*}{Tamanho em bytes} & \multicolumn{2}{|c|}{Tempo Médio (seg)} \\
+\cline{3-4}
+	 & 		& Uniforme 	& Normal	\\ \hline \hline
+$10^{6}$ &12MB	 	&39		&41		\\ \hline 
+$10^{7}$ &120MB		&51		&56		\\ \hline 
+$10^{8}$ &1.2GB	 	&221		&231		\\ \hline 
+$10^{9}$ &12GB		&1816		&1893		\\ \hline 
+$10^{10}$ &120GB 	&17964		&18165		\\ \hline 
 \end{tabular}
 \end{center}
 \label{tab:QuantidadeDados}

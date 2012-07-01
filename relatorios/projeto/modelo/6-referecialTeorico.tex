@@ -1,45 +1,82 @@
 \chapter{Referencial Teórico}
 \label{cap:referencial}
 
+Esse capítulo aborda os principais conceitos envolvidos no trabalho,  como computação paralela, o modelo MapReduce, sua implementação de código aberto Hadoop e algoritmos de ordenação paralela.
+
+\section{Computação Paralela}
+
+A computação paralela constitui-se de uma coleção de elementos de processamento que se comunicam e cooperam entre si e com isso resolvem um problema de maneira mais rápida \cite{Almasi:1994}. Mesmo com o avanço tecnológico das últimas décadas, as arquiteturas sequenciais de Von Neumann ainda demostram deficiências quando utilizadas por aplicações que necessitam de grande poder computacional. Essa necessidade de maior poder computacional causou o surgimento da computação paralela, com a proposta de aumentar o poder computacional das máquinas.
+
+No estudo de computação paralela, é importante diferenciar os conceitos de paralelismo e concorrência, que podem ser confundidos, pois ambos tratam de programação e execução de tarefas em múltiplos fluxos, implementados com o objetivo de resolver um único problema. Concorrência consiste de diferentes tarefas serem executadas ao mesmo tempo, de forma a produzir um resultado particular mais rapidamente. Isso não implica na existência em múltiplos elementos de processamento; a concorrência pode ocorrer tanto com um único processador quanto com múltiplos processadores. 
+Por outro lado, o paralelismo exige a execução de várias tarefas simultaneamente, com a necessidade de vários elementos de processamento. 
+Se há apenas um elemento de processamento não há paralelismo, pois apenas uma tarefa será executada a cada instante, mas pode haver concorrência, pois o processador pode ser compartilhado pelas tarefas em execução \cite{Breshears:2009}.
+
+% Desafios da computação paralela e medidas de desempenho
+Comparada à computação sequencial, a computação paralela apresenta alto desempenho e soluções mais naturais para problemas intrinsecamente paralelos, mas sua utilização também inclui algumas desvantagens. Há muito mais detalhes e diversidades no desenvolvimento, uma vez que um programa paralelo envolve múltiplos fluxos de execução simultâneos e é preciso coordenar todos os fluxos para completar uma dada computação. Além disso, o desenvolvimento de soluções paralelas apresenta maior dificuldade na programação, necessidade de balanceamento de cargas, sincronismo e intensa sobrecarga de comunicação. 
+
+Desenvolver software paralelo introduz três desafios [Leiserson e Mirman 2008]
+Conquistar bom desempenho na aplicação
+Assegurar confiabilidade de software
+Minimizar o tempo de desenvolvimento
+
+
+Para avaliar o desempenho de algoritmos paralelos, algumas métricas definidas são largamente utilizadas. A lei de Amdahl e a eficiência são os principais indicadores de desempenho de algoritmos paralelos. 
+
+A lei de Amdahl demonstra que o ganho de desempenho que pode ser obtido melhorando uma parte do sistema é limitado pela fração de tempo em que essa parte é utilizada pelo sistema. Pode ser utilizada para calcular o ganho de desempenho de uma máquina, conhecido como \textit{speedup} \cite{Amdahl:1967}.
+O \textit{speedup} determina a relação existente entre o tempo gasto para executar um algoritmo de maneira sequencial em um único processador ($T_{sequencial}$) e o tempo gasto para executá-lo em $p$ processadores (T$_{paralelo}$): $ speedup = T_{sequencial}/T_{paralelo}$.
  
-% computação paralela
-\section{ Computação Paralela}
+O \textit{speedup} ideal é aquele igual a $p$, que significaria um aumento da capacidade de processamento é diretamente proporcional ao número de processadores. O resultado do \textit{speedup}
+pode ser diretamente afetado por fatores como comunicação entre processos, granulosidades inadequadas e partes não paralelizáveis de programas.
+ 
+A eficiência é outro parâmetro utilizados para medir o desempenho quando se utiliza computação paralela. Ela relaciona o \textit{speedup} ao número de processadores, identificando a taxa de utilização do processador. Pode ser calculada por: $E_p = speedup/p$. Em uma paralelização ideal, a eficiência tem valor 1, significando que os processadores têm utilização total.
 
 
+
+// ESCREVER SOBRE OS MODELOS DE PROGRAMACAO PARALELA
+[Rauber e Runger 2010]
+
+Um dos modelos existentes para computação paralela é o de memória distribuída. O ambiente de memória distribuída consiste em vários processadores, cada um com sua própria memória, interconectados por uma rede de comunicação, como representado na Figura \ref{fig:ArquiteturaDistribuida}.
+
+\begin{figure}[htb]
+\centering
+%trim left, bottom, right and top
+\includegraphics[trim=0cm 1cm 0cm 0cm, width=0.5\textwidth]{figuras/Arquitetura.pdf}
+\caption{Modelo de arquitetura distribuída}
+\label{fig:ArquiteturaDistribuida}
+\end{figure}
+
+
+
+\subsection{Computação paralela em \textit{clusters}}
 Com o avanço tecnólogico da última década, o volume crescente de dados sendo gerado, coletado e armazenado tornou o processamento dos dados inviável para um único computador. A quantidade de dados atualmente processados cria a necessidade de computação de alto desempenho, cujo foco sejam os dados.  Como resultado, torna-se crucial substituir a computação tradicional por computação distribuída eficiente. 
 É um caminho natural para o processamento de dados em larga escala o uso de \textit{clusters} ~\cite{Lin:2010}.
 
 \textit{Clusters} são conjuntos de máquinas, ligadas em rede, que comunicam-se através do sistema, trabalhando como se fossem uma única máquina de grande porte. 
-Dentre algumas características observadas em um \textit{cluster}, é possível destacar: o baixo custo se comparado a supercomputadores; a proximidade geografica dos nós. altas taxas de transferência nas conexões entre as máquinas e o uso de máquinas em geral homogêneas \cite{Toth:2008}.
+Dentre algumas características observadas em um \textit{cluster}, é possível destacar: o baixo custo se comparado a supercomputadores; a proximidade geografica dos nós; altas taxas de transferência nas conexões entre as máquinas e o uso de máquinas em geral homogêneas \cite{Toth:2008}.
 
 Apesar dos computadores em um \textit{cluster} não precisarem processar necessariamente a mesma aplicação, a grande vantagem de tal organização é a habilidade de cada nó processar individualmente uma fração da aplicação, resultando em desempenho que pode ser comparado ao de um supercomputador.
 Em geral os computadores de \textit{clusters} são de baixo custo, o que permite que um grande número de máquinas seja interligado, garantindo desempenho e melhor custo-benefício que supercomputadores, o que apresenta grande vantagem. Outro ponto importante é que novas máquinas podem ser facilmente incorporadas  ao \textit{cluster}, tornando-o uma solução mais flexível, principalmente por ser formado por máquinas de capacidade de processamento similar.
 
-\textit{Esta linha de pesquisa envolve vários outros conceitos relacionados à infraestrutura, como comunicação entre os nós, balanceamento de carga e outros discutidos nas próximas seções.}
+%
+%// bloco 4: conceitos
+%
+%\textit{Esta linha de pesquisa envolve vários outros conceitos relacionados à infraestrutura, como comunicação entre os nós, balanceamento de carga e outros discutidos nas próximas seções.}
+%
+
+
+\subsection{Computação paralela em grandes volumes de dados}
+O processamento em \textit{clusters} é uma tarefa cujo desempenho é dependente de diversos fatores, como descrito anteriormente. O processamento de grandes volumes de dados também é uma tarefa desafiadora, que tem sido objeto de vários estudos. O processamento deve ser baseado em alguns princípios para garantir a escalabilidade e o bom desempenho \cite{Bryant:2011}:
 
 
 
-// FIGURA ARQUITETURA
+Uma grande responsabilidade do sistema é prover tratamento intrínseco dos dados, pois a coleta e manutenção dos dados deve ser funções do sistema e não tarefa dos usuários.  O sistema deve recuperar informações atualizadas através de rede e realizar cálculos derivados como tarefas em segundo plano. Os usuários devem ser capazes de realizar consultas com base no conteúdo e ter facilidade para acessar os dados. Mecanismos de confiabilidade, como replicação e  correção de erros devem ser incorporados como parte do sistema, de modo a garantir integridade e disponibilidade dos dados.
 
-\subsection{ Princípios de processamento em cluster? distribuído? de grande volumes de dados? }
-
-O processamento de grandes volumes de dados em \textit{clusters} deve ser baseado em alguns princípios para garantir a escalabilidade e o bom desempenho \cite{Bryant:2011}:
+O uso de modelos de programação paralelo de alto nível também deve ser incentivado. O desenvolvedor da aplicação deve fazer uso de primitivas de programação de alto nível, capazes de expressar formas naturais de paralelismo, que não incluam configurações específicas de uma máquina. O trabalho de mapear a computação para as máquinas de forma eficiente deve ficar a cargo do sistema, e não do desenvolvedor.
 
 
+Os usuários devem ser capazes de executar programas de forma interativa, com variação dos requisitos de computação e armazenamento. O sistema deve responder rapidamente à consultas e cálculos simples, e não degradar o desempenho geral quando a tarefa for complexa. 
+Para suportar a computação interativa, deve haver oferta de recursos. O custo consequente do aumento dos recursos ofertados pode ser justificado com base no aumento da produtividade dos usuários do sistema.
 
-\paragraph{Tratamento de dados intrínsecos}
-A coleta e manutenção dos dados deve ser funções do sistema e não tarefa dos usuários.  
-O sistema deve recuperar informações atualizadas através de rede e realizar cálculos derivados como tarefas em segundo plano. Os usuários devem ser capazes de usar consultas ricos com base no conteúdo e identidade para acessar os dados. 
-Mecanismos de confiabilidade, como replicação e de correção de erros devem ser incorporados como parte do sistema, de modo a garantir integridade e disponibilidade dos dados.
-
-\paragraph{Modelo de programação paralelo de alto nível}
-O desenvolvedor da aplicação deve fazer uso de primitivas de programação de alto nível, capazes de expressar formas naturais de paralelismo, que não incluam cofigurações específicas de uma máquina. O trabalho de Mapear essas computações para a máquina de forma eficiente deve ficar a cargo do sistema, compilador e runtime.
-
-\paragraph{Acesso interativo} 
-Os usuários devem ser capazes de executar programas de forma interativa, com variação dos requisitos de computação e armazenamento O sistema deve responder a consultas e cálculos simples rapidamente, e responder aos complexos sem degradar o desempenho geral. Para suportar a computação interativa, deve haver oferta de recursos. O custo consequente do aumento dos recursos ofertados pode ser justificado com base no aumento da produtividade dos usuários do sistema.
-
-
-\paragraph{Mecanismos escaláveis para garantir alta confiabilidade e disponibilidade}
 Um sistema para computação de grandes volumes de dados deve implementar mecanismos de confiabilidade, no qual os dados originais e intermediários são armazenados de forma redundante. Isso permite que no caso de falhas de componente ou dados seja possível refazer a computação. Além disso, a máquina deve identificar e desativar automaticamente componentes que falharam, de modo a não prejudicar o desempenho do sistema e se manter sempre disponível. 
 
 
@@ -47,36 +84,6 @@ Grandes empresas de serviços de Internet - como Google, Yahoo, Facebook e Amazo
 
 Dentre as principais propostas está o modelo MapReduce e sua implementação Hadoop, que são soluções escaláveis, capazes de processar grandes volumes de dados, com alto nível de abstração para distribuir a aplicação e mecanismos de tolerância a falhas.
 A próxima seção apresenta com mais detalhes o modelo e suas características.
-
-%
-%
-%\textit{modelos de computação paralela (memória compartilhada, distribuida, threads, paralelismo de dados e Map Reduce)}
-%
-% More precise simulations or the simulations of larger problems need greater and greater computing power and memory space. In the last decades, high-performance research included new developments in parallel hard- ware and software technologies, and a steady progress in parallel high-performance computing can be observed.
-% Multicore architectures in the form of single multicore processors, shared mem- ory systems of several multicore processors, or clusters of multicore processors with a hierarchical interconnection network will have a large impact on software development.
-%
-%Parallel programming models provide methods to support the parallel programming.
-%
-%parallel programming techniques that are neces- sary for developing efficient programs for multicore processors as well as for par- allel cluster systems
-%
-%
-%The goal of a programming model is to provide a mechanism with which the programmer can specify parallel programs. To do so, a set of basic tasks must be supported. A parallel program specifies computations which can be executed in par- allel.
-%
-%The programming model is at the next higher level of abstraction and describes a parallel computing system in terms of the semantics of the programming lan- guage or programming environment. A parallel programming model specifies the programmer’s view on parallel computer by defining how the programmer can code an algorithm. This view is influenced by the architectural design and the language, compiler, or the runtime libraries and, thus, there exist many different parallel pro- gramming models even for the same architecture. There are several criteria by which the parallel programming models can differ:
-%• the level of parallelism which is exploited in the parallel execution (instruction level, statement level, procedural level, or parallel loops);
-%• theimplicitoruser-definedexplicitspecificationofparallelism;
-%• thewayhowparallelprogrampartsarespecified;
-%• the execution mode of parallel units (SIMD or SPMD, synchronous or asyn-
-%chronous);
-%• themodesandpatternofcommunicationamongcomputingunitsfortheexchange
-%of information (explicit communication or shared variables);
-%• synchronizationmechanismstoorganizecomputationandcommunicationbetween
-%parallel units.
-%
-%For the software developer, the new hardware development toward multicore architectures is a challenge, since existing software must be restructured toward parallel execution to take advantage of the additional computing resources. In partic- ular, software developers can no longer expect that the increase of computing power can automatically be used by their software products. Instead, additional effort is required at the software level to take advantage of the increased computing power.
-%
-%There is much research going on in the area of parallel programming languages and environments with the goal of facilitating parallel programming by providing support at the right level of abstraction.
-
 
 \section{MapReduce}
 O MapReduce é um modelo de programação paralela criado pela Google para processamento de grandes volumes de dados em \textit{clusters}. Esse modelo propõe simplificar a computação paralela e ser de fácil uso, abstraindo conceitos complexos da paralelização - como tolerância a falhas, distribuição de dados e balanço de carga - e utilizando duas funções principais: Map e Reduce. A complexidade do algoritmo paralelo não é vista pelo desenvolvedor, que pode se ocupar em desenvolver a solução proposta \cite{Dean:2008}.
@@ -176,11 +183,11 @@ As tarefas que não foram executadas são reescalonadas para os demais nós. O m
 
 
 
-\subsubsection{Sistema de Arquivos Distribuídos}
+\subsubsection{Sistema de Arquivos do Hadoop}
 
 
 O \textit{ Hadoop Distributed File System} (HDFS) é um sistema de arquivos distribuído desenvolvido para armazenar grandes conjuntos de dados e ser altamente tolerante a falhas \cite{Hadoop:2010}.
-A plataforma Hadoop suporta diversos sistemas de arquivos distintos, como Amazon S3 (Native e Block-based), CloudStore, HAR, sistemas mantidos por servidores FTP e HTTP, Local (destinado a unidades de armazenamento conectadas localmente), mas fornece o HDSF como sistema de arquivos padrão.
+A plataforma Hadoop é compatível com diversos sistemas de arquivos distintos, como Amazon S3 (Native e Block-based), CloudStore, HAR, sistemas mantidos por servidores FTP e HTTP, Local (destinado a unidades de armazenamento conectadas localmente), mas fornece o HDSF como sistema de arquivos padrão.
 
 A arquitetura do HDFS também é do tipo mestre-escravos.
 O nó mestre (\textit{NameNode}) é responsável por manter e controlar todos os metadados do sistema de arquivos e gerenciar a localização dos dados. Também é responsável por outras atividades, como por exemplo, balanceamento de carga, \textit{garbage collection}, e atendimento a requisições dos clientes.
@@ -197,9 +204,9 @@ O \textit{Namenode} gerencia e manipula todas as informações dos arquivos, tal
 \end{figure}
 
 O HDFS incorpora funcionalidades que têm grande impacto no desempenho geral do sistema.
-Uma delas é conhecida como \textit{rack awareness}. Com esse recurso, o sistema de arquivos é capaz de identificar os nós escravos que pertencem a um mesmo \textit{rack}, e distribuir as réplicas de maneira mais inteligente, aumentando a performance e confiabilidade do sistema.
-A outra é a distribuição dos dados. O sistema de arquivos busca manter um balanceamento na ocupação das unidades de armazenamento, e o \textit{framework}, busca atribuir tarefas a um \textit{worker} que possua, em sua unidade de armazenamento local, os dados que devem ser processados.
-Assim, quando executa-se grandes operações MapReduce com um número significante de nós, a maioria dos dados são lidos localmente e o consumo de banda é mínimo.
+Uma delas é conhecida como \textit{rack awareness}. Com esse recurso, o sistema de arquivos é capaz de identificar os nós escravos que pertencem a um mesmo \textit{rack}, e distribuir as réplicas de maneira mais inteligente, aumentando o desempenho e a confiabilidade do sistema.
+A outra funcionalidade é a distribuição dos dados. O sistema de arquivos busca manter um balanceamento na ocupação das unidades de armazenamento, e o \textit{framework} busca atribuir tarefas a um \textit{worker} que possua, em sua unidade de armazenamento local, os dados que devem ser processados.
+Assim, quando executa-se grandes operações MapReduce com um número significativo de nós, a maioria dos dados são lidos localmente e o consumo de banda é mínimo.
 
 
 
@@ -233,11 +240,11 @@ Assim, quando executa-se grandes operações MapReduce com um número significan
 %
 %\end{itemize}
 
-
-
+A ordenação é o processo de organizar elementos de uma sequência em determinada ordem, e é um dos problemas fundamentais na computação devido à sua importância teórica e prática. De forma geral, a ordenação pode ser dividida em dois grupos: a ordenação interna e externa. 
 A ordenação em memória interna é caracterizada pelo armazenamento de todos os registros na memória principal, onde seus acessos são feitos diretamente pelo processador. Essa ordenação é possível apenas quando a quantidade de dados é pequena o suficiente para ser armazenada em memória. 
 
-Quando a ordenação é feita em um grande conjunto de dados, que não podem ser armazenados em memória principal a ordenação é chamada externa. Apesar do problema nos dois casos ser o mesmo (rearranjar os registros de um arquivo em ordem ascendente ou descendente), não é possível usar as mesmas estratégias da ordenação interna, pois o acesso aos dados é feito em discos, cujo tempo de acesso é muito superior ao da memória principal.  %[Ziviani 2007, Knuth 1973].
+Quando é preciso ordenar uma base de dados muito grande, que não cabe na memória principal, um outro modelo faz-se necessário, a ordenação externa.
+Apesar do problema nos dois casos ser o mesmo - rearranjar os registros de um arquivo em ordem ascendente ou descendente - não é possível usar as mesmas estratégias da ordenação interna, pois o acesso aos dados precisa ser feito em memória secundária, como discos, cujo tempo de acesso é superior ao da memória principal.  %[Ziviani 2007, Knuth 1973].
 
 Na ordenação externa, os itens que não estão na memória principal devem ser buscados em memória secundária e trazidos para a memória principal, para assim serem comparados. Esse processo se repete inúmeras vezes, o que o torna lento, uma vez que os processadores ficam grande parte do tempo ociosos à espera da chegada dos dados à memória principal para serem processados. Por esse motivo, a grande ênfase de um método de ordenação externa deve ser na minimização do número de vezes que cada item é transferido entre a memória interna e a memória externa. Além disso, cada transferência deve ser realizada de forma tão eficiente quanto as características dos equipamentos disponíveis permitam \cite{Ziviani:2007}.
 
@@ -245,18 +252,17 @@ Na ordenação externa, os itens que não estão na memória principal devem ser
 
 \section{Algoritmos de Ordenação Paralela}
 
-A ordenação paralela é o processo  de ordenação feito através de múltiplas unidades de processamento, que trabalham em conjunto para ordenar a sequência de entrada. O conjunto inicial é divido em sub-conjuntos disjuntos, que são associados a uma única unidade de processamento. A sequência final ordenada é obtida a partir da composição dos sub-conjuntos ordenados. É um ponto fundamental do algoritmo que a ordenação feita por cada processo individual seja organizada de tal forma que todas as unidades de processamento estejam trabalhando, enquanto o custo de redistribuição de chaves entre os processadores é minimizado. 
+A ordenação paralela é o processo  de ordenação feito em múltiplas unidades de processamento, que trabalham em conjunto para ordenar uma sequência de entrada. O conjunto inicial é dividido em subconjuntos disjuntos, que são associados a uma única unidade de processamento. A sequência final ordenada é obtida a partir da composição dos subconjuntos ordenados. É um ponto fundamental do algoritmo de ordenação paralela que a ordenação feita por cada processo individual seja organizada de tal forma que todas as unidades de processamento estejam trabalhando, enquanto o custo de redistribuição de chaves entre os processadores é minimizado. 
 
 
 
 \subsection{Condições de implementação de algoritmos paralelos de ordenação}
  
-Diversas soluções de ordenação podem ser consideradas ao implementar um algoritmo de ordenação em ambiente paralelo. Cada uma delas atende a cenário, tipo de entrada, plataforma ou arquitetura particulares. Dessa forma, ao implementar algoritmos de ordenação paralela, é importante considerar certas condições que interferem no desempenho final do algoritmo, relacionadas tanto ao ambiente de implementação, quanto ao conjunto de dados que deve ser ordenado. As principais questões a serem analisadas são \cite{Kale:2010} :
-
+Diversas soluções de ordenação podem ser consideradas ao implementar um algoritmo de ordenação em ambiente paralelo. Cada uma delas atende um cenário, tipo de entrada, plataforma ou arquitetura particulares. Dessa forma, ao implementar algoritmos de ordenação paralela, é importante considerar certas condições que interferem no desempenho final do algoritmo, relacionadas tanto ao ambiente de implementação, quanto ao conjunto de dados que deve ser ordenado. As principais questões a serem analisadas são \cite{Kale:2010} 
 \begin{itemize}
 \item \textbf{Habilidade de explorar distribuições iniciais parcialmente ordenadas:}
 Alguns algoritmos podem se beneficiar de cenários nos quais a sequência de entrada dos dados é mesma, ou pouco alterada. Nesse caso, é possível obter melhor desempenho ao realizar menos trabalho e movimentação de dados.
-Se a alteração na posição dos elementos da sequência é pequena o suficiente, grande parte dos processadores mantém seus dados iniciais e precisa se comunicar apenas com os processadores vizinhos.
+Se a alteração na posição dos elementos na sequência é pequena o suficiente, grande parte dos processadores mantém seus dados iniciais e precisa se comunicar apenas com os processadores vizinhos.
 
 \item \textbf{Movimentação dos dados:}
 A movimentação de dados entre processadores deve ser mínima durante a execução do algoritmo. Em um sistema de memória distribuída, a quantidade de dados a ser movimentada é um ponto crítico, pois o custo de troca de dados pode dominar o custo de execução total e limitar a escalabilidade.
@@ -274,42 +280,22 @@ Em qualquer aplicação paralela, existem tarefas com focos em computação e co
 \end{itemize}
 
 
-Além das condições relacionadas à implementação do algoritmo em ambiente paralelo, existem outras condições necessárias, relacionadas principalmente às propriedades do conjunto de elementos a ser ordenado. Considerando um conjunto de elementos $ \tau = {k1, k2, ... , kn} $ distribuído entre $p$ processadores, é que preciso durante a execução de qualquer algoritmo de ordenação paralela: 
-
-\begin{enumerate}
-\item Todas as chaves da sequencia inicial sejam preservadas, ou seja, não se perca nenhuma chave durante a distribuição entre os processadores.
-\item  O conjunto de chaves seja particionada em $p$ sub-conjuntos mutualmente exclusivos, sem nenhuma chave duplicada.
-\item O conjunto de todas as chaves satisfaça as propriedades de um conjunto parcialmente ordenado.
-\end{enumerate}
+Além das condições relacionadas à implementação do algoritmo em ambiente paralelo, existem outras condições necessárias, relacionadas principalmente às propriedades do conjunto de elementos a ser ordenado. Considerando um conjunto de elementos $ \tau = {k1, k2, ... , kn} $ distribuído entre $p$ processadores, é que preciso durante a execução de qualquer algoritmo de ordenação paralela: todas as chaves da sequência inicial sejam preservadas, ou seja, não se perca nenhuma chave durante a distribuição entre os processadores; o conjunto de chaves seja particionada em $p$ sub-conjuntos mutualmente exclusivos, sem nenhuma chave duplicada; o conjunto de todas as chaves satisfaça as propriedades de um conjunto parcialmente ordenado.
 
 Após o conjunto estar ordenado, é preciso que pós condições sejam satisfeitas:
-\begin{enumerate}
+todas as chaves da sequência inicial foram preservadas; todas as chaves de cada processador estão ordenadas em ordem crescente; a maior chave no processador $p_{i}$ é inferior ou igual ao menor chave no processador $p_{i+1}$; a saída resultante deve ser uma sequência de chaves que satisfaça as propriedades de um conjunto totalmente ordenado.
 
-\item Todas as chaves da sequencia inicial foram preservadas.
-\item Todas as chaves de cada processador estão ordenadas em ordem crescente.
-%$\forall i $ tal que $i < p$, a
-\item A maior chave no processador $p_{i}$ é inferior ou igual ao menor chave no processador $p_{i+1}$.
-\item A saída resultante deve ser uma sequência de chaves que satisfaça as propriedades de um conjunto totalmente ordenado.
 
-\end{enumerate}
+\subsection{Fluxo geral de execução da ordenação paralela}
 
-\subsection{Fluxo de execução geral}
+Na execução de um algoritmo de ordenação paralela, podem ser identificadas algumas tarefas principais, normalmente realizadas de forma sequencial, que todos os algoritmos precisam executar em algum momento \cite{Kale:2010}. 
+A primeira tarefa é a ordenação local, na qual as chaves em cada processador são ordenadas inicialmente, ou ordenadas em grupos.
+Existe também uma fase de agrupamento, pois muitas vezes é necessário colocar as chaves em grupos, a fim de enviá-las a outros processadores ou calcular histogramas. Por fim, é preciso realizar a intercalação das chaves ordenadas em subsequências em uma sequência completa.
 
-Na execução de um algoritmo de ordenação paralela, podem ser identificadas algumas tarefas principais,  normalmente realizadas de forma sequencial, que todos os algoritmos precisam realizar em algum momento \cite{Kale:2010}: 
 %visto pela perspectiva da comunicação, pode ser generalizada, uma vez que estão submetidos às mesmas limitações. 
 %A fim de fazer uma generalização sobre o fluxo de controle de algoritmos de ordenação, algumas tarefas podem ser definidas, de maneira superficial, como se segue:
 
 %De forma geral, todos os algoritmos de ordenação paralela executam três funções: 
-
-\begin{itemize}
-\item \textbf{Ordenação Local:} as chaves em cada processador são normalmente ordenadas inicialmente, ou ordenadas em grupos, em algum ponto da execução.
-\item \textbf{Bucketing(?):} muitas vezes é necessário colocar as chaves em grupos, a fim de enviá-las a outros processadores ou calcular histogramas.
-\item \textbf{Agrupamento:} as chaves são ordenadas em sub-sequências e precisam ser combinadas em uma sequência completa.
-\end{itemize}
-
-
-
-// TEXTO
 
 
 1. Realizar processamento local. 
