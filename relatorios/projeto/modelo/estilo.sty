@@ -7,18 +7,26 @@
 \RequirePackage[brazil]{babel}
 \RequirePackage{fancyhdr}
 \RequirePackage{listings}
-% Altera o tamanho das fontes dos capítulos e das sessões
+
+% Altera o tamanho das fontes dos capítulos para Large e Negrito
 \renewcommand{\ABNTchaptersize}{\LARGE}
 \renewcommand{\ABNTchapterfont}{\bfseries}
+% É possível colocar a fonte em small caps nos capítulos e no sumário
 %\renewcommand{\ABNTchapterfont}{\scshape\bfseries}
 %\renewcommand{\ABNTtocchapterfont}{\scshape\bfseries}
 
+% Altera o tamanho das fontes section para large
 \renewcommand\section{\ABNTstartsection{section}{1}{\z@}%
 {3.5ex \@plus -1ex \@minus -.2ex} {3.3ex \@plus.2ex}%
 {\espaco{simples}\normalfont  \ABNTsectionfont\large}}
 
-%\renewcommand{\ABNTsubsectionfont}{\normalsize}
-
+% Altera o tamanho das fontes subsection para normalize
+%\renewcommand\subsection{\ABNTstartsection{subsection}{2}{\z@}%
+%                           {-3.25ex\@plus -1ex \@minus -.2ex}%
+%                           {1.5ex \@plus .2ex}%
+%                           {\espaco{simples}\normalfont%
+%                            \ABNTsectionfont\normalsize}}
+                            
 % Não coloca subsubsection no sumario
 \setcounter{secnumdepth}{2}
 \setcounter{tocdepth}{2}
@@ -33,11 +41,20 @@
 \fancyhead[RO]{\footnotesize \rightmark} 
 \fancyfoot[C]{\thepage}
 }
+
 %% Cabeçalhos dos capítulos
 \fancypagestyle{plainheader}{% 
 \fancyhf{} % clear all header and footer fields 
 \fancyfoot[C]{\thepage}
 \renewcommand{\headrulewidth}{0pt}
+}
+
+% Bibliografia com melhor espaçamento
+\let\oldbibliography\thebibliography
+\renewcommand{\thebibliography}[1]{%
+  \oldbibliography{#1}%
+  \setlength{\itemsep}{10pt}%
+\onehalfspacing
 }
 
 % Listas com menor espaçamento

@@ -1,0 +1,5 @@
+\select@language {brazil}
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Modelo de arquitetura distribu\IeC {\'\i }da\relax }}{16}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Fluxo simplificado da contagem de palavras com o MapReduce\relax }}{19}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Vis\IeC {\~a}o geral do funcionamento do modelo MapReduce.\relax }}{20}
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Vis\IeC {\~a}o abstrata do cluster.\relax }}{23}

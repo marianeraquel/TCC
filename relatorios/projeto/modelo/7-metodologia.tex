@@ -3,15 +3,14 @@
 
 \section{Metodologia}
 
-A primeira fase do projeto será destinada ao estudo mais detalhado da computação paralela, em especial os algoritmos de ordenação paralela, dos fatores que influenciam o desempenho de tais algoritmos, o modelo MapReduce e a plataforma Hadoop. O passo seguinte é conhecer detalhadamente o algoritmo paralelo a ser implementado e definir as estratégias para sua implentação ambiente Hadoop. 
-O algoritmo implementado deve ser cuidadosamente avaliado para verificar um funcionamento adequado com diferentes entradas e número de máquinas. 
+A primeira fase do projeto foi destinada ao estudo mais detalhado da computação paralela, em especial dos algoritmos de ordenação paralela, do modelo MapReduce e da plataforma Hadoop. Foram realizados testes de ordenação com os \textit{benchmarks} TeraSort e Sort, e com os exemplos disponibilizados pelo Hadoop. Após esses testes, foram realizados testes com o algoritmo Ordenação por Amostragem do trabalho de Pinhão (2011), mas com com a inclusão das distribuições Normal e Pareto. O passo seguinte foi conhecer detalhadamente o algoritmo paralelo a ser implementado. No próximo semestre serão definidas as estratégias para sua implementação em ambiente Hadoop e realizados os testes. 
 
-Em seguida, serão realizados experimentos para testes de desempenho dos algoritmos com relação à quantidade de máquinas, quantidade de dados e conjunto de dados.  Os resultados obtidos serão analisados e permitirão comparar a desempenho dos algoritmos em cada situação. 
-
+O algoritmo implementado deve ser cuidadosamente avaliado para verificar um funcionamento adequado com diferentes entradas e número de máquinas. Dessa forma, foram realizados experimentos para testes de desempenho dos algoritmos com relação à quantidade de máquinas, quantidade de dados e conjunto de dados.  Os resultados obtidos foram analisados a fim de permitir comparar a desempenho dos algoritmos em cada situação. 
+ 
 
 \section{Infraestrutura}
 
-A infra estrutura necessária ao desenvolvimento do projeto será fornecida pelo Laboratório de Redes e Sistemas (LABORES) do Departamento de Computação (DECOM). O laboratório possui um \textit{cluster} formado por cinco máquinas Dell Optiplex 380, que serão utilizadas na realização dos testes dos algoritmos. Os algoritmos serão desenvolvidos em linguagem Java, de acordo com o modelo MapReduce, no ambiente Hadoop. 
+A infraestrutura necessária ao desenvolvimento do projeto foi fornecida pelo Laboratório de Redes e Sistemas (LABORES) do Departamento de Computação (DECOM). O laboratório possui um \textit{cluster} formado por cinco máquinas Dell Optiplex 380, que foram utilizados na realização dos testes dos algoritmos. Os algoritmos serão desenvolvidos em linguagem Java, de acordo com o modelo MapReduce, no ambiente Hadoop. 
 
 Cada máquina do \textit{cluster} apresenta as seguintes características:
 \begin{packed_enum}
@@ -28,76 +27,48 @@ Cada máquina do \textit{cluster} apresenta as seguintes características:
 \section{Descrição dos experimentos}
 
 A primeira parte dos experimentos consitiu em reproduzir os resultados já encontrados no trabalho de referência: testes de ordenação com os \textit{benchmarks} TeraSort e Sort, e com o algoritmo Ordenação por Amostragem. 
-Em todos os casos, os testes são compostos de duas partes: geração da carga de dados, seguida da ordenação. 
+Em todos os casos, os testes foram compostos de duas partes: geração da carga de dados e ordenação. 
 
 \subsection{Benchmarks: TeraSort e Sort}
 
-Os \textit{benchmarks} TeraSort e Sort foram os primeiros testes de ordenação realizados. O uso de algoritmos conhecidos e consolidados na ordenação no ambiente Hadoop permite compreender o funcionamento dos algoritmos e do ambiente dos testes.
+Os \textit{benchmarks} TeraSort e Sort foram os primeiros testes de ordenação realizados. O uso de algoritmos conhecidos e consolidados na ordenação no ambiente Hadoop permitiu compreender o funcionamento dos algoritmos e do ambiente dos testes.
 
 \subsubsection{Terasort}
 
 O TeraSort consiste de três algoritmos, que são responsáveis pela geração dos dados, ordenação e validação. 
-A geração dos dados é feita pelo algoritmo TeraGen. Os registros gerados têm um formato específico, formado por uma chave, um id e um valor. As  chaves são caracteres aleatórios do conjunto ' ' .. '~'. O id é um valor inteiro que representa a linha, e o valor consiste de 70 caracteres de 'A' a 'Z'. 
-
-O número de registros gerados é um parâmetro definido pelo usuário, e os dados gerados são dividos em dois arquivos. Nos testes realizados, foram gerados dois arquivos, cada um contendo 50 mil linhas. 
-
-O TeraSort lê tais arquivos e realiza a ordenação. Após a ordenação, os dados são validados pelo TeraValidade. Caso haja algum erro na ordenação, o algoritmo escreve um arquivo informando quais foram as chaves com erros. 
-
+A geração dos dados é feita pelo algoritmo TeraGen. O TeraSort lê os arquivos gerados e realiza a ordenação. Após a ordenação, os dados são validados pelo TeraValidade. Caso haja algum erro na ordenação, o algoritmo escreve um arquivo informando quais foram as chaves com erros.  
 
 \subsubsection{Sort}
 
 Sort é um dos \textit{benchmarks}  de ordenação de dados mais conhecidos para Hadoop. Ele é uma aplicação MapReduce, que realiza uma ordenação dos dados de entrada. Além da ordenação, é fornecido um programa padrão para geração de dados aleatórios de entrada, o RandomWriter. 
-
 Os dados utilizados para os testes de ordenação com o Sort foram gerados pelo algoritmo RandomWriter. Para cada máquina do \textit{cluster}, são escritos 10 arquivos de 1GB cada em formato binário, totalizando 10GB.
-% 
-
-
-% 3.3) Ordenação por Amostragem
 
 
 \subsection{Ordenação por Amostragem}
 
-Para o algoritmo ordenação por amostragem foram feitos três tipos de experimentos diferentes, com alterações no número de arquivos ou máquinas. O primeiro experimento manteve constante o tamanho do arquivo a ser ordenado e o número de máquinas utilizadas na ordenação. O segundo experimento manteve constante o número de máquinas utilizadas e variou o tamanho do arquivo a ser ordenado. O terceiro experimento manteve constante o número de dados e alterou a quantidade de máquinas utilizadas. 
+Para o algoritmo ordenação por amostragem foram feitos três tipos de experimentos, com alterações no número de arquivos ou máquinas. O primeiro experimento manteve constante o tamanho do arquivo a ser ordenado e o número de máquinas utilizadas na ordenação. O segundo experimento manteve constante o número de máquinas utilizadas e variou o tamanho do arquivo a ser ordenado. E o terceiro experimento manteve constante o número de dados e alterou a quantidade de máquinas utilizadas. 
 
-Cada um dos testes é 
+Cada um dos experimentos foi realizado com três distribuições diferentes: uniforme, normal e pareto. As distribuições foram geradas por um programa implementado em Java para geração de chaves aleatórias de ponto flutuante, contendo entre $10^{6}$ (12MB) e  $10^{10}$ (120GB) chaves. 
 
-(GeraDados)
-Programa implementado em Java para geração de chaves inteiras aleatórias.
-Foram gerados 10 conjuntos de chaves entre $10^{6}$ (12MB) e  $10^{10}$ (120GB) chaves inteiras. 
-Anotar os tempos de execução de cada algoritmo.
+É parte fundamental do algoritmo de Ordenação por Amostragem a definição de parâmetros que resultem em partições balanceadas. Nos testes realizados, os parâmetros definidos foram a frequência máxima de amostras e o número de partições para cada caso.  A frequência das amostras foi fixada 10 mil, e o número de partições foi função do número de máquinas utilizadas e núcleos dos processadores: 
+			4 (2 máquinas); 
+			6 (3 máquinas); 
+			8 (4 máquinas); 
+			10 (5 máquinas).
 
-\subsubsection{Variando o conjunto de dados} 
- (4 máquinas)
 
-Objetivo: avaliar a influência dos valores gerados aleatoriamente no desempenho do algoritmo. 
-Testes com 10 conjuntos de $10^{6}$ dados. 
-Para cada conjunto, executar 10 vezes com os parâmetros de balanceamento descritos anteriormente. 
+\subsubsection{Quantidade de máquinas e dados constante} 
 
-\subsubsection{Variando a quantidade de dados} (4 máquinas)
+Os testes foram realizados em 4 máquinas, com arquivos de $10^{6}$ chaves. Foram feitos testes com 10 conjuntos de dados diferentes, e para cada conjunto, o algoritmo foi executado 10 vezes, com os parâmetros de balanceamento descritos anteriormente.  O objetivo era avaliar a influência dos valores gerados aleatoriamente no desempenho do algoritmo. 
+
+\subsubsection{Variando a quantidade de dados}
  
-Objetivo: avaliar a complexidade do algoritmo quando o conjunto de dados a serem ordenados aumenta.
-Testes com dados de $10^{6}$ a $10^{10}$ gerados aleatoriamente.
- 
- Para cada quantidade de dados, o algoritmo foi executado três vezes com os parâmetros descritos anteriormente. 
+ Os testes variando a quantidade de dados também foram executados em 4 máquinas, com conjuntos de dados das três distribuições diferentes. Cada distribuição gerou aleatoriamente uma quantidade de dados entre $10^{6}$ e $10^{10}$. O algoritmo foi executado três vezes em cada conjunto com os parâmetros descritos anteriormente. O objetivo foi avaliar a complexidade do algoritmo quando o conjunto de dados a serem ordenados aumenta.
  
 \subsubsection{Variando a quantidade de máquinas}
- (2 a 5 máquinas)
- 
- Objetivo: avaliar a escalabilidade do algoritmo (diminuição do tempo de ordenação) 
- Testes com o mesmo conjunto de $10^{8}$ dados em diferentes quantidades de máquinas, de 2 a 5. 
- 
- Para cada quantidade de máquinas, o algoritmo foi executado três vezes, com os parâmetros de balanceamento descritos anteriormente.
- 
-\subsubsection{Parâmetros do algortimo}
 
-Frequência:
-Número max de amostras: 10 mil
-Núm max de partições: 	4 (5 máquinas)
-			6 (5 máquinas)
-			8 (5 máquinas)
-			10 (5 máquinas)
-
-
+Esses testes foram executados com tamanho constante do arquivo de entrada  ($10^{8}$ chaves) em quantidades de máquinas que variaram de 2 a 5. 
+Para cada quantidade de máquinas, foram gerados conjuntos com as distribuições diferentes e o algoritmo foi executado três vezes para cada conjunto, com os parâmetros de balanceamento descritos anteriormente. O objetivo foi avaliar a escalabilidade do algoritmo, com diminuição do tempo de ordenação quando se aumenta o número de máquinas.
 
 \section{Cronograma de trabalho}
 
@@ -106,7 +77,7 @@ O cronograma de trabalho inclui as atividades que devem ser realizadas e como el
 As tarefas a serem desenvolvidas estão descritas a seguir:
 
 \begin{num_enum}
- \item \label{c1} Pesquisa bibliográfica sobre o tema do projeto e escrita da proposta
+ \item \label{c1} Pesquisa bibliográfica sobre o tema do projeto e escrita da proposta.
  \item \label{c2} Estudo mais detalhado dos algoritmos de ordenação paralela,  modelo MapReduce e Hadoop.
  \item \label{c3} Configuração do ambiente Hadoop no laboratório.
  \item \label{c4} Implementação e testes.

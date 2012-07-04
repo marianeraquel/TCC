@@ -10,39 +10,15 @@
 \usepackage{graphicx}	
 \usepackage[left=3cm,right=3cm,top=3cm,bottom=3cm, pdftex]{geometry}
 \usepackage{fancyhdr}
-\usepackage{estilo}
 \usepackage{url}
 \usepackage{listings}
 \usepackage{courier}
 \usepackage{color}
 \usepackage{multirow}
 \usepackage[font=small,labelfont=bf]{caption}
-
-%\usepackage{hyperref}
-%\usepackage[square]{natbib}
-
+\usepackage{estilo}
 \usepackage{cite}
 \bibliographystyle{abnt-alf-mod}
-%\usepackage{natbib}
-%\bibliographystyle{bibTcc}
-
-\let\oldbibliography\thebibliography
-\renewcommand{\thebibliography}[1]{%
-  \oldbibliography{#1}%
-  \setlength{\itemsep}{10pt}%
-\onehalfspacing
-}
-%\setcitestyle{authoryear,square,semicolon,aysep={},yysep={,}}
-% \makeatletter
-%\def\@lbibitem[#1]#2{%
-%\if\relax\@extra@b@citeb\relax\else
-%\@ifundefined{br@#2\@extra@b@citeb}{}{%
-%\@namedef{br@#2}{\@nameuse{br@#2\@extra@b@citeb}}}\fi
-%\@ifundefined{b@#2\@extra@b@citeb}{\def\NAT@num{}}{\NAT@parse{#2}}%
-%\item[\hfil\hyper@natanchorstart{#2\@extra@b@citeb}\citep{#2}%
-%\hyper@natanchorend]%
-%\NAT@ifcmd#1(@)(@)\@nil{#2}}
-%\makeatother
 
 % --------- Início do Documento ---------
 
@@ -51,10 +27,10 @@
 \include{1-capa}
 %\include{2-folharosto}
 %\include{3-folhaaprovacao}
-%\include{4-resumo}
+\include{4-resumo}
 \sumario
-%\listadefiguras
-%\listadetabelas
+\listadefiguras
+\listadetabelas
 \include{5-introducao}
 \include{6-referecialTeorico}
 \include{7-metodologia}
@@ -62,7 +38,6 @@
 \include{9-conclusao}
 
 % Referências
-%\nocite{abnt-etal-list=0}
-%\nocite{Paula:2011}
+\nocite{Paula:2011}
 \bibliography{bibliografia} % o nome do arquivo .bib						
 \end{document}
