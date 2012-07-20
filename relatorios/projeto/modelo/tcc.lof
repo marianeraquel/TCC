@@ -1,5 +1,9 @@
 \select@language {brazil}
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Modelo de arquitetura distribu\IeC {\'\i }da\relax }}{16}
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Fluxo simplificado da contagem de palavras com o MapReduce\relax }}{19}
-\contentsline {figure}{\numberline {2.3}{\ignorespaces Vis\IeC {\~a}o geral do funcionamento do modelo MapReduce.\relax }}{20}
-\contentsline {figure}{\numberline {2.4}{\ignorespaces Vis\IeC {\~a}o abstrata do cluster.\relax }}{23}
+\contentsline {figure}{\numberline {1}{\ignorespaces Modelo de arquitetura distribu\IeC {\'\i }da\relax }}{14}
+\contentsline {figure}{\numberline {2}{\ignorespaces Exemplo da contagem de palavras com o MapReduce\relax }}{18}
+\contentsline {figure}{\numberline {3}{\ignorespaces Vis\IeC {\~a}o geral do funcionamento do modelo MapReduce.\relax }}{19}
+\contentsline {figure}{\numberline {4}{\ignorespaces Vis\IeC {\~a}o abstrata do cluster.\relax }}{22}
+\contentsline {figure}{\numberline {5}{\ignorespaces Exemplo do algoritmo Ordena\IeC {\c c}\IeC {\~a}o Por Amostragem\relax }}{30}
+\contentsline {figure}{\numberline {6}{\ignorespaces Distribui\IeC {\c c}\IeC {\~a}o Uniforme\relax }}{38}
+\contentsline {figure}{\numberline {7}{\ignorespaces Distribui\IeC {\c c}\IeC {\~a}o Normal com m\IeC {\'e}dia 5 e desvio padr\IeC {\~a}o 1\relax }}{38}
+\contentsline {figure}{\numberline {8}{\ignorespaces Distribui\IeC {\c c}\IeC {\~a}o Pareto com par\IeC {\^a}metro 0.9\relax }}{38}
