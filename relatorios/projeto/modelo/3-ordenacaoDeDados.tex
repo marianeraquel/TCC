@@ -30,7 +30,7 @@
 
 A ordenação é o processo de organizar elementos de uma sequência em determinada ordem, e é um dos problemas fundamentais da computação devido à sua importância teórica e prática \cite{Knuth:1998, Cormen:2009}. 
 A ordenação é utilizada por um grande número de aplicações computacionais, como compiladores e sistemas operacionais, que usam extensivamente a ordenação para lidar com tabelas e listas. 
-A construção de estruturas essenciais em computação gráfica e sistemas de informação geográfica são fundamentalmente operações de ordenação, que também participa de aplicações como compressão de dados. A ordenação ainda é utilizada para determinar a duplicidade de elementos, encontrar o maior valor, realizar busca contínua e por operações SQL, que internamente a utilizam na criação de índices e buscas binárias. Dessa forma, diversos sistemas e bancos de dados se beneficiariam com uma rotina eficiente de ordenação \cite{Lauterbach:2009, Satish:2009 , Dean:2008}.
+A construção de estruturas essenciais em computação gráfica e sistemas de informação geográfica são fundamentalmente operações de ordenação, que também participa de aplicações como a compressão de dados. A ordenação ainda é utilizada para determinar a duplicidade de elementos, encontrar o maior valor, realizar busca contínua e por operações SQL, que internamente a utilizam na criação de índices e buscas binárias. Dessa forma, diversos sistemas e bancos de dados se beneficiariam de uma rotina eficiente de ordenação \cite{Lauterbach:2009, Satish:2009 , Dean:2008}.
 
 
 %A busca binária é outro exemplo de aplicação da ordenação, uma vez que necessita que a sequência de elementos esteja previamente ordenada. A ordenação também fornece uma forma fácil e rápida para solucionar o problema de verificação da duplicidade de elementos. Quando as operações são repetidas muitas vezes como, por exemplo, na busca contínua por elementos em uma massa de dados, é vantajoso ordenar a sequência primeiramente.
@@ -59,8 +59,8 @@ A ordenação paralela é uma aplicação estudada intensivamente desde o iníci
 Estudos teóricos sempre existiram, mas testes empíricos se tornaram possíveis na década de 80 com a disponibilidade de arquiteturas vetoriais, de multiprocessadores e multicomputadores e diversas versões paralelas dos algoritmos \textit{QuickSort}, \textit{RadixSort} e \textit{MergeSort} foram propostas. 
 %Os principais algoritmos estudados são o  \cite{Cole:1988}. 
 
-O \textit{QuickSort} paralelo foi um dos algoritmos mais estudados \cite{Deminet:1982, Quinn:1994, Sanders:1997}, mas inicialmente a divisão dos dados limitava o aumento da velocidade, independente do número de processadores utilizados. Recentemente novas implementações foram propostas, como Parikh \cite{Parikh:2008} que utilizou as tecnologias  de \textit{hyperthreading} disponíveis em processadores atuais para desenvolver um esquema de balanço de carga, que têm se mostrado eficiente na divisão dos dados.
-Para o \textit{MergeSort} foi proposta uma versão chamada \textit{Simple Randomized Mergesort} \cite{Barve:1996, Barve:2002}, que foi o primeiro algoritmo de ordenação em disco que requer um número médio ótimo de movimentações de dados. 
+O \textit{QuickSort} paralelo foi um dos algoritmos mais estudados \cite{Deminet:1982, Quinn:1994, Sanders:1997}, mas inicialmente a divisão dos dados limitava o aumento da velocidade, independente do número de processadores utilizados. Recentemente novas implementações foram propostas, utilizando as tecnologias  de \textit{hyperthreading} disponíveis em processadores atuais para desenvolver um esquema de balanço de carga, que têm se mostrado eficiente na divisão dos dados \cite{Parikh:2008}.
+Para o \textit{MergeSort} foi proposta uma versão chamada \textit{Simple Randomized Mergesort} \cite{Barve:1996, Barve:2002}, que foi o primeiro algoritmo de ordenação em disco a requerer um número médio ótimo de movimentações de dados. 
  A implementação \textit{Quickmerge} proposta por Quinn combinava os algoritmos \textit{QuickSort} e \textit{MergeSort}, reduzindo significativamente a quantidade de dados movimentada \cite{Quinn:1988}. Também foram estudados algoritmos de ordenação paralela que se baseiam em uma amostra para realizar a divisão do conjunto de dados. Podem ser citados o \textit{FlashSort} \cite{Reif:1987}, o \textit{SampleSort} \cite{Huang:1983} e suas variações como o \textit{Super-Scalar SampleSort }\cite{Sanders:2004} e o \textit{Parallel Sorting by Regular Sampling} \cite{Shi:1992}.
 
 Além disso, as propostas atuais de ordenação em grandes conjuntos de máquinas incluem os algoritmos implementados em Hadoop \textit{Sort} e \textit{TeraSort}, descritos na seção \ref{sec:benchmarks}, capazes de ordenar petabytes de informação em centenas ou milhares de nodos. 
@@ -73,8 +73,8 @@ Com tamanha variedade de algoritmos e arquiteturas, diversas soluções podem se
 
 \begin{itemize}
 \item \textbf{Habilidade de explorar distribuições iniciais parcialmente ordenadas:}
-Alguns algoritmos podem se beneficiar de cenários nos quais a sequência de entrada dos dados é mesma, ou pouco alterada. Nesse caso, é possível obter melhor desempenho ao realizar menos trabalho e movimentação de dados.
-Se a alteração na posição dos elementos na sequência é pequena o suficiente, grande parte dos processadores mantém seus dados iniciais e precisa se comunicar apenas com os processadores vizinhos.
+Alguns algoritmos podem se beneficiar de cenários nos quais a sequência de entrada dos dados é a mesma, ou pouco alterada. Nesse caso, é possível obter melhor desempenho ao realizar menos trabalho e movimentação de dados.
+Se a alteração na posição dos elementos na sequência é pequena o suficiente, grande parte dos processadores mantém seus dados iniciais e precisam se comunicar apenas com os processadores vizinhos.
 
 \item \textbf{Movimentação dos dados:}
 A movimentação de dados entre processadores deve ser mínima durante a execução do algoritmo. Em um sistema de memória distribuída, a quantidade de dados a ser movimentada é um ponto crítico, pois o custo de troca de dados pode dominar o custo de execução total e limitar a escalabilidade.
@@ -186,14 +186,14 @@ A estratégia de dividir para conquistar é naturalmente extensível à paraleli
 %pois após a divisão das chaves para os processadores a ordenação em cada um deles é independente, 
 Existem várias implementações paralelas do \textit{QuickSort} como: \textit{Quinn's QuickSort, Hyper QuickSort, Sanders QuickSort} e  \textit{Grama QuickSort} \cite{Quinn:1994, Sanders:1997}. Apesar das variações, todas as implementações se baseiam em um conjunto de processadores, um mecanismo de escolha do pivô e uma lista de chaves para nelas operarem. A saída dos algoritmos é uma sequência de chaves globalmente ordenadas. 
 
-A versão paralela do \textit{QuickSort} utiliza pivôs para realizar o particionamento recursivo do conjunto de processadores que interagem. A questão do balanceamento de carga, fundamental ao desempenho do algoritmo é mantida pela semântica da seleção do pivô [Kale e Solomonik 2010]. Inicialmente tem-se um conjunto de chaves e $p$ processadores, sendo um mestre e os demais escravos. Em seguida é feita a escolha do pivô e o mestre envia esse valor para os processadores escravos. Cada processador divide suas chaves em dois grupos: elementos maiores e menores que o pivô. 
+A versão paralela do \textit{QuickSort} utiliza pivôs para realizar o particionamento recursivo do conjunto de processadores que interagem. A questão do balanceamento de carga, fundamental ao desempenho do algoritmo é mantida pela semântica da seleção do pivô [Kale e Solomonik 2010]. Inicialmente tem-se um conjunto de chaves e $p$ processadores, sendo um mestre e os demais escravos. Em seguida é feita a escolha do pivô e o mestre envia esse valor para os processadores escravos. Cada processador divide suas chaves em dois grupos: elementos maiores e elementos menores que o pivô. 
 Para que  a distribuição dos conjuntos seja balanceada, são contabilizados os totais de elementos maiores e menores e com essa informação o mestre é capaz de definir o número de processadores que deve receber chaves menores e o número de processadores que deve receber chaves maiores que o pivô, além do número médio de chaves que cada processador deve receber. 
 
-No \textit{QuickSort} paralelo, todas as chaves serão movidas entre os processadores durante a execução do algoritmo, no entanto, a latência de comunicação das mensagens aumenta apenas com o crescimento do número de processadores. Com isso a versão paralela do \textit{QuickSort} está sujeita a menor overhead de latência de comunicação que as versões paralelas do \textit{RadixSort} e Ordenação por Amostragem. A complexidade da versão paralela do \textit{QuickSort} é O((n/p)log(n/p)), pois o conjunto de $n$ elementos é divido entre os $p$ processadores.  
+No \textit{QuickSort} paralelo, todas as chaves serão movidas entre os processadores durante a execução do algoritmo, no entanto, a latência de comunicação das mensagens aumenta apenas com o crescimento do número de processadores. Com isso a versão paralela do \textit{QuickSort} está sujeita a menor \textit{overhead} de latência de comunicação que as versões paralelas do \textit{RadixSort} e Ordenação por Amostragem. A complexidade da versão paralela do \textit{QuickSort} é O((n/p)log(n/p)), pois o conjunto de $n$ elementos é divido entre os $p$ processadores.  
 
 %, tendo-se p processadores, pode-se dividir a lista de n elementos em p sublistas em um tempo O(n). Após isso, a ordenação será concluída em um tempo .
  
-O \textit{Quicksort} apresenta vantagem em relação a outros algoritmos de ordenação paralela, pois 
+O \textit{Quicksort} apresenta vantagem em relação a outros algoritmos de ordenação paralela pois 
 não necessita de sincronização. Cada sublista gerada é associada a um único processo, que não precisa se comunicar com os demais porque seus dados são independentes. 
 
 %%% EXEMPLO
@@ -211,9 +211,10 @@ As principais categorias dos \textit{benchmarks Sort} são a \textit{MinuteSort}
 Em cada categoria de ordenação, existem duas classificações, de acordo com o tipo de registro a ser ordenado: \textit{Daytona} e \textit{Indy}. O participantes da categoria \textit{Daytona} são códigos de ordenação de propósito geral, e os participantes da \textit{Indy} devem ordenar apenas registros de 100 bytes, sendo os primeiros 10 bytes de um registro a chave e o restante o valor do elemento a ser ordenado.
 
 
-No Hadoop, o \textit{Sort} é uma aplicação MapReduce, composta de três etapas: gerar dados aleatórios, realizar a ordenação, e validar os resultados.
-A geração de dados aleatórios é feita com o programa \textit{RandomWriter}. Ele executa 10 tarefas MapReduce por nó, e cada função Map gera aproximadamente 1GB,  totalizando 10GB de dados binários aleatórios. É possível alterar o número de dados e as configurações para os tamanhos das chaves e valores, alterando algumas configurações do \textit{RandomWriter}.
-No segundo passo é realizada uma ordenação parcial dos dados de entrada, e  o resultado é escrito em um diretório de saída. 
+No Hadoop, o \textit{Sort} é uma aplicação MapReduce, composta de três etapas: gerar dados aleatórios, realizar a ordenação e validar os resultados.
+A geração de dados aleatórios é feita com o programa \textit{RandomWriter}. Ele executa dez tarefas MapReduce por nó, e cada função Map gera aproximadamente 1GB,  totalizando 10GB de dados binários aleatórios. 
+É possível determinar o número de dados e as configurações para os tamanhos das chaves e valores a serem gerados alterando algumas configurações do \textit{RandomWriter}.
+No segundo passo é realizada uma ordenação parcial dos dados de entrada e  o resultado é escrito em um diretório de saída. 
 O passo final é validar os resultados obtidos pela ordenação dos dados realizada pelo \textit{Sort}, através do programa \textit{SortValidator}, que realiza uma série de verificações nos dados ordenados e nos não ordenados para confirmar se a ordenação foi realizada corretamente. 
 %:
 %\begin{verbatim} %SUCCESS! Validated the MapReduce framework's 'sort' successfully. \end{verbatim}
@@ -241,18 +242,18 @@ O \textit{TeraSort} é outra aplicação de destaque para ordenação de dados c
 O \textit{TeraSort} consiste de três algoritmos, que são responsáveis pela geração dos dados, ordenação e validação. 
 
 \textit{Teragen} é o programa padrão para geração dados para a ordenação com \textit{Terasort}.
-Nele o número de registros gerados é um parâmetro definido pelo usuário, assim como o número de tarefas Map a serem realizadas. O programa divide o número desejado de registros pelo número de tarefas Map, e atribui a cada tarefa Map um intervalo de chaves para a geração de um arquivo. Cada tarefa Map corresponde a um arquivo de saída, assim os dados gerados são divididos em diversos arquivos. Deste modo, se existem 2 tarefas Map, serão escritos 2 arquivos, cada um contendo metade das chaves geradas. 
+Nele o número de registros gerados é um parâmetro definido pelo usuário, assim como o número de tarefas Map a serem realizadas. O programa divide o número desejado de registros pelo número de tarefas Map, e atribui a cada tarefa Map um intervalo de chaves para a geração de um arquivo. Cada tarefa Map corresponde a um arquivo de saída, assim os dados gerados são divididos em diversos arquivos. Deste modo, se existem duas tarefas Map, serão escritos dois arquivos, cada um contendo metade das chaves geradas. 
 Os registros gerados têm um formato específico: uma chave, um id e um valor. As  chaves são caracteres aleatórios do conjunto ' ' .. '$\sim$'. O id é um valor inteiro que representa a linha, e o valor consiste de 70 caracteres de 'A' a 'Z'. 
 
 \textit{TeraSort} é uma espécie MapReduce padrão, mas apresenta um particionador personalizado que usa uma lista ordenada de $ N-1 $ chaves amostradas que definem a faixa de chaves para cada função Reduce. 
 Em particular, todas as chaves tal que $amostra [i-1] \le chave < amostra[i] $ são enviadas para a função \textit{i}. 
 Isto garante todas as chaves da saída $i$ sejam menores que as da saída $i + 1$ .
-Há também um formato de entrada e saída, \textit{TeraOutputFormat}, que é utilizado	 por todas as 3 aplicações  para ler e gravar os arquivos de texto no mesmo formato. 
+Há também um formato de entrada e saída, \textit{TeraOutputFormat}, que é utilizado	 por todas as três aplicações  para ler e gravar os arquivos de texto no mesmo formato. 
 
 %todas as chaves menores que a amostra i e maiores ou iguais a amostra i + 1 são enviadas ao processador i. 
 
 
-\textit{TeraValidate} garante que a saída está totalmente ordenada. A aplicação cria uma função Map para cada arquivo no diretório de saída, que se certifica que cada chave é  menor ou igual à anterior. O Map também gera registros com a primeira e última chave de cada arquivo. Em seguida, a função Reduce lê tais registros e garante que a primeira chave de um arquivo é maior do que a última chave do arquivo anterior. Caso alguma chave seja encontrada fora de ordem, ela é escrita em um  arquivo de saída do Reduce.
+\textit{TeraValidate} garante que a saída está totalmente ordenada. A aplicação cria uma função Map para cada arquivo no diretório de saída, que se certifica que cada chave é  menor ou igual à anterior. O Map também gera registros com a primeira e última chave de cada arquivo. Em seguida, a função Reduce lê tais registros e garante que a primeira chave de um arquivo é maior do que a última chave do arquivo anterior. Caso alguma chave seja encontrada fora de ordem, ela é escrita em um  arquivo de saída do Reduce, caso nenhuma chave esteja fora de ordem, não há saídas na função Reduce.
 
 
 %TeraGen generates output data that is byte-for-byte equivalent to the C version including the newlines and specific keys. It divides the desired number of rows by the desired number of tasks and assigns ranges of rows to each map. The map jumps the random number generator to the correct value for the first row and generates the following rows. For the final run, I configured TeraGen to use 1,800 tasks to generate a total of 10 billion rows in HDFS, with a block size of 512 MB.

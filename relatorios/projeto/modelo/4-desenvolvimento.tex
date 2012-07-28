@@ -8,7 +8,7 @@ Esse capítulo trata do desenvolvimento do trabalho, indicando a metodologia uti
 A primeira fase do projeto foi destinada ao estudo mais detalhado da computação paralela, em especial dos algoritmos de ordenação paralela, do modelo MapReduce e da plataforma Hadoop. Foram executados testes com os exemplos disponibilizados pelo Hadoop e com os \textit{benchmarks} \textit{TeraSort} e \textit{Sort}. 
 Após esses testes, foram realizados experimentos com o algoritmo Ordenação por Amostragem, com dados em distribuição uniforme, mesma carga de dados utilizada no trabalho de Pinhão (2011). Além dessa carga de dados, foram feitos testes incluindo duas novas distribuições: Normal e Pareto. 
 
-Os testes buscavam mensurar o desempenho dos algoritmos com relação à quantidade de máquinas, quantidade de dados e conjunto de dados, uma vez que cada algoritmo implementado deve ser cuidadosamente avaliado para verificar um funcionamento adequado com diferentes entradas e número de máquinas. Os resultados obtidos foram analisados a fim de permitir comparar o desempenho dos algoritmos em cada situação.
+Os testes buscavam confirmar um funcionamento adequado do algoritmo com diferentes entradas e número de máquinas, além de medir o desempenho dos algoritmos com relação à quantidade de máquinas, quantidade de dados e conjunto de dados. Os resultados obtidos até o momento foram analisados a fim de permitir comparar o desempenho dos algoritmos em cada situação.
  
 O passo seguinte foi conhecer detalhadamente o algoritmo paralelo a ser implementado, o \textit{Quicksort}.  No próximo semestre serão definidas as estratégias para sua implementação em ambiente Hadoop e realizados os testes.
 
@@ -44,7 +44,7 @@ Para compreender o funcionamento dos algoritmos de ordenação e do ambiente Had
 
 %\subsubsection{Terasort}
 
-O \textit{TeraSort} consiste de três algoritmos, que são responsáveis pela geração dos dados, ordenação e validação, conforme descrito na seção \ref{Terasort}.
+O \textit{TeraSort} consiste de três algoritmos, que são responsáveis pela geração dos dados, ordenação e validação, conforme descrito na seção \ref{sec:benchmarks}.
 Os testes com o \textit{TeraSort} foram feitos em duas máquinas. Foram gerados pelo \textit{TeraGen} dois arquivos contendo 50 mil linhas cada e o algoritmo foi executado 10 vezes.
 
  
@@ -72,31 +72,43 @@ Os dados utilizados foram números gerados aleatoriamente em três distribuiçõ
 
 As Figuras \ref{fig:uniforme}, \ref{fig:normal} e \ref{fig:pareto} exibem o padrão de frequência das chaves das três distribuições: uniforme, normal e pareto, respectivamente. 
 Pode-se observar que as três distribuições tem padrões de comportamento bastante distintos, que se refletem nos arquivos de entrada gerados. A distribuição pareto é a única que está apresentada em escala logarítmica, para melhor visualização. 
-Na distribuição uniforme cada chave tem a mesma probabilidade de aparecimento, levando a chaves igualmente distribuídas no intervalo. A distribuição normal concentra grande parte dos valores próximos à media, e distribui poucas chaves em valores mais extremos. A distribuição pareto possui uma grande concentração de chaves em valores próximos de 0, e pequena quantidade de valores mais altos, com baixa frequência de aparecimento no intervalo restante. %Isso pode ser visto pela escala logarítmica utilizada no gráfico que exibe essa distribuição.
+Na distribuição uniforme cada chave tem a mesma probabilidade de aparecimento, levando a chaves igualmente distribuídas no intervalo. A distribuição normal concentra grande parte dos valores próximos à media, e distribui poucas chaves em valores mais extremos. A distribuição pareto possui uma grande concentração de chaves em valores próximos de 0, e pequena quantidade de valores mais altos, resultado em valores com baixa frequência no intervalo restante. %Isso pode ser visto pela escala logarítmica utilizada no gráfico que exibe essa distribuição.
 
- \begin{figure}
- \centering
-%trim left, bottom, right and top [trim=0cm 2cm 0cm 1cm, width=\textwidth]
-%\includegraphics[width=0.6\textwidth]{figuras/Normal.pdf}
-\caption{Distribuição Uniforme}
-\label{fig:uniforme}
+\begin{figure}[!h]
+
+\centering
+\subfigure[Distribuição Uniforme]{\includegraphics[width=0.48\textwidth]{figuras/DistribuicaoUniforme.pdf} \label{fig:uniforme}}
+\qquad
+\subfigure[Distribuição Normal]{\includegraphics[width=0.48\textwidth]{figuras/DistribuicaoNormal.pdf} \label{fig:normal}}
+\subfigure[Distribuição Pareto]{\includegraphics[width=0.48\textwidth]{figuras/DistribuicaoPareto.pdf} \label{fig:pareto}}
+\caption{Distribuições dos dados gerados para ordenação}
+
 \end{figure}
 
-  \begin{figure}
- \centering
-%trim left, bottom, right and top trim=0cm 2cm 0cm 1cm,
-%\includegraphics[width=0.6\textwidth]{figuras/Normal.pdf}
-\caption{Distribuição Normal com média 5 e desvio padrão 1}
-\label{fig:normal}
-\end{figure}
 
- \begin{figure}
- \centering
-%trim left, bottom, right and top [trim=0cm 2cm 0cm 1cm, width=\textwidth]
-%\includegraphics[width=0.6\textwidth]{figuras/Pareto.pdf}
-\caption{Distribuição Pareto com parâmetro 0.9}
-\label{fig:pareto}
-\end{figure}
+% \begin{figure}
+% \centering
+%%trim left, bottom, right and top [trim=0cm 2cm 0cm 1cm, width=\textwidth]
+%\includegraphics[width=0.3\textwidth]{figuras/DistribuicaoUniforme.pdf}
+%\caption{Distribuição Uniforme}
+%\label{fig:uniforme}
+%\end{figure}
+%
+%  \begin{figure}
+% \centering
+%%trim left, bottom, right and top trim=0cm 2cm 0cm 1cm,
+%\includegraphics[width=0.3\textwidth]{figuras/DistribuicaoNormal.pdf}
+%\caption{Distribuição Normal}
+%\label{fig:normal}
+%\end{figure}
+%
+% \begin{figure}
+% \centering
+%%trim left, bottom, right and top [trim=0cm 2cm 0cm 1cm, width=\textwidth]
+%\includegraphics[width=0.3\textwidth]{figuras/DistribuicaoPareto.pdf}
+%\caption{Distribuição Pareto}
+%\label{fig:pareto}
+%\end{figure}
 
 Uma parte fundamental do algoritmo de Ordenação por Amostragem é a definição dos parâmetros de amostragem de chaves, para uma amostragem que resulte em partições balanceadas. Nos testes realizados, os parâmetros definidos foram a frequência máxima de amostras e o número de partições para cada caso.  A frequência das amostras foi fixada 10 mil, e o número de partições foi função do número de máquinas utilizadas e núcleos dos processadores: 
 			4 partições para 2 máquinas; 6 para 3 máquinas; 8 para 4 máquinas; 10 para 5 máquinas.

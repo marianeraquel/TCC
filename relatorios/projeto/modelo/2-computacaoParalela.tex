@@ -1,14 +1,15 @@
 \chapter{Computação Paralela}
 \label{cap:referencial}
 
-Esse capítulo aborda os principais conceitos envolvidos no trabalho,  como computação paralela, o modelo MapReduce e sua implementação de código aberto Hadoop.
+Esse capítulo aborda os principais conceitos da computação paralela envolvidos no trabalho, incluindo definições e métricas de avaliação de programas paralelos,
+princípios do processamento paralelo de grandes volumes de dados em \textit{clusters}, o modelo MapReduce e sua implementação de código aberto Hadoop.
 
 
-\section{Definições}
-
+\section{Considerações Iniciais}
+\label{sec:computacaoparalela}
 A computação paralela constitui-se de uma coleção de elementos de processamento que se comunicam e cooperam entre si e com isso resolvem um problema de maneira mais rápida \cite{Almasi:1994}. Mesmo com o avanço tecnológico das últimas décadas, as arquiteturas de Von Neumann demostram deficiências quando utilizadas por aplicações que necessitam de grande poder computacional. Essa deficiência impulsionou a utilização da computação paralela, com o objetivo de aumentar a capacidade de processamento das máquinas.
 
-No estudo de computação paralela, é importante diferenciar os conceitos de paralelismo e concorrência, pois ambos tratam de programação e execução de tarefas em múltiplos fluxos, implementados com o objetivo de resolver um único problema. Concorrência consiste em diferentes tarefas serem executadas ao mesmo tempo, de forma a produzir um resultado particular mais rapidamente. Isso não implica necessariamente na existência de vários elementos de processamento; a concorrência pode ocorrer tanto com um único processador quanto com múltiplos processadores. 
+No estudo da computação paralela, é importante diferenciar os conceitos de paralelismo e concorrência, pois ambos tratam de programação e execução de tarefas em múltiplos fluxos, implementados com o objetivo de resolver um único problema. Concorrência consiste em diferentes tarefas serem executadas ao mesmo tempo, de forma a produzir um resultado particular mais rapidamente. Isso não implica necessariamente na existência de vários elementos de processamento; a concorrência pode ocorrer tanto com um único processador quanto com múltiplos processadores. 
 Por outro lado, o paralelismo exige a execução de diversas tarefas simultaneamente, com a necessidade de vários elementos de processamento. 
 Se há apenas um elemento de processamento não há paralelismo, pois apenas uma tarefa será executada a cada instante, mas pode haver concorrência, pois o processador pode ser compartilhado pelas tarefas em execução \cite{Breshears:2009}.
 
@@ -22,7 +23,7 @@ Outro desafio é minimizar o tempo de desenvolvimento, já que muitas vezes o de
 O bom desempenho da aplicação é um dos objetivos centrais da paralelização, mas pode ser comprometido por comunicação excessiva ou balanceamento irregular de carga. O balanceamento de carga busca atingir um aproveitamento ótimo dos recursos do sistema, alocando tarefas de forma a obter o mesmo nível de esforço em todos os processadores.  A comunicação e sincronização de tarefas devem ser minimizadas pelo desenvolvedor, pois são tipicamente as maiores barreiras para se atingir grande desempenho em programas paralelos.
 Após o desenvolvimento de uma aplicação paralela é importante avaliar se os tempos de execução paralelos são menores que os sequenciais e quão menores são esses tempos, através de indicadores de desempenho. Para avaliar o desempenho de algoritmos paralelos as principais métricas são o \textit{speedup}, a eficiência e a lei de Amdahl.
 
-O \textit{speedup} (S$_p$) é uma métrica que informa quão mais rápida é a aplicação paralela, em comparação com sua versão sequencial. Para isso, determina a relação existente entre o tempo gasto para executar um algoritmo  em um único processador ($T_{sequencial}$) e o tempo gasto para executá-lo em $p$ processadores (T$_{paralelo}$): 
+O \textit{speedup} (S$_p$) é uma métrica que informa quão mais rápida é a aplicação paralela, em comparação com sua versão sequencial. Para isso, determina a relação existente entre o tempo gasto para executar um algoritmo  em um único processador (T$_{sequencial}$) e o tempo gasto para executá-lo em $p$ processadores (T$_{paralelo}$): 
 \[ S_p = \frac{T_{sequencial}}{T_{paralelo}} \]	
 Em uma situação ideal o \textit{speedup} é igual a $p$, o que indicaria que o aumento da capacidade de processamento é diretamente proporcional ao número de processadores. 
 Contudo,  o \textit{speedup} é diretamente afetado por fatores como comunicação entre processos, granulosidades inadequadas e partes não paralelizáveis de programas.
@@ -170,7 +171,7 @@ Após todas as tarefas Map e Reduce concluídas, o mestre acorda o programa do u
 
 \section{Hadoop}
 
-O Hadoop é uma das  implementações mais conhecidas modelo MapReduce. Ele provê o gerenciamento de computação distribuída, de maneira escalável e confiável. É uma implementação código aberto em Java  desenvolvida por Doug Cutting em 2005 e mantida pela Apache Software Foundation \cite{White:2009, Hadoop:2010}.
+O Hadoop é uma das  implementações mais conhecidas do modelo MapReduce. Ele provê o gerenciamento de computação distribuída, de maneira escalável e confiável. É uma implementação código aberto em Java  desenvolvida por Doug Cutting em 2005 e mantida pela Apache Software Foundation \cite{White:2009, Hadoop:2010}.
 
 Um dos principais benefícios do Hadoop é permitir o processamento em conjunto de centenas de máquinas de maneira transparente, o que significa que o usuário não deve se preocupar com mecanismos de tolerância a falhas, que é provido pelo sistema. %\cite{Dean:2008}. 
 Facebook, Yahoo! e eBay utilizam o ambiente Hadoop em seus \textit{clusters}, para processar diariamente terabytes de dados e logs de eventos para detecção de \textit{spam}, \textit{business intelligence} e diferentes tipos de otimização \cite{Cherkasova:2011}.

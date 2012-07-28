@@ -1,10 +1,26 @@
-\chapter{Conclusões e Propostas de Continuidade}
+
+\chapter{Conclusão}
 \label{cap:conclusao}
 
+Esse Capítulo apresenta as conclusões dos testes preliminares, realizados na primeira etapa do projeto. Apresenta também as perspectivas para a segunda fase do projeto, com a implementação do \textit{Quicksort} em ambiente Hadoop e a comparação dos resultados.
 
-// Conclusão
+ \section{Conclusões}
+ 
+Com base nos experimentos realizados pôde-se avaliar o comportamento do algoritmo Ordenação por Amostragem ao ordenar conjuntos de dados com 
+diferentes distribuições de chaves. Essa avaliação ocorreu em três situações: diferentes conjuntos de mesmo tamanho de dados, conjuntos de dados com tamanhos de 10$^6$ a 10$^{10}$ e em quantidades de máquinas variando de 2 a 5.
 
-Como proposta de continuidade do projeto, está a implementação e teste do algoritmo Quicksort. 
+Os resultados mostraram que em geral as distribuições das cargas de trabalho - normal, uniforme e pareto - pouco influenciaram os resultados apresentados,  indicando que foram formadas partições balanceadas, independente dos dados de entrada. Esse balanceamento é essencial para o bom desempenho do algoritmo Ordenação por Amostragem. 
+
+Observou-se uma boa escalabilidade do algoritmo em relação ao número de dados, pois seu desempenho, medido em tempo, melhorou à medida que a quantidade de dados aumentou. Isso pode ser explicado por uma melhor distribuição da carga de trabalho entre os processadores participantes, que diminui o  \textit{overhead} do algoritmo.
+Além disso, os resultados também demonstraram a escalabilidade do algoritmo com o aumento no número de processadores. Com a alteração de duas para cinco máquinas, as métricas de desempenho avaliadas - \textit{speedup} e eficiência - foram menores que o ideal, mas ainda representaram melhora significativa no desempenho do algoritmo. 
+%E a eficiência também apresentou percentual menor que o ideal, na medida que aumentarm o número de máquinas, contudo a perda não foi expressiva, dessa forma apesar de não manter o máximo aproveitamento o aproveitamento foi sempre acima de 85%. O tempo de execução variou xxx. com relação à quantidade de maquinas e xxx a quantidade de dados. 
+
+ 
+\section{Propostas de Continuidade}
+
+
+
+Como proposta de continuidade do projeto, está a implementação e teste do algoritmo \textit{Quicksort}. 
 Em seguida, serão comparados os desempenhos dos algoritmos nos cenários propostos, variando os conjuntos de dados,  a quantidade
 de dados e a quantidade de máquinas utilizadas na ordenação. Nos diferentes cenários, serão feitas ordenações utilizando conjuntos com diferentes distribuições de chaves,
 para simular situações reais em que os dados nem sempre seguem uma distribuição uniforme.
