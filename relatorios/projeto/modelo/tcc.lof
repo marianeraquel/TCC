@@ -1,0 +1,16 @@
+\select@language {brazil}
+\contentsline {figure}{\numberline {1}{\ignorespaces Modelo de arquitetura distribu\IeC {\'\i }da\relax }}{14}
+\contentsline {figure}{\numberline {2}{\ignorespaces Exemplo da contagem de palavras com o MapReduce\relax }}{18}
+\contentsline {figure}{\numberline {3}{\ignorespaces Vis\IeC {\~a}o geral do funcionamento do modelo MapReduce.\relax }}{19}
+\contentsline {figure}{\numberline {4}{\ignorespaces Vis\IeC {\~a}o abstrata do cluster.\relax }}{22}
+\contentsline {figure}{\numberline {5}{\ignorespaces Exemplo do algoritmo Ordena\IeC {\c c}\IeC {\~a}o Por Amostragem\relax }}{30}
+\contentsline {figure}{\numberline {6}{\ignorespaces Distribui\IeC {\c c}\IeC {\~o}es dos dados gerados para ordena\IeC {\c c}\IeC {\~a}o\relax }}{38}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Distribui\IeC {\c c}\IeC {\~a}o Uniforme}}}{38}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Distribui\IeC {\c c}\IeC {\~a}o Normal}}}{38}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Distribui\IeC {\c c}\IeC {\~a}o Pareto}}}{38}
+\contentsline {figure}{\numberline {7}{\ignorespaces Gr\IeC {\'a}fico dos tempos m\IeC {\'e}dios para ordena\IeC {\c c}\IeC {\~a}o de 10 conjuntos de 10$^6$ dados em 4 m\IeC {\'a}quinas\relax }}{43}
+\contentsline {figure}{\numberline {8}{\ignorespaces Gr\IeC {\'a}fico dos tempos m\IeC {\'e}dios para ordena\IeC {\c c}\IeC {\~a}o de 10$^6$ a 10$^{10}$ dados em 4 m\IeC {\'a}quinas\relax }}{44}
+\contentsline {figure}{\numberline {9}{\ignorespaces Gr\IeC {\'a}fico dos tempos m\IeC {\'e}dios para ordena\IeC {\c c}\IeC {\~a}o de conjuntos de 10$^6$ dados em 4 m\IeC {\'a}quinas\relax }}{45}
+\contentsline {figure}{\numberline {10}{\ignorespaces Tempos m\IeC {\'e}dios para ordena\IeC {\c c}\IeC {\~a}o de 10$^8$ dados em de 2 a 5 m\IeC {\'a}quinas\relax }}{46}
+\contentsline {figure}{\numberline {11}{\ignorespaces Gr\IeC {\'a}fico dos resultados do \textit {speedup} para execu\IeC {\c c}\IeC {\~o}es de 4 a 10 processadores\relax }}{48}
+\contentsline {figure}{\numberline {12}{\ignorespaces Gr\IeC {\'a}fico dos resultados da efici\IeC {\^e}ncia para execu\IeC {\c c}\IeC {\~o}es de 4 a 10 processadores\relax }}{49}
