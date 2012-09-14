@@ -1,0 +1,67 @@
+This is BibTeX, Version 0.99d (TeX Live 2011)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: tcc.aux
+The style file: abnt-alf-mod.bst
+A level-1 auxiliary file: ./pretextuais/capa.aux
+A level-1 auxiliary file: ./pretextuais/resumo.aux
+A level-1 auxiliary file: ./capitulos/1-introducao.aux
+A level-1 auxiliary file: ./capitulos/2-computacaoParalela.aux
+A level-1 auxiliary file: ./capitulos/3-ordenacaoDeDados.aux
+A level-1 auxiliary file: ./capitulos/4-desenvolvimento.aux
+A level-1 auxiliary file: ./capitulos/5-resultados.aux
+A level-1 auxiliary file: ./capitulos/6-conclusao.aux
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Database file #1: bibliografia.bib
+Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
+Reallocated global_strs (elt_size=5001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=4) to 20 items from 10.
+You've used 39 entries,
+            6475 wiz_defined-function locations,
+            1441 strings with 15473 characters,
+and the built_in function-call counts, 31722 in all, are:
+= -- 2430
+> -- 1040
+< -- 53
++ -- 433
+- -- 318
+* -- 2488
+:= -- 4195
+add.period$ -- 154
+call.type$ -- 39
+change.case$ -- 174
+chr.to.int$ -- 81
+cite$ -- 39
+duplicate$ -- 1697
+empty$ -- 2613
+format.name$ -- 1527
+if$ -- 7553
+int.to.chr$ -- 0
+int.to.str$ -- 0
+missing$ -- 704
+newline$ -- 190
+num.names$ -- 195
+pop$ -- 872
+preamble$ -- 1
+purify$ -- 147
+quote$ -- 0
+skip$ -- 1731
+stack$ -- 0
+substring$ -- 1162
+swap$ -- 922
+text.length$ -- 39
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 11
+warning$ -- 0
+while$ -- 278
+width$ -- 0
+write$ -- 636

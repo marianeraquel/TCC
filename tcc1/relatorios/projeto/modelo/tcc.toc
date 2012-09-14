@@ -1,0 +1,45 @@
+\select@language {brazil}
+\contentsline {paragraph}{Palavras-chave:}{}
+\contentsline {paragraph}{Keywords:}{}
+\contentsline {chapter}{\numberline {1}Introdu\IeC {\c c}\IeC {\~a}o}{8}
+\contentsline {section}{\numberline {1.1}Defini\IeC {\c c}\IeC {\~a}o do Problema}{8}
+\contentsline {section}{\numberline {1.2}Motiva\IeC {\c c}\IeC {\~a}o}{9}
+\contentsline {section}{\numberline {1.3}Objetivos}{12}
+\contentsline {section}{\numberline {1.4}Organiza\IeC {\c c}\IeC {\~a}o do Texto}{12}
+\contentsline {chapter}{\numberline {2}Computa\IeC {\c c}\IeC {\~a}o Paralela}{13}
+\contentsline {section}{\numberline {2.1}Considera\IeC {\c c}\IeC {\~o}es Iniciais}{13}
+\contentsline {subsection}{\numberline {2.1.1}Modelos de programa\IeC {\c c}\IeC {\~a}o paralela}{16}
+\contentsline {subsection}{\numberline {2.1.2}Computa\IeC {\c c}\IeC {\~a}o paralela em \textit {clusters}}{17}
+\contentsline {subsection}{\numberline {2.1.3}Computa\IeC {\c c}\IeC {\~a}o paralela em grandes volumes de dados}{18}
+\contentsline {section}{\numberline {2.2}MapReduce}{19}
+\contentsline {subsection}{\numberline {2.2.1}Arquitetura do MapReduce}{21}
+\contentsline {subsection}{\numberline {2.2.2}Vis\IeC {\~a}o geral do fluxo de execu\IeC {\c c}\IeC {\~a}o}{21}
+\contentsline {section}{\numberline {2.3}Hadoop}{23}
+\contentsline {subsection}{\numberline {2.3.1}Arquitetura do Framework}{23}
+\contentsline {subsection}{\numberline {2.3.2}Sistema de Arquivos do Hadoop}{24}
+\contentsline {chapter}{\numberline {3}Ordena\IeC {\c c}\IeC {\~a}o de Dados}{26}
+\contentsline {section}{\numberline {3.1}Ordena\IeC {\c c}\IeC {\~a}o Paralela}{27}
+\contentsline {subsection}{\numberline {3.1.1}Fluxo geral de execu\IeC {\c c}\IeC {\~a}o da ordena\IeC {\c c}\IeC {\~a}o paralela}{30}
+\contentsline {section}{\numberline {3.2}Algoritmos de Ordena\IeC {\c c}\IeC {\~a}o Paralela}{31}
+\contentsline {subsection}{\numberline {3.2.1}Ordena\IeC {\c c}\IeC {\~a}o por Amostragem}{31}
+\contentsline {subsection}{\numberline {3.2.2}Quicksort}{34}
+\contentsline {subsection}{\numberline {3.2.3}Ordena\IeC {\c c}\IeC {\~a}o no ambiente Hadoop}{35}
+\contentsline {chapter}{\numberline {4}Desenvolvimento do Trabalho}{38}
+\contentsline {section}{\numberline {4.1}Metodologia}{38}
+\contentsline {section}{\numberline {4.2}Infraestrutura}{39}
+\contentsline {section}{\numberline {4.3}Descri\IeC {\c c}\IeC {\~a}o dos experimentos}{39}
+\contentsline {subsection}{\numberline {4.3.1}Benchmarks: TeraSort e Sort}{39}
+\contentsline {subsection}{\numberline {4.3.2}Ordena\IeC {\c c}\IeC {\~a}o por Amostragem}{40}
+\contentsline {subsubsection}{Quantidade constante de m\IeC {\'a}quinas e dados}{42}
+\contentsline {subsubsection}{Variando a quantidade de dados}{42}
+\contentsline {subsubsection}{Variando a quantidade de m\IeC {\'a}quinas}{42}
+\contentsline {section}{\numberline {4.4}Cronograma de trabalho}{43}
+\contentsline {chapter}{\numberline {5}Resultados Preliminares}{45}
+\contentsline {section}{\numberline {5.1}\textit {Benchmarks: TeraSort} e \textit {Sort}}{45}
+\contentsline {section}{\numberline {5.2}Algoritmo Ordena\IeC {\c c}\IeC {\~a}o por Amostragem}{46}
+\contentsline {subsection}{\numberline {5.2.1}Quantidade constante de m\IeC {\'a}quinas e dados}{46}
+\contentsline {subsection}{\numberline {5.2.2}Variando a quantidade de dados}{47}
+\contentsline {subsection}{\numberline {5.2.3}Variando a quantidade de m\IeC {\'a}quinas}{49}
+\contentsline {chapter}{\numberline {6}Conclus\IeC {\~a}o}{54}
+\contentsline {section}{\numberline {6.1}Conclus\IeC {\~o}es}{54}
+\contentsline {section}{\numberline {6.2}Propostas de Continuidade}{55}

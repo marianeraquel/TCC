@@ -1,0 +1,15 @@
+/usr/local/hadoop/bin/start-all.sh
+
+bin/hadoop dfs -copyFromLocal /home/marianehadoop/clusterdata/WordCount/wordcount/ /user/marianehadoop/wordcount/input
+
+bin/hadoop dfs -ls /user/marianehadoop/wordcount/input
+
+bin/hadoop jar hadoop*examples*.jar wordcount /user/marianehadoop/wordcount/input /user/marianehadoop/wordcount/output
+
+mkdir /home/marianehadoop/clusterdata/WordCount/wordcount/output
+
+bin/hadoop dfs -getmerge /user/marianehadoop/wordcount/output /home/marianehadoop/clusterdata/WordCount/wordcount/output
+
+head  /home/marianehadoop/clusterdata/WordCount/wordcount/output
+
+bin/stop-all.sh

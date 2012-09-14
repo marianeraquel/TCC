@@ -1,0 +1,21 @@
+O programa que vem junto com o hadoop foi utilizado para testes.
+
+
+bin/hadoop dfs -rmr /user/raquel
+
+
+1) TeraGen
+
+bin/hadoop jar hadoop-*-examples.jar teragen 100000 in-dir
+bin/hadoop jar hadoop-examples-*.jar teragen 100000 /user/raquel/terasort-in
+
+
+2) TeraSort
+
+bin/hadoop jar hadoop-examples-*.jar terasort in-dir out-dir
+bin/hadoop jar hadoop-examples-*.jar terasort /user/raquel/terasort-in /user/raquel/terasort-out
+
+3) TeraValidade
+
+bin/hadoop jar hadoop-examples-*.jar teravalidate out-dir report-dir
+bin/hadoop jar hadoop-examples-*.jar teravalidate /user/raquel/terasort-out /user/raquel/terasort-report

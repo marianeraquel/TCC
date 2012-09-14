@@ -1,0 +1,16 @@
+\select@language {brazil}
+\contentsline {figure}{\numberline {1}{\ignorespaces Modelo de arquitetura distribu\IeC {\'\i }da\relax }}{17}
+\contentsline {figure}{\numberline {2}{\ignorespaces Exemplo da contagem de palavras com o MapReduce\relax }}{20}
+\contentsline {figure}{\numberline {3}{\ignorespaces Vis\IeC {\~a}o geral do funcionamento do modelo MapReduce\relax }}{22}
+\contentsline {figure}{\numberline {4}{\ignorespaces Vis\IeC {\~a}o abstrata de um cluster t\IeC {\'\i }pico. Baseado em \cite {Venner:2009}\relax }}{24}
+\contentsline {figure}{\numberline {5}{\ignorespaces Exemplo do algoritmo Ordena\IeC {\c c}\IeC {\~a}o Por Amostragem\relax }}{33}
+\contentsline {figure}{\numberline {6}{\ignorespaces Distribui\IeC {\c c}\IeC {\~o}es dos dados gerados para ordena\IeC {\c c}\IeC {\~a}o\relax }}{41}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Distribui\IeC {\c c}\IeC {\~a}o Uniforme}}}{41}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Distribui\IeC {\c c}\IeC {\~a}o Normal}}}{41}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Distribui\IeC {\c c}\IeC {\~a}o Pareto}}}{41}
+\contentsline {figure}{\numberline {7}{\ignorespaces Gr\IeC {\'a}fico dos tempos m\IeC {\'e}dios para ordena\IeC {\c c}\IeC {\~a}o de 10 conjuntos de 10$^6$ dados em 4 m\IeC {\'a}quinas\relax }}{47}
+\contentsline {figure}{\numberline {8}{\ignorespaces Gr\IeC {\'a}fico dos tempos m\IeC {\'e}dios para ordena\IeC {\c c}\IeC {\~a}o de conjuntos de 10$^6$ a 10$^{10}$ dados em 4 m\IeC {\'a}quinas\relax }}{49}
+\contentsline {figure}{\numberline {9}{\ignorespaces Gr\IeC {\'a}fico do tempo m\IeC {\'e}dio relativo para ordena\IeC {\c c}\IeC {\~a}o de conjuntos de 10$^6$ dados em 4 m\IeC {\'a}quinas\relax }}{50}
+\contentsline {figure}{\numberline {10}{\ignorespaces Gr\IeC {\'a}fico dos tempos m\IeC {\'e}dios para ordena\IeC {\c c}\IeC {\~a}o de conjuntos de 10$^8$ dados em 2 a 5 m\IeC {\'a}quinas\relax }}{51}
+\contentsline {figure}{\numberline {11}{\ignorespaces Gr\IeC {\'a}fico dos resultados do \textit {speedup} para ordena\IeC {\c c}\IeC {\~a}o de conjuntos de 10$^8$ dados de 4 a 10 processadores\relax }}{52}
+\contentsline {figure}{\numberline {12}{\ignorespaces Gr\IeC {\'a}fico dos resultados da efici\IeC {\^e}ncia para ordena\IeC {\c c}\IeC {\~a}o de conjuntos de 10$^8$ dados de 4 a 10 processadores\relax }}{53}

@@ -1,0 +1,10 @@
+\select@language {brazil}
+\contentsline {table}{\numberline {1}{\ignorespaces Cronograma proposto para o projeto\relax }}{44}
+\contentsline {table}{\numberline {2}{\ignorespaces Tempos m\IeC {\'e}dios do \textit {TeraSort} para ordena\IeC {\c c}\IeC {\~a}o em 2 m\IeC {\'a}quinas\relax }}{45}
+\contentsline {table}{\numberline {3}{\ignorespaces Tempos m\IeC {\'e}dios do \textit {Sort} para ordena\IeC {\c c}\IeC {\~a}o em 4 m\IeC {\'a}quinas\relax }}{46}
+\contentsline {table}{\numberline {4}{\ignorespaces Tempos m\IeC {\'e}dios para ordena\IeC {\c c}\IeC {\~a}o de 10 conjuntos de 10$^6$ dados em 4 m\IeC {\'a}quinas\relax }}{46}
+\contentsline {table}{\numberline {5}{\ignorespaces Tamanhos m\IeC {\'e}dios das parti\IeC {\c c}\IeC {\~o}es para ordena\IeC {\c c}\IeC {\~a}o de 10$^6$ dados em 4 m\IeC {\'a}quinas\relax }}{47}
+\contentsline {table}{\numberline {6}{\ignorespaces Tempos m\IeC {\'e}dios para ordena\IeC {\c c}\IeC {\~a}o de 10$^6$ a 10$^{10}$ dados em 4 m\IeC {\'a}quinas\relax }}{48}
+\contentsline {table}{\numberline {7}{\ignorespaces Tempos m\IeC {\'e}dios para ordena\IeC {\c c}\IeC {\~a}o de 10$^8$ dados em de 2 a 5 m\IeC {\'a}quinas\relax }}{50}
+\contentsline {table}{\numberline {8}{\ignorespaces Resultados do \textit {speedup} para execu\IeC {\c c}\IeC {\~o}es de 4 a 10 processadores\relax }}{52}
+\contentsline {table}{\numberline {9}{\ignorespaces Resultados da efici\IeC {\^e}ncia para execu\IeC {\c c}\IeC {\~o}es de 4 a 10 processadores\relax }}{53}

@@ -1,0 +1,13 @@
+-- visualizações gráficas
+– web UI for MapReduce job tracker(s):
+http://localhost:50030/
+– web UI for task tracker(s): 
+http://localhost:50060/
+– web UI for HDFS name node(s):
+http://localhost:50070/ 
+
+
+formatar namenode
+
+./format.sh
+ 

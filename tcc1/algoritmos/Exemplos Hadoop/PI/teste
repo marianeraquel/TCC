@@ -1,0 +1,9 @@
+bin/hadoop jar hadoop-*-examples.jar pi 10 10000000 > /home/hadoop/teste-pi
+mb
+
+Job Finished in 28.384 seconds
+Estimated value of Pi is 3.14159256000000000000
+
+Job Finished in 30.352 seconds
+Estimated value of Pi is 3.14159256000000000000
+

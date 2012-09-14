@@ -1,0 +1,12 @@
+#! /bin/ksh
+# radhika.ksh
+STR1=str1
+STR2="str2 str"
+
+STR=$STR1" "$STR2
+echo $STR
+
+$ ./radhika.ksh  
+str1 str2 str
+STR=$STR1" "$STR2
+

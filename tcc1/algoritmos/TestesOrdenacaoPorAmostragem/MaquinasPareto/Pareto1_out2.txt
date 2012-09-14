@@ -1,0 +1,6 @@
+# Freq Amostras    Tempo(ms) Particoes
+0.9 10000 899912.0 5.0098711E7 4.9901289E7 
+# Freq Amostras    Tempo(ms) Particoes
+0.9 10000 890491.0 5.1104744E7 4.8895256E7 
+# Freq Amostras    Tempo(ms) Particoes
+0.9 10000 889800.0 4.9525658E7 5.0474342E7 

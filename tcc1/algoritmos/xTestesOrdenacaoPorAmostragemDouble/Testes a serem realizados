@@ -1,0 +1,61 @@
+0) Parâmetros do algortimo
+
+Frequência:
+Número max de amostras: 10 mil
+Núm max de partições: 	4 (2 máquinas)
+			6 (3 máquinas)
+			8 (4 máquinas)
+			10 (5 máquinas)
+
+1) Testes com benchmarks: TeraSort e Sort  (2 máquinas)
+
+1.1) Terasort
+Rodar o terasort e obter arquivo ordenado.
+Validar a ordenação feita com o TeraValidade.
+
+1.2) Sort (4 máquinas)
+Ordenar normalmente. 
+(sugestão: usar o mesmo arquivo de entrada do terasort e conferir o resultado com o do teravalidade).
+
+
+2) Testes com o Algoritmo Ordenação por Amostragem
+
+Anotar os tempos de execução de cada algoritmo.
+
+2.1) Variando o conjunto de dados (4 máquinas)
+
+Objetivo: avaliar a influência dos valores gerados aleatoriamente no desempenho do algoritmo. 
+Testes com 10 conjuntos de 10⁶ dados. 
+
+Para cada conjunto, executar 10 vezes com os parâmetros de balanceamento descritos anteriormente. 
+
+
+2.2) Variando a quantidade de dados (4 máquinas)
+
+Objetivo: avaliar a complexidade do algoritmo quando o conjunto de dados a serem ordenados aumenta.
+Testes com dados de 10⁶ a 10¹⁰ gerados aleatoriamente.
+
+Para cada quantidade de dados, o algoritmo foi executado três vezes com os parâmetros descritos anteriormente. 
+
+2.3) Variando a quantidade de máquinas (2 a 5 máquinas)
+
+Objetivo: avaliar a escalabilidade do algoritmo (diminuição do tempo de ordenação) 
+Testes com o mesmo conjunto de 10⁸ dados em diferentes quantidades de máquinas, de 2 a 5. 
+
+Para cada quantidade de máquinas, o algoritmo foi executado três vezes, com os parâmetros de balanceamento descritos anteriormente.
+
+
+3) Geração de dados
+
+3.1) Terasort
+Os dados utlizados para ordenação com o TeraSort foram gerados através do algoritmo TeraGen. 
+São dois arquivos de 50 mil linhas cada. (+- 10 MB)
+
+3.2) Sort 
+Os dados utilizados para ordenação com o Sort foram gerados pelo algoritmo RandomWriter. São 10 arquivos de 1GB cada em formato binário, totalizando 10GB.
+
+3.3) Ordenação por Amostragem
+(GeraDados)
+Programa implementado em Java para geração de chaves inteiras aleatórias.
+Foram gerados 10 conjuntos de chaves entre 10⁶ (2MB) e  10¹⁰ (20GB) chaves inteiras. 
+

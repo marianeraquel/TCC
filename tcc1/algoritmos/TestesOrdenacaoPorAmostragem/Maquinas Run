@@ -1,0 +1,13 @@
+Para cada distribuição
+
+1. Gerar 3 Folders para serem as 3 execuções
+2. Executar em x máquinas e salvar o resultado como DistribuicaoMaquinasX_out1 e out2.
+3. Repetir para x entre 2 e 5.
+
+bin/hadoop dfs -rmr /user/
+
+./../Dropbox/9Periodo/TCC/cluster/TestesOrdenacaoPorAmostragem/MaquinasUniforme/run-sort.sh  5
+ 
+./../Dropbox/9Periodo/TCC/cluster/TestesOrdenacaoPorAmostragem/MaquinasNormal/run-sort.sh  5
+
+./../Dropbox/9Periodo/TCC/cluster/TestesOrdenacaoPorAmostragem/MaquinasPareto/run-sort.sh 5

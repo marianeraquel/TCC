@@ -1,0 +1,8 @@
+bin/hadoop dfs -rmr /user/
+
+./../Dropbox/9Periodo/TCC/cluster/TestesOrdenacaoPorAmostragem/DadosUniforme/run-sort.sh 
+
+./../Dropbox/9Periodo/TCC/cluster/TestesOrdenacaoPorAmostragem/DadosNormal/run-sort.sh 
+
+./../Dropbox/9Periodo/TCC/cluster/TestesOrdenacaoPorAmostragem/DadosPareto/run-sort.sh 
+

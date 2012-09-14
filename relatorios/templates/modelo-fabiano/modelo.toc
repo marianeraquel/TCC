@@ -1,8 +1,0 @@
-\select@language {brazil}
-\contentsline {section}{\numberline {1}Tema do trabalho}{1}
-\contentsline {section}{\numberline {2}Relev\IeC {\^a}ncia}{1}
-\contentsline {section}{\numberline {3}Objetivos}{1}
-\contentsline {section}{\numberline {4}Resultados esperados}{1}
-\contentsline {section}{\numberline {5}Metodologia}{1}
-\contentsline {section}{\numberline {6}Infraestrutura necess\IeC {\'a}ria}{1}
-\contentsline {section}{\numberline {7}Cronograma de trabalho}{1}

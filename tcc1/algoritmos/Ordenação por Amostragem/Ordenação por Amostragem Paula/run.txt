@@ -1,0 +1,12 @@
+bin/start-all.sh 
+
+bin/hadoop dfs -rmr /user/GeraDados
+
+bin/hadoop jar GeraDados.jar <path> <potencia> <cenarios> <arquivos>
+bin/hadoop jar Executaveis/GeraDados.jar /user/raquel/GeraDados/VariandoDados 2 1 3
+
+bin/hadoop dfs -text /user/raquel/GeraDados/VariandoDados/10_2_int1/10_2_int1-in1 (???)
+
+bin/hadoop jar Executaveis/OrdenacaoPorAmostragem.jar /user/raquel/GeraDados/VariandoDados/10_6_int1 8 0.9 0.9 0.1 10 10 1 2 /home/app 10_6_teste1.txt 10_6_teste2.txt
+
+bin/stop-all.sh 
