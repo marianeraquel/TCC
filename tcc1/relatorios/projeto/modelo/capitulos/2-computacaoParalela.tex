@@ -5,8 +5,9 @@ Esse capítulo aborda os principais conceitos da computação paralela envolvido
 princípios do processamento paralelo de grandes volumes de dados em \textit{clusters}, o modelo MapReduce e sua implementação de código aberto Hadoop.
 
 
-\section{Considerações Iniciais}
+\section{Computação Paralela e Métricas de Desempenho}
 \label{sec:computacaoparalela}
+
 A computação paralela constitui-se de uma coleção de elementos de processamento que se comunicam e cooperam entre si e com isso resolvem um problema de maneira mais rápida \cite{Almasi:1994}. Mesmo com o avanço tecnológico das últimas décadas, as arquiteturas de Von Neumann demostram limitações quando utilizadas por aplicações que necessitam de grande poder computacional. Essas limitações impulsionaram a utilização da computação paralela, com o objetivo de aumentar a capacidade de processamento das máquinas.
 
 No estudo da computação paralela, é importante diferenciar os conceitos de paralelismo e concorrência, pois ambos tratam de programação e execução de tarefas em múltiplos fluxos, implementados com o objetivo de resolver um único problema. Concorrência consiste em diferentes tarefas serem executadas ao mesmo tempo, de forma a produzir um resultado particular mais rapidamente. Isso não implica necessariamente na existência de vários elementos de processamento; a concorrência pode ocorrer tanto com um único processador quanto com múltiplos processadores. 
@@ -40,14 +41,25 @@ Ela demonstra que o ganho de desempenho obtido com a paralelização do sistema 
 
 \subsection{Modelos de programação paralela}
 
-Um modelo de programação paralela descreve um sistema de computação paralela em termos da semântica da linguagem ou do ambiente de programação. Seu objetivo é fornecer um mecanismo com o qual o programador pode especificar programas paralelos. Os tradicionais modelos de programação paralela são: memória compartilhada, paralelismo de dados e de tarefas (\textit{threads} e \textit{multithreads}) e memória distribuída.
+Um modelo de programação paralela descreve um sistema de computação paralela em termos da semântica da linguagem ou do ambiente de programação. Seu objetivo é fornecer um mecanismo com o qual o programador pode especificar programas paralelos. Os modelos de programação de diferem principalmente pelo nível de paralelismo, especificação explícita ou implícita de paralelismo, modo de execução, formas de comunicação e mecanismos de sincronização. Atualmente, os modelos de programação paralela mais comuns são os memória compartilhada, \textit{threads}, memória distribuída / passagem de mensagens, paralelismo de dados e de tarefas \cite{Rauber:2010}.
+ 
+%Shared Memory (without threads)
+%Threads
+%Distributed Memory / Message Passing
+%Data Parallel
+%Hybrid
+%Single Program Multiple Data (SPMD)
+%Multiple Program Multiple Data (MPMD)
 
-No ambiente de memória compartilhada, múltiplos processadores compartilham o espaço de endereçamento de uma única memória. A comunicação entre os processos é implícita, pois a memória é acessível diretamente por todos os processadores. 
 
-O paralelismo de dados é o modelo de programação no qual as várias tarefas realizam operações em elementos distintos de dados, simultaneamente, e então trocam dados globalmente. No ambiente \textit{multithread}, múltiplas \textit{threads} podem ser executadas dentro de um único processo. Cada \textit{thread} possui seu próprio conjunto de registradores e pilha, porém compartilha de forma natural e eficiente o mesmo espaço de endereçamento, temporizadores e arquivos com as demais \textit{threads} do processo. 
+No ambiente de memória compartilhada, múltiplos processadores compartilham o espaço de endereçamento de uma única memória. A comunicação entre os processos é implícita, uma vez que a memória é acessível diretamente por todos os processadores, mas o modelo requer mecanismos de sincronização, que evitam problemas de inconsistência dos dados. O modelo pode ser implementado pelos compiladores nativos do ambiente.
+
+O paralelismo de dados é um modelo de programação no qual várias tarefas realizam operações em elementos distintos de um conjunto de dados, simultaneamente, e então trocam dados globalmente. Nesse modelo cada operação deve ser independente e cada tarefa trabalha em uma porção diferente dos dados. Exemplos de implementações são Fortran 90/95 e HPF (\textit{High Performance Fortran}).
+
+No modelo de \textit{threads} os processos podem ter múltiplas \textit{threads} executadas de maneira concorrente. Cada \textit{thread} possui seu próprio conjunto de registradores e pilha, porém compartilha de forma natural e eficiente o mesmo espaço de endereçamento, temporizadores e arquivos com as demais \textit{threads} do processo. As implementações mais conhecidas são \textit{POSIX Threads} e \textit{OpenMP}.
 
 O modelo de memória distribuída é composto por várias unidades de processamento  com memória fisicamente distribuída, chamadas nós, e por uma rede de interconexão que as conecta e transfere dados entre elas. 
-Cada nó é uma unidade independente, com processador e memória próprios, como representado na Figura \ref{fig:ArquiteturaDistribuida}.
+Cada nó é uma unidade independente, com processador e memória próprios, como representado na Figura \ref{fig:ArquiteturaDistribuida}. 
 Nesse modelo, as tarefas compartilham dados por meio de comunicação com o envio e recebimento de mensagens, que pode ser realizada por meio de bibliotecas como a MPI (\textit{Message Passing Interface}) e a PVM (\textit{Parallel Virtual Machine}).
 Quando o modelo de memória distribuída consiste em conjuntos de computadores completos com rede de intercomunicação dedicada é denominado \textit{cluster}. Geralmente \textit{clusters} são baseados em computadores e topologias de rede padrão, programados como uma única unidade \cite{Rauber:2010}.
 
@@ -56,7 +68,7 @@ Quando o modelo de memória distribuída consiste em conjuntos de computadores c
 \centering
 %trim left, bottom, right and top
 \includegraphics[trim=0cm 1cm 0cm 0cm, width=0.5\textwidth]{figuras/Arquitetura.pdf}
-\caption{Modelo de arquitetura distribuída}
+\caption{Modelo de programação por memória distribuída}
 \label{fig:ArquiteturaDistribuida}
 \end{figure}
 
@@ -226,7 +238,7 @@ O mecanismo de tolerância a falhas implementado pelo sistema permite que o trab
 As tarefas que não foram executadas são reescalonadas para os demais nós. O mecanismo de replicação garante que sempre haja um número determinado de cópias dos dados, e caso um dos nós de armazenamento seja perdido, os demais se encarregam de realizar uma nova replicação \cite{White:2009}.
  % O sistema é capaz de verificar e substituir nós quando ocorre alguma falha. 
 
-\subsection{Arquitetura do Framework}
+\subsection{Arquitetura do \textit{framework}}
 
 A arquitetura do Hadoop é baseada nos conceitos da arquitetura do MapReduce e, portanto, também é do tipo mestre-escravo. No Hadoop são definidos nós mestres e escravos tanto para a execução de tarefas quanto para o sistema de arquivos.
 O nó mestre consiste em um \textit{JobTracker}  para as tarefas MapReduce e um \textit{NameNode}  responsável por manter e controlar todos os metadados do sistema de arquivos e gerenciar a localização dos dados. O nó mestre também é responsável por outras atividades como, por exemplo, balanceamento de carga, \textit{garbage collection} e atendimento a requisições dos clientes.

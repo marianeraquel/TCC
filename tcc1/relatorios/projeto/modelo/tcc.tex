@@ -12,24 +12,93 @@
 \usepackage{fancyhdr}
 \usepackage{url}
 \usepackage{listings}
-\usepackage[noline,boxed,commentsnumbered]{algorithm2e}
+\usepackage[noline,boxed,linesnumbered]{algorithm2e}
 \usepackage{subfigure}
 \usepackage{courier}
 \usepackage{color}
 \usepackage{multirow}
 \usepackage[font=small,labelfont=bf]{caption}
 \usepackage{estilo}
+\usepackage{tabularx}
 \usepackage{array}
 \usepackage{amstext}
 \usepackage{cite} 
 \bibliographystyle{abnt-alf-mod}
 
-% Novo tipo de coluna, que aceita definição da largura da coluna e mantém o texto centralizado
-\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
-\newcolumntype{N}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}>{\bf}m{#1}}
-\newcolumntype{B}{>{\bf}l}
-\newcolumntype{R}[1]{*{#1}{c|}}
+%% Colunas com definição de largura
 
+% Coluna centralizada bold
+\newcolumntype{N}[1]{>{\global\let\currentrowstyle\relax\centering\arraybackslash\bf}m{#1}}
+
+% Coluna centralizada regular
+\newcolumntype{C}[1]{>{\currentrowstyle\centering\arraybackslash}m{#1}}
+
+%% Colunas sem definição de Largura
+
+% Coluna centralizada bold
+\newcolumntype{B}{>{\global\let\currentrowstyle\relax\bf}c}
+
+% Coluna centralizada regular (n colunas). Uso: R{n} onde n é o número de colunas
+\newcolumntype{R}[1]{|*{#1}{>{\currentrowstyle}c|}}
+\newcolumntype{T}{>{\currentrowstyle}c|}
+\newcommand{\rowstyle}[1]{\gdef\currentrowstyle{#1} #1\ignorespaces }
+
+%% Foram incluídos nos comandos acima para fazerem a primeira linha bold.
+% Colunas bold são + 
+% Colunas regulares são ^
+%\newcolumntype{+}{>{\global\let\currentrowstyle\relax}}
+%\newcolumntype{^}{>{\currentrowstyle}}
+
+
+
+% {defaultTable}{COLUNAS}{CAPTION}{LINHAS}
+\newenvironment{defaultTable4}[4] { 
+	\begin{table}[h]
+	\centering
+	\begin{footnotesize}
+	\begin{tabularx}{#1}{#2} %{\textwidth}
+	%\hline 
+	#3
+	\end{tabularx}
+	\end{footnotesize}
+	\caption{#4}
+} 
+{ \end{table} }
+
+\newenvironment{defaultTable}[3] { 
+	\begin{table}[h]
+	\centering
+	\begin{footnotesize}
+	\begin{tabular}{#1} %{\textwidth}
+	\hline 
+	\rowstyle{\bfseries}%
+	#2
+	\end{tabular}
+	\end{footnotesize}
+	\caption{#3}
+} 
+{ \end{table} }
+
+
+%\newenvironment{defaultTable}[3] { 
+%	\begin{table}[!htb]
+%	%\centering
+%	\begin{footnotesize}
+%	\begin{tabular}{#1} %{\textwidth}
+%	%\hline 
+%	#3 
+%	\end{tabular}
+%	\end{footnotesize}
+%	\caption{#2}
+%%	\noindent
+%%	
+%%	%\specialrule{0.5pt}{10pt}{0pt} 
+%%	%\rowcolor[gray]{.9}
+%%	#3
+%%	%\bottomrule 
+%	\end{tabular}
+%} 
+%{ \end{table} }
 
 % --------- Início do Documento ---------
 

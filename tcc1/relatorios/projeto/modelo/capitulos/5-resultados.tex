@@ -10,35 +10,62 @@ Neste capítulo são apresentados e analisados os resultados obtidos nessa fase 
 
 A Tabela  \ref{tab:TeraSort} apresenta os resultados obtidos para o \textit{benchmark TeraSort}. Ela indica que o \textit{TeraGen} executou duas tarefas Map em 14 segundos, ou seja, esse foi o tempo utilizado pelo algoritmo para gerar dois arquivos de 50 mil linhas cada. Para ordenar os dados fornecidos pelo \textit{TeraGen}, o \textit{Terasort} executou duas tarefas Map e uma Tarefa Reduce em 22 segundos. Por fim, para validar a ordenação o \textit{TeraValidade} executou, em 22 segundos, uma tarefa Map e uma Tarefa Reduce, sem arquivos de saída, o que indica que não foram encontradas chaves fora da ordem.  
 
-\begin{table}[htbp]
-\centering
-\begin{footnotesize}
-\begin{tabular}{|B|R{3}} \hline
+
+\begin{defaultTable}{| B R{3}}
+{
 Algoritmo 		&Tempo (s)	&Tarefas Map 		&Tarefas Reduce 			\\ \hline \hline
 TeraGen 			&14			&2					&0						\\ \hline 
 TeraSort			&22			&2					&1						\\ \hline 
-TeraValidade 	&22			&1					&1						\\ \hline 
-\end{tabular}
-\end{footnotesize}
-\caption{Tempos médios do \textit{TeraSort} para ordenação em 2 máquinas}
+TeraValidade 	&22			&1					&1						\\ \hline  
+}
+{Tempos médios do \textit{TeraSort} para ordenação em 2 máquinas}
 \label{tab:TeraSort}
-\end{table}
+\end{defaultTable}
+
+
+%\begin{table}[htbp]
+%\centering
+%\begin{footnotesize}
+%\begin{tabular}{| B R{3} } \hline
+%Algoritmo 		&Tempo (s)	&Tarefas Map 		&Tarefas Reduce 			\\ \hline \hline
+%TeraGen 			&14			&2					&0						\\ \hline 
+%TeraSort			&22			&2					&1						\\ \hline 
+%TeraValidade 	&22			&1					&1						\\ \hline 
+%\end{tabular}
+%\end{footnotesize}
+%\caption{Tempos médios do \textit{TeraSort} para ordenação em 2 máquinas}
+%\label{tab:TeraSort}
+%\end{table}
 
 
 A Tabela \ref{tab:Sort} apresenta os resultados obtidos para o \textit{benchmarks} \textit{Sort} em quatro máquinas, com dez execuções cada. Para cada máquina usada na execução, foram gerados pelo \textit{RandomWriter}, dez arquivos de 1GB, em formato binário. Esses arquivos foram gerados  em 3 minutos e 54 segundos, realizando 40 tarefas Map. Para ordenar esses dados o algoritmo levou pouco mais que 37 minutos, realizando 640 tarefas Map e 7 tarefas Reduce.  
 
-\begin{table}[htbp]
-\centering
-\begin{footnotesize}
-\begin{tabular}{|B|R{3}} \hline
+\begin{defaultTable}{| B R{3}}
+{
 Algoritmo 		&Tempo (s) 	&Tarefas Map 	&Tarefas Reduce			\\ \hline \hline
 RandomWriter 	&234			&40				&0						\\ \hline 
 Sort				&2.242		&640				&7						\\ \hline 
-\end{tabular}
-\end{footnotesize}
-\caption{Tempos médios do \textit{Sort} para ordenação em 4 máquinas}
+}
+{Tempos médios do \textit{Sort} para ordenação em 4 máquinas}
 \label{tab:Sort}
-\end{table}
+\end{defaultTable}
+ 
+%\begin{table}[htbp]
+%\centering
+%\begin{footnotesize}
+%\begin{tabular}{| B R{3}} \hline
+%
+%\rowstyle{\bfseries}%
+%Algoritmo 		&Tempo (s) 	&Tarefas Map 	&Tarefas Reduce			\\ \hline \hline
+%
+%RandomWriter 	&234			&40				&0						\\ \hline 
+%Sort				&2.242		&640				&7						\\ \hline 
+%
+%\end{tabular}
+%\end{footnotesize}
+%\caption{Tempos médios do \textit{Sort} para ordenação em 4 máquinas}
+%\label{tab:Sort}
+%\end{table}
 
 \section{Algoritmo Ordenação por Amostragem}
 
@@ -57,24 +84,37 @@ Nos primeiros testes realizados com o algoritmo Ordenação por Amostragem foi m
 A Tabela \ref{tab:ConjuntoTempos} apresenta a variação dos tempos das execuções da ordenação de 10$^6$ chaves em quatro máquinas. 
 Esse tempo, nas diferentes distribuições, apresentou valores próximos, o que indica que a entrada de dados não gera uma variação significativa no tempo de execução do algoritmo. Isso pode ser comprovado pela Figura \ref{fig:ConjuntoTempos}, que indica ainda que a distribuição uniforme apresentou maior variação no tempo de execução: entre 37,26 segundos e 40,3 segundos.
 
-\begin{table}[!htbp]
-\centering
-\begin{footnotesize}
-\begin{tabular}{|N{22mm}|C{20mm}|C{20mm}|C{20mm}|C{20mm}|C{15mm}|	} \hline
+\begin{defaultTable}{| B | C{20mm}|C{20mm}|C{20mm}|C{20mm}|C{15mm}|}
+{
 \multirow{2}{*}{Distribuição} 
-& \multicolumn{4}{|c|}{Tempo (s)} 
+& \multicolumn{4}{T}{Tempo (s)} 
 & \multirow{2}{*}{COV}  \\ \cline{2-5}
+\rowstyle{\bfseries}
 		&	Maior	&	Menor	&	Mediana	&	Média	& 			\\ \hline \hline
 Uniforme	&	40,30	&	37,26	&	37,49	&	37,94	&	0,0236	\\ \hline
 Normal	&	40,29	&	38,29	&	39,32	&	39,43	&	0,0161	\\ \hline
 Pareto	&	40,28	&	38,26	&	39,32	&	39,50	&	0,0174	\\ \hline
-\end{tabular}
-\end{footnotesize}
-\caption{Tempos médios para ordenação de 10 conjuntos de 10$^6$ dados em 4 máquinas}
+}
+{Tempos médios para ordenação de 10 conjuntos de 10$^6$ dados em 4 máquinas}
 \label{tab:ConjuntoTempos}
-\end{table}
+\end{defaultTable}
 
-
+%\begin{table}[!htbp]
+%\centering
+%\begin{footnotesize}
+%\begin{tabular}{| B |C{20mm}|C{20mm}|C{20mm}|C{20mm}|C{15mm}|	} \hline
+%\multirow{2}{*}{Distribuição} 
+%& \multicolumn{4}{|c|}{Tempo (s)} 
+%& \multirow{2}{*}{COV}  \\ \cline{2-5}
+%		&	Maior	&	Menor	&	Mediana	&	Média	& 			\\ \hline \hline
+%Uniforme	&	40,30	&	37,26	&	37,49	&	37,94	&	0,0236	\\ \hline
+%Normal	&	40,29	&	38,29	&	39,32	&	39,43	&	0,0161	\\ \hline
+%Pareto	&	40,28	&	38,26	&	39,32	&	39,50	&	0,0174	\\ \hline
+%\end{tabular}
+%\end{footnotesize}
+%\caption{Tempos médios para ordenação de 10 conjuntos de 10$^6$ dados em 4 máquinas}
+%\label{tab:ConjuntoTempos}
+%\end{table}
 
 \begin{figure}[!htb]
 \centering
@@ -90,19 +130,31 @@ A Tabela \ref{tab:ConjuntoParticoes} apresenta estatísticas para o número de e
 Os valores das partições são próximos, o que indica que as cargas foram divididas de forma balanceada. 
 O coeficiente de variação nas partições com distribuição Pareto é o maior dentre as três distribuições, o que indica que houve maior variação entre as maiores e as menores partições nessa distribuição. As distribuições Normal e Pareto possuem menores valores, o que indica menor variação em tais distribuições. 
 
-\begin{table}[!htbp]
-\centering
-\begin{footnotesize}
-\begin{tabular}{|N{24mm}|C{20mm}|C{20mm}|C{20mm}|C{20mm}|C{15mm}|	} \hline
-Distribuição	&	Maior	&	Menor	&	Mediana	&	Média	&	COV	\\ \hline \hline
+
+\begin{defaultTable}{|N{24mm}|C{20mm}|C{20mm}|C{20mm}|C{20mm}|C{15mm}|}
+{
+Distribuição	&	Maior	&	Menor	&	Mediana	&	Média	&	COV		\\ \hline \hline
 Uniforme	&		132.024	&	118.380	&	124.469	&	125.000	&	0,0245	\\ \hline
 Normal	&		131.758	&	117.483	&	125.634	&	125.000	&	0,0235	\\ \hline
 Pareto	&		133.065	&	116.614	&	125.280	&	125.000	&	0,0298	\\ \hline
-\end{tabular}
-\end{footnotesize}
-\caption{Tamanhos médios das partições para ordenação de 10$^6$ dados em 4 máquinas}
+}
+{Tamanhos médios das partições para ordenação de 10$^6$ dados em 4 máquinas}
 \label{tab:ConjuntoParticoes}
-\end{table}
+\end{defaultTable}
+
+%\begin{table}[!htbp]
+%\centering
+%\begin{footnotesize}
+%\begin{tabular}{|N{24mm}|C{20mm}|C{20mm}|C{20mm}|C{20mm}|C{15mm}|	} \hline
+%Distribuição	&	Maior	&	Menor	&	Mediana	&	Média	&	COV	\\ \hline \hline
+%Uniforme	&		132.024	&	118.380	&	124.469	&	125.000	&	0,0245	\\ \hline
+%Normal	&		131.758	&	117.483	&	125.634	&	125.000	&	0,0235	\\ \hline
+%Pareto	&		133.065	&	116.614	&	125.280	&	125.000	&	0,0298	\\ \hline
+%\end{tabular}
+%\end{footnotesize}
+%\caption{Tamanhos médios das partições para ordenação de 10$^6$ dados em 4 máquinas}
+%\label{tab:ConjuntoParticoes}
+%\end{table}
 
 
 
@@ -117,36 +169,60 @@ Para avaliar a complexidade do algoritmo, foram realizados testes variando a qua
 
 A Tabela \ref{tab:QuantidadeDadosTempo} apresenta os dados para os tempos médios obtidos nas três execuções. Os tempos de execução não apresentam variações consideráveis em relação às distribuições. Observa-se que o tempo de execução de 10$^6$ dados é 37, 38 e 38 segundos nas distribuições uniforme, normal e pareto, respectivamente. Esse tempo cresce à medida que a quantidade de dados aumenta, chegando a 17.964 segundos para a distribuição uniforme, 18.165 segundos para a normal e 18.734 segundos para a pareto. A diferença no tempo de ordenação entre as diferentes distribuições é de quase 13 minutos e reflete a variabilidade do conjunto de dados. % ordenado valores próximos à 5 horas para ordenação de 10$^{10}$ dados. 
 
-\begin{table}[htbp]
-\centering
-\begin{footnotesize}
-\begin{tabular}{|N{17mm}|C{19mm}|m{15mm}|C{13mm}|m{15mm}|C{13mm}|m{15mm}|C{13mm}|} \hline
-
+\begin{defaultTable}{|N{14mm}|C{19mm}|C{16mm}|C{13mm}|C{16mm}|C{13mm}|C{16mm}|C{13mm}|}
+{
 \multirow{3}{*}{Dados} 
-& \multirow{3}{*}{\vbox{Tamanho em Bytes}} 
-& \multicolumn{2}{|c|}{Uniforme}
-& \multicolumn{2}{|c|}{Normal}
-& \multicolumn{2}{|c|}{Pareto}
-
+& \multirow{3}{*}{Tamanho}
+& \multicolumn{2}{T}{Uniforme}
+& \multicolumn{2}{T}{Normal}
+& \multicolumn{2}{T}{Pareto}
 \\ \cline{3-8}
+\rowstyle{\bfseries}
 &
-&Tempo Médio (s)  &COV
-&Tempo Médio (s)  &COV 
-&Tempo Médio (s)  &COV \\ \hline \hline
+&Tempo Médio(s)  &COV
+&Tempo Médio(s)  &COV 
+&Tempo Médio(s)  &COV \\ \hline \hline
 
 10$^6$	&		12MB		&	37		&	0,0422	&	38		&	0,0346	&	38		&	0,0567	\\ \hline
 10$^7$	&		120MB	&	57		&	0,0515	&	56		&	0,0236	&	55		&	0,0121	\\ \hline
 10$^8$	&		1,2GB	&	217		&	0,0243	&	219		&	0,0211	&	222		&	0,0436	\\ \hline
 10$^9$	&		12GB		&	1.795	&	0,0180	&	1.834	&	0,0048	&	1.820	&	0,0092	\\ \hline
 10$^{10}$	&	120GB	&	17.964	&	0,0002	&	18.165	&	0,0023	&	18.734	&	0,0003	\\ \hline
-
-\end{tabular}
-\caption{Tempos médios para ordenação de 10$^6$ a 10$^{10}$ dados em 4 máquinas}
+}
+{Tempos médios para ordenação de 10$^6$ a 10$^{10}$ dados em 4 máquinas}
 \label{tab:QuantidadeDadosTempo}
-\end{footnotesize}
-\end{table}
+\end{defaultTable}
 
-A Figura \ref{fig:DadosTempo} apresenta de forma gráfica os valores de tempos médios resultantes das três execuções do algoritmo para conjuntos de dados de tamanhos 10$^6$  a 10$^{ 10}$ chaves. Nesse gráfico os eixos x e y estão em escala logarítmica para permitir melhor visualização dos dados, uma vez que os tempos médios obtidos aumentam várias ordens de grandeza à medida que a quantidade de dados aumenta. Observa-se que as três curvas estão sobrepostas, indicando que os resultados estão na mesma escala de tempo.
+%\begin{table}[htbp]
+%\centering
+%\begin{footnotesize}
+%\begin{tabular}{|N{17mm}|C{19mm}|m{15mm}|C{13mm}|m{15mm}|C{13mm}|m{15mm}|C{13mm}|} \hline
+%
+%\multirow{3}{*}{Dados} 
+%& \multirow{3}{*}{\vbox{Tamanho em Bytes}} 
+%& \multicolumn{2}{|c|}{Uniforme}
+%& \multicolumn{2}{|c|}{Normal}
+%& \multicolumn{2}{|c|}{Pareto}
+%
+%\\ \cline{3-8}
+%&
+%&Tempo Médio (s)  &COV
+%&Tempo Médio (s)  &COV 
+%&Tempo Médio (s)  &COV \\ \hline \hline
+%
+%10$^6$	&		12MB		&	37		&	0,0422	&	38		&	0,0346	&	38		&	0,0567	\\ \hline
+%10$^7$	&		120MB	&	57		&	0,0515	&	56		&	0,0236	&	55		&	0,0121	\\ \hline
+%10$^8$	&		1,2GB	&	217		&	0,0243	&	219		&	0,0211	&	222		&	0,0436	\\ \hline
+%10$^9$	&		12GB		&	1.795	&	0,0180	&	1.834	&	0,0048	&	1.820	&	0,0092	\\ \hline
+%10$^{10}$	&	120GB	&	17.964	&	0,0002	&	18.165	&	0,0023	&	18.734	&	0,0003	\\ \hline
+%
+%\end{tabular}
+%\caption{Tempos médios para ordenação de 10$^6$ a 10$^{10}$ dados em 4 máquinas}
+%\label{tab:QuantidadeDadosTempo}
+%\end{footnotesize}
+%\end{table}
+
+A Figura \ref{fig:DadosTempo} apresenta de forma gráfica os valores de tempos médios resultantes das três execuções do algoritmo para conjuntos de dados de tamanhos 10$^6$  a 10$^{10}$ chaves. Nesse gráfico os eixos x e y estão em escala logarítmica para permitir melhor visualização dos dados, uma vez que os tempos médios obtidos aumentam várias ordens de grandeza à medida que a quantidade de dados aumenta. Observa-se que as três curvas estão sobrepostas, indicando que os resultados estão na mesma escala de tempo.
 
 \begin{figure}[htb]
 \centering
@@ -185,31 +261,52 @@ Com quatro máquinas o tempo de execução nas três distribuições são próxi
 Em cinco máquinas a execução da ordenação foi realizada em aproximadamente 3 minutos. 
 Os coeficientes de variação encontrados foram pequenos, o que indica pequena variação entre os tempos de execução.
 
-
-\begin{table}[htbp]
-\centering
-\begin{footnotesize}
-\begin{tabular}{|N{17mm}|C{16mm}|C{14mm}|C{16mm}|C{14mm}|C{16mm}|C{14mm}|} \hline
-
+\begin{defaultTable}{|N{17mm}|C{16mm}|C{16mm}|C{16mm}|C{16mm}|C{16mm}|C{16mm}|}
+{
 \multirow{3}{*}{Máquinas} 
-& \multicolumn{2}{|c|}{Uniforme}
-& \multicolumn{2}{|c|}{Normal}
-& \multicolumn{2}{|c|}{Pareto}
+& \multicolumn{2}{T}{Uniforme}
+& \multicolumn{2}{T}{Normal}
+& \multicolumn{2}{T}{Pareto}
 \\ \cline{2-7}
-&Tempo Médio (s)  &COV
-&Tempo Médio (s)  &COV 
-&Tempo Médio (s)  &COV \\ \hline \hline
+\rowstyle{\bfseries}
+&Tempo Médio(s)  &COV
+&Tempo Médio(s)  &COV 
+&Tempo Médio(s)  &COV \\ \hline \hline
 
 2	&	384	&	0,0023	&	370	&	0,0067	&	382	&	0,0053	\\ \hline
 3	&	264	&	0,0030	&	258	&	0,0114	&	382	&	0,0030	\\ \hline
 4	&	213	&	0,0095	&	208	&	0,0012	&	210	&	0,0020	\\ \hline
 5	&	177	&	0,0081	&	173	&	0,0058	&	178	&	0,0003	\\ \hline
-
-\end{tabular}
-\end{footnotesize}
-\caption{Tempos médios para ordenação de 10$^8$ dados em de 2 a 5 máquinas}
+}
+{Tempos médios para ordenação de 10$^8$ dados em de 2 a 5 máquinas}
 \label{tab:QuantidadeMaquinasTempos}
-\end{table}
+\end{defaultTable}
+
+
+%\begin{table}[htbp]
+%\centering
+%\begin{footnotesize}
+%\begin{tabular}{|N{17mm}|C{16mm}|C{14mm}|C{16mm}|C{14mm}|C{16mm}|C{14mm}|} \hline
+%
+%\multirow{3}{*}{Máquinas} 
+%& \multicolumn{2}{|c|}{Uniforme}
+%& \multicolumn{2}{|c|}{Normal}
+%& \multicolumn{2}{|c|}{Pareto}
+%\\ \cline{2-7}
+%&Tempo Médio (s)  &COV
+%&Tempo Médio (s)  &COV 
+%&Tempo Médio (s)  &COV \\ \hline \hline
+%
+%2	&	384	&	0,0023	&	370	&	0,0067	&	382	&	0,0053	\\ \hline
+%3	&	264	&	0,0030	&	258	&	0,0114	&	382	&	0,0030	\\ \hline
+%4	&	213	&	0,0095	&	208	&	0,0012	&	210	&	0,0020	\\ \hline
+%5	&	177	&	0,0081	&	173	&	0,0058	&	178	&	0,0003	\\ \hline
+%
+%\end{tabular}
+%\end{footnotesize}
+%\caption{Tempos médios para ordenação de 10$^8$ dados em de 2 a 5 máquinas}
+%\label{tab:QuantidadeMaquinasTempos}
+%\end{table}
 
 \begin{figure}[!htb]
 \centering
@@ -234,31 +331,45 @@ Os tempos descritos na Tabela \ref{tab:QuantidadeMaquinasTempos} foram utilizado
 \textit{speedup} e, consequentemente, da eficiência.
 Observa-se na Tabela \ref{tab:QuantidadeDadosSpeedup} que à medida que aumenta o número de processadores o \textit{speedup} real se afasta do \textit{speedup} ideal. Assim temos em uma máquina o mesmo \textit{speedup} ideal e real, e em 5 máquinas e 10 processadores o \textit{speedup} real é em torno de 85\% do \textit{speedup} ideal. A variação do \textit{speedup} já era um comportamento esperado, uma vez que paralelizações em geral introduzem sobrecargas para realizar o balanceamento e a comunicação entre os processos.
 
-
-\begin{table}[htbp]
-\centering
-\begin{footnotesize}
-\begin{tabular}{|N{25mm}|C{24mm}|C{24mm}|C{24mm}|C{12mm}|} \hline
-
+\begin{defaultTable}{|N{25mm}|C{24mm}|C{24mm}|C{24mm}|C{12mm}|}
+{
 \multirow{2}{*}{Processadores} 
-& \multicolumn{3}{|c|}{Speedup Real}
-& \multirow{2}{*}{Ideal} 
-\\ \cline{2-4} 
-& Uniforme
-& Normal
-& Pareto
-&\\ \hline \hline
- 
+& \multicolumn{3}{T	}{Speedup Real}			& \multirow{2}{*}{Ideal} 	\\ \cline{2-4} 
+\rowstyle{\bfseries}
+		& Uniforme & Normal		& Pareto		&		\\ \hline \hline
 4		&	1		&	1		&	1		&	1	\\ \hline
 6		&	1,4534	&	1,4341	&	1,4361	&	1,5	\\ \hline
 8		&	1,8010	&	1,7788	&	1,8190	&	2	\\ \hline
 10		&	2,1732	&	2,1387	&	2,1461	&	2,5	\\ \hline
-
-\end{tabular}
-\end{footnotesize}
-\caption{Resultados do \textit{speedup} para execuções de 4 a 10 processadores}
+}
+{Resultados do \textit{speedup} para execuções de 4 a 10 processadores}
 \label{tab:QuantidadeDadosSpeedup}
-\end{table}
+\end{defaultTable}
+
+%\begin{table}[htbp]
+%\centering
+%\begin{footnotesize}
+%\begin{tabular}{|N{25mm}|C{24mm}|C{24mm}|C{24mm}|C{12mm}|} \hline
+%
+%\multirow{2}{*}{Processadores} 
+%& \multicolumn{3}{|c|}{Speedup Real}
+%& \multirow{2}{*}{Ideal} 
+%\\ \cline{2-4} 
+%& Uniforme
+%& Normal
+%& Pareto
+%&\\ \hline \hline
+% 
+%4		&	1		&	1		&	1		&	1	\\ \hline
+%6		&	1,4534	&	1,4341	&	1,4361	&	1,5	\\ \hline
+%8		&	1,8010	&	1,7788	&	1,8190	&	2	\\ \hline
+%10		&	2,1732	&	2,1387	&	2,1461	&	2,5	\\ \hline
+%
+%\end{tabular}
+%\end{footnotesize}
+%\caption{Resultados do \textit{speedup} para execuções de 4 a 10 processadores}
+%\label{tab:QuantidadeDadosSpeedup}
+%\end{table}
 
 %% ANTIGA TABELA
 %\begin{table}[htbp]
@@ -301,29 +412,44 @@ A Figura \ref{fig:MaquinasSpeedup} apresenta o crescimento do \textit{speedup} r
 
 A Tabela \ref{tab:QuantidadeDadosEficiencia} apresenta os valores de eficiência calculados para as diferentes quantidades de processadores utilizados na ordenação. Observa-se que, conforme aumenta a quantidade de processadores, o valor da eficiência decresce, mostrando que, com maior número de processadores, a taxa de utilização é menor. Contudo, o percentual de eficiência é sempre próximo do máximo, o que indica uma boa escalabilidade do algoritmo. Além disso, observa-se que a eficiência não sofre influência significativa da distribuição do conjunto de dados.
 
-\begin{table}[htbp]
-\centering
-\begin{footnotesize}
-\begin{tabular}{|N{25mm}|C{25mm}|C{25mm}|C{25mm}|} \hline
-
+\begin{defaultTable}{|N{25mm}|C{25mm}|C{25mm}|C{25mm}|}
+{
 \multirow{2}{*}{Processadores} 
-&\multicolumn{3}{|c|}{Eficiência(\%)}
-\\ \cline{2-4} 
-& Uniforme
-& Normal
-& Pareto
-\\ \hline \hline
-
+&\multicolumn{3}{T}{Eficiência(\%)}		\\ \cline{2-4} 
+\rowstyle{\bfseries}
+		& Uniforme 	& Normal		& Pareto		\\ \hline \hline
 4		&	100		&	100		&	100		\\ \hline
-6		&	96,90	&	95,61	&	95,74		\\ \hline
-8		&	90,05	&	88,94	&	90,95		\\ \hline
-10		&	86,93	&	85,55	&	85,84		\\ \hline
-
-\end{tabular}
-\end{footnotesize}
-\caption{Resultados da eficiência para execuções de 4 a 10 processadores}
+6		&	96,90	&	95,61	&	95,74	\\ \hline
+8		&	90,05	&	88,94	&	90,95	\\ \hline
+10		&	86,93	&	85,55	&	85,84	\\ \hline
+}
+{Resultados da eficiência para execuções de 4 a 10 processadores}
 \label{tab:QuantidadeDadosEficiencia}
-\end{table}
+\end{defaultTable}
+
+%\begin{table}[htbp]
+%\centering
+%\begin{footnotesize}
+%\begin{tabular}{|N{25mm}|C{25mm}|C{25mm}|C{25mm}|} \hline
+%
+%\multirow{2}{*}{Processadores} 
+%&\multicolumn{3}{|c|}{Eficiência(\%)}
+%\\ \cline{2-4} 
+%& Uniforme
+%& Normal
+%& Pareto
+%\\ \hline \hline
+%
+%4		&	100		&	100		&	100		\\ \hline
+%6		&	96,90	&	95,61	&	95,74		\\ \hline
+%8		&	90,05	&	88,94	&	90,95		\\ \hline
+%10		&	86,93	&	85,55	&	85,84		\\ \hline
+%
+%\end{tabular}
+%\end{footnotesize}
+%\caption{Resultados da eficiência para execuções de 4 a 10 processadores}
+%\label{tab:QuantidadeDadosEficiencia}
+%\end{table}
 
 A Figura \ref{fig:MaquinasEficiencia} representa graficamente a eficiência em diferentes números de processadores. Nela observa-se que, à medida que o número de processadores aumenta, o percentual da eficiência diminui. Percebe-se ainda que a distribuição normal apresenta menores valores em todas as configurações de processadores.
 
