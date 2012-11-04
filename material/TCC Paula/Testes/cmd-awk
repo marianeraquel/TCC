@@ -1,0 +1,2 @@
+cut -d" " -f 3 10_8_int_1arq_2maq_teste1.txt | sort > tempos_10_8_1arq_2maq.txt
+awk -f estat.awk tempos_10_8_1arq_2maq.txt > awk_tempos_10_8_1arq_2maq.txt

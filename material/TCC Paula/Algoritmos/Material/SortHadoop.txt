@@ -1,0 +1,22 @@
+--
+Sort default do Hadoop é o QuickSort (profuncidade baixa de recursão) 
+ou HeapSort (profuncidade alta de recursão) 
+--
+Q: Somewhat of an odd question, but does anyone know what kind of sort MapReduce uses in the sort 
+portion of shuffle/sort? I would think merge or insertion (in keeping with the whole MapReduce paradigm), 
+but I'm not sure.
+
+A: It's Quicksort, afterwards the sorted intermediate outputs get merged together. Quicksort checks the 
+recursion depth and gives up when it is too deep. If this is the case, Heapsort is used.
+
+
+Have a look at the Quicksort class:
+org.apache.hadoop.util.QuickSort
+
+You can change the algorithm used via the map.sort.class value in the hadoop-default.xml.
+
+Fonte: http://stackoverflow.com/questions/5779750/mapreduce-shuffle-sort-method
+--
+http://www.manning-sandbox.com/thread.jspa?threadID=37723
+--
+http://stackoverflow.com/questions/4368965/running-multiple-mapreduce-jobs-in-hadoop

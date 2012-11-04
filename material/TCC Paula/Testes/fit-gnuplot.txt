@@ -1,0 +1,71 @@
+Ajuste de curvas (fit)
+
+Definir uma função
+
+gnuplot> f(x) = a*x + b
+
+Utiliza-la para o ajuste dos dados
+
+gnuplot> fit f(x) "x.dat" via a,b
+
+fit f(x) "10_6_a_10_10_gnuplot.txt" via a,b
+
+Resultado:
+
+...
+After 6 iterations the fit converged.
+final sum of squares of residuals : 3.76358e-28
+rel. change during last iteration : 0
+
+degrees of freedom    (FIT_NDF)                        : 98
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 1.95969e-15
+variance of residuals (reduced chisquare) = WSSR/ndf   : 3.84039e-30
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+
+a               = 10               +/- 3.89e-16     (3.89e-15%)
+b               = -3               +/- 6.789e-17    (2.263e-15%)
+
+
+correlation matrix of the fit parameters:
+
+               a      b
+a               1.000
+b              -0.864  1.000
+
+Graficando dados e ajuste
+
+gnuplot> plot "x.dat", f(x)
+--
+set term png enhanced font '/usr/share/fonts/truetype/ttf-bitstream-vera/Vera.ttf' 12
+set output 'aproximacao_linear_dados_linear_semlog_novo.png'
+set encoding iso_8859_1
+set key outside below
+#set logscale x
+#set logscale y
+set format x "10^{%L}"
+set format y "10^{%L}"
+FIT_LIMIT=1E-7
+FIT_MAXITER=200
+set xrange [1E6:1E10] #seta a largura do eixo x
+#set yrange [1:1E5]
+set xtics ("1" 1E0, "10^9" 1E9, " " 2*1E9, " " 3*1E9, " " 4*1E9, " " 5*1E9, " " 6*1E9, " " 7*1E9, " " 8*1E9, " " 9*1E9, "10^{10}" 1E10)
+set ytics ("1" 1E0, "10^3" 1E3, " " 3*1E3, " " 6*1E3, " " 9*1E3,  " " 1E4, " " 2*1E4, " " 3*1E4,  " " 4*1E4, "10^4" 5*1E4)
+set ylabel "Tempo m{\351}dio (s)"
+set xlabel "Quantidade de dados"
+f(x) = a*x + b
+#g(x) = d*x**2 + e*x + f
+#h(x) = a*x**b
+#FIT_LIMIT = 1e-10
+fit f(x) "qtde_tempo.txt" u 1:2 via a,b
+FIT_LIMIT = 1e-10
+#fit g(x) "qtde_tempo.txt" u 1:2 via d,e,f
+#FIT_LIMIT = 1e-10
+g(x)= 1.632*10**(-6)*x+137
+#g(x)=-0.00000000010009*x**2+x+1
+#g(x)= 1.64*10**(-6)*x+1
+#g(x)=-0.00000000000004498*x**2+0.00000209*x+28.66
+plot "qtde_tempo.txt" u 1:2 title "dado real" with points lw 3, g(x) title "f(x)" with lines lw 3
+#, f(x) title "f(x)" with lines lw 3
+

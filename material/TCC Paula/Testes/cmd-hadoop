@@ -1,0 +1,87 @@
+/usr/local/hadoop/bin/start-all.sh
+bin/hadoop dfs -copyFromLocal /home/hadoop/20inteiros /usr/hadoop/tmp/20inteiros
+bin/hadoop dfs -ls /usr/hadoop/tmp/20inteiros 
+bin/hadoop jar QuickSortHadoop.jar /usr/hadoop/tmp/20inteiros /usr/hadoop/tmp/20inteiros-out
+mkdir /tmp/20inteiros-out
+bin/hadoop dfs -getmerge /usr/hadoop/tmp/20inteiros-out /tmp/20inteiros-out
+head /tmp/quick-out/1000inteiros-out
+--
+/usr/local/hadoop/bin/start-all.sh
+bin/hadoop dfs -copyFromLocal /usr/local/hadoop/quick-in /usr/hadoop/tmp/quick-in
+bin/hadoop dfs -ls /usr/hadoop/tmp/quick-in
+bin/hadoop jar QuickSortHadoop.jar /usr/hadoop/tmp/quick-in /usr/hadoop/tmp/quick-out
+mkdir /tmp/quick-out2
+bin/hadoop dfs -getmerge /usr/hadoop/tmp/quick-out /tmp/quick-out2
+head /tmp/quick-out/quick-out2
+--
+/usr/local/hadoop/bin/start-all.sh
+bin/hadoop dfs -copyFromLocal /tmp/input /user/hadoop/input
+bin/hadoop dfs -ls /user/hadoop/input
+bin/hadoop jar hadoop*examples*.jar wordcount /user/hadoop/input /user/hadoop/output
+mkdir /tmp/output
+bin/hadoop dfs -getmerge /user/hadoop/output /tmp/output
+head /tmp/output/output
+bin/stop-all.sh
+-
+bin/hadoop jar WordCount.jar /user/hduser/input /user/hduser/output
+mkdir /tmp/output
+bin/hadoop dfs -getmerge /user/hduser/output /tmp/output
+head /tmp/output/output
+--
+bin/hadoop dfs -copyFromLocal /usr/local/hadoop/tmp/word /usr/hadoop/tmp/word
+bin/hadoop dfs -ls /usr/hadoop/tmp/word
+bin/hadoop jar hadoop*examples*.jar wordcount /usr/hadoop/tmp/word /usr/hadoop/tmp/word-out
+mkdir /tmp/word-out
+bin/hadoop dfs -getmerge /usr/hadoop/tmp/word-out /tmp/word-out
+head /tmp/word-out/word-out
+--
+
+
+-- visualizações gráficas
+– web UI for MapReduce job tracker(s):
+http://localhost:50030/
+– web UI for task tracker(s): 
+http://localhost:50060/
+– web UI for HDFS name node(s):
+http://localhost:50070/ 
+
+
+
+
+
+bin/hadoop dfs -copyFromLocal /media/PAULA/TCC/Algoritmos/data-in/ /user/local/hadoop/tmp/data-in
+bin/hadoop dfs -ls /user/hadoop/data-in
+bin/hadoop jar SortByValuesHadoop.jar /user/hadoop/data-in /user/hadoop/data-out
+
+
+bin/hadoop fs -rmr hdfs://rubi:54312/user/hadoop/PiEstimator_TMP_3_141592654/in/part0 
+bin/hadoop fs -rmr hdfs://rubi:54312/usr/local/hadoop/tmp/dir/hadoop
+bin/hadoop fs -rmr /usr/hadoop/tmp/dir/hadoop-hadoop/dfs/name/quick-out
+
+
+
+/usr/local/hadoop/tmp/dir/hadoop-hadoop/dfs/name
+
+
+
+
+
+
+
+
+
+
+
+bin/hadoop jar SortUsingTotalOrderPartitioner.jar -D mapred.reduce.tasks=2 /usr/hadoop/entrada-21-in /usr/hadoop/entrada-21-out
+
+
+
+
+
+
+
+
+
+
+
+

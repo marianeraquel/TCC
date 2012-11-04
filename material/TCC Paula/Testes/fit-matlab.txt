@@ -1,0 +1,15 @@
+x=load('10_6_a_10_10_gnuplot.txt')
+plot(x(:,12),x(:,3))
+
+bar(x(:,12),x(:,3))
+
+dados=load('10_6_a_10_10_gnuplot.txt')
+x = dados(:,12);
+y = dados(:,3);
+p1=polyfit(x,y,1);
+y1 = polyval(p1,x);
+p2=polyfit(x,y,2);
+y2 = polyval(p2,x);
+correlation1 = corrcoef(y, y1)
+correlation2 = corrcoef(y, y2)
+plot(x,y,’or’,x,y1,’-b’,x,y2,’-k’);

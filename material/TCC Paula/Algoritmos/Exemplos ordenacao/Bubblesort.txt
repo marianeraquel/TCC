@@ -1,0 +1,68 @@
+4. Use mapReduce to implement bubble sort. Implement a function bubble that does one bubble sort pass.
+
+You may use any technique you want to implement bubble. However, you may not plug a function into mapReduce that does a sort on its own.
+
+Fill in the <?> parts to produce a result that looks like this.
+
+bubbleSort =
+   mapReduce  
+      <?>
+      bubble
+      <?>
+      <?>
+      <?>
+
+> bubbleSort [4, 3, 2, 7, 5, 8, 1]
+[1,2,3,4,5,7,8]
+
+Hint: the termination condition is not whether a list is empty.
+4. Solution
+
+bubbleSort =
+   mapReduce  
+      id             -- ignore this value
+      bubble         -- bubble is defined in question 5.
+      sorted         -- we are done when the list is sorted
+      id             -- when the list is sorted it is the answer.
+      (\_ xs -> xs)  -- return the answer up the recursion stack
+   where sorted xs = and (zipWith (<=) xs (tail xs))
+
+You could have implemented bubble any way you wanted.
+5. (20 points)
+
+Use foldr to implement a function bubble that performs one bubble sort pass (from rear to front) through a list.
+
+ bubble = foldr . . .
+
+> bubble [3, 1, 6, 4, 2]
+[1,3,2,6,4]
+
+You should be able to plug this version of bubble into your defintion of bubbleSort from question 4. But this question and question 4 are not dependent on each other. You can do either without having done the other.
+5. Solution
+
+bubble = foldr addElement []  
+  where addElement x [] = [x]
+        addElement x1 (x2:xs) 
+                     | x1 <= x2  = x1 : x2 : xs
+                     | otherwise = x2 : x1 : xs
+
+addElement doesn't do a complete insertion. It just compares the current element to the previous and puts them in order.
+
+An alternative for addElement is this.
+
+bubble = foldr addElement []  
+  where addElement x [] = [x]
+        addElement x1 (x2:xs) = (min x1 x2) : (max x1 x2) : xs
+
+Or, to avoid the first clause of addElement one could start with a singleton. But then one needs an extra clause in bubble to take care of the empty list.
+
+bubble [] = []
+bubble xs = foldr addElement [(last xs)] (init xs)
+  where addElement x1 (x2:xs) = (min x1 x2) : (max x1 x2) : xs
+
+To avoid two traversals for both init and last, one could do this.
+
+bubble [] = []
+bubble xs = foldr addElement end front
+   where (front, end) = splitAt (length xs -1) xs
+         addElement x1 (x2:xs) = (min x1 x2) : (max x1 x2) : xs

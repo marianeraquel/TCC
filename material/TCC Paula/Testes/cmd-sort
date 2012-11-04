@@ -1,0 +1,121 @@
+bin/hadoop dfs -copyFromLocal /home/labores/10_2_int /usr/hadoop/10_2_int
+bin/hadoop jar SortUsingTotalOrderPartitioner.jar -D mapred.reduce.tasks=4 /usr/hadoop/10_2_int /usr/hadoop/10_6_2arq-saida 0.1 10000 10
+bin/hadoop fs -text /usr/hadoop/20_int/2inteiros1-0.1-9/part-00000 | wc -l
+
+bin/hadoop dfs -copyFromLocal /home/labores/20_int /usr/hadoop/20_int
+bin/hadoop jar SortUsingTotalOrderPartitioner.jar /usr/hadoop/20_int 2 0.4 0.9 0.5 5 20 15 2 
+
+bin/hadoop dfs -rmr 
+hadoop@ametista:/usr/local/hadoop$ bin/hadoop dfs -rmr /usr/hadoop/20_int
+Deleted hdfs://ametista:54312/usr/hadoop/20_int
+
+
+
+bin/hadoop dfs -copyFromLocal /media/PAULA/TCC/Testes\ iniciais/Sort/_user_hadoop_rand-sort__temporary__attempt_201106211806_0015_r_000000_0_part-00000 /usr/hadoop/_user_hadoop_rand-sort__temporary__attempt_201106211806_0015_r_000000_0_part-00000
+bin/hadoop fs -text /usr/hadoop/_user_hadoop_rand-sort__temporary__attempt_201106211806_0015_r_000000_0_part-00000 | wc -l
+
+bin/hadoop jar GeraDados.jar 10_2_int_1arq 2 1 10
+bin/hadoop dfs -text /usr/hadoop/teste_1000arq_10_9/10_9_int1
+bin/hadoop jar OrdenacaoPorAmostragem.jar (eu coloquei)
+/usr/hadoop/10_2_int_1arq 8 0.9 0.9 0.1 10 10 1 3 /home/hadoop 10_2_int_1arq_teste1.txt 10_2_int_1arq_teste2.txt
+
+/usr/hadoop/10int 1 0.9 0.9 1 5 5 1 1 /home/hadoop/ t1.txt t2.txt
+
+
+testes
+--
+bin/hadoop dfs -copyFromLocal /home/labores/10_8_int_1arq /usr/hadoop/10_8_int_1arq
+bin/hadoop jar OrdenacaoPorAmostragem.jar /usr/hadoop/10_8_int_1arq 10 0.9 0.9 0.1 10000 10000 1 3 /home/hadoop 10_8_int_1arq_5maq_teste1.txt 10_8_int_1arq_5maq_teste2.txt
+sudo cp 10_8_int_1arq_3maq_teste1.txt /media/PAULA/TCC
+
+bin/hadoop dfs -rmr /usr/hadoop/10_2_int_1arq
+bin/hadoop dfs -text /usr/hadoop/10_8_int_1arq/10_8_int1/10_8_int1-in | wc -l
+
+bin/hadoop jar OrdenacaoPorAmostragem.jar /usr/hadoop/10_10_int_1arq 8 0.9 0.9 0.1 10000 10 1 3 /home/hadoop 10_2_int_1arq_teste1.txt 10_2_int_1arq_teste2.txt
+bin/hadoop fs -text /usr/hadoop/10_7_int_1arq/10_7_int1-0.9-10000-1/part-00000 | tail
+bin/hadoop fs -text /usr/hadoop/10_7_int_1arq/10_7_int1-0.9-10000-1/part-00001 | tail
+
+more 10_7_int_1arq_teste1.txt | wc -l
+sudo cp 10_10_int_1arq_teste1.txt /media/PAULA/TCC
+--
+bin/hadoop dfs -copyFromLocal /home/labores/10_6_int_10arq /usr/hadoop/10_6_int_10arq
+bin/hadoop dfs -text /usr/hadoop/10_6_int_10arq/10_6_int10/10_6_int10-in | wc -l
+
+bin/hadoop jar OrdenacaoPorAmostragem.jar /usr/hadoop/10_10_int_1arq 8 0.9 0.9 0.1 10000 10000 1 3 /home/hadoop 10_10_int_1arq_teste1.txt 10_10_int_1arq_teste2.txt
+
+sudo cp 10_9_int_10arq_teste1.txt /media/PAULA/TCC
+--
+formatar namenode
+bin/stop-all.sh
+sudo rm -rf tmp/
+bin/hadoop namenode -format
+bin/start-all.sh
+jps
+--
+
+
+/home/labores/10_8_int_1arq 8 1 100
+/home/labores/10_2_int 2 10
+
+
+/home/labores/21_hom_crep 21 20 1
+sudo rm -rf tmp/
+
+
+lib.InputSampler: Using 15 samples
+--
+Teste 1 : (0.5, 80, 8)
+10⁶ inteiros homogêneos (valor máx 10⁶) => 8 partições (4máq)
+Tempo total: 33393 milisegundos.
+part1 197134
+part2 125365
+part3 148130
+part4 142357
+part5 132409
+part6 67202
+part7 76099
+part8 111304
+---
+Teste 2 : (0.1, 10000, 10)
+10⁶ inteiros homogêneos (valor máx 10⁶) => 8 partições (4máq)
+Tempo total: 29346 milisegundos.
+part1 125724
+part2 116697
+part3 127476
+part4 124438
+part5 120799
+part6 127465
+part7 129609
+part8 127792
+--
+Teste 2 : (0.1, 80, 8)
+10⁶ inteiros homogêneos (valor máx 10⁶) => 8 partições (4máq)
+Tempo total: 29340 milisegundos.
+part1 91995
+part2 115743
+part3 93219
+part4 142796
+part5 118341
+part6 174824
+part7 165340
+part8 97742
+
+------
+2 arq de 500000 = 1000000
+Teste 1: (0.1, 10000, 10)
+10⁶ inteiros homogêneos (valor máx 10⁶) => 8 partições (4máq)
+Tempo total: 33323 milisegundos.
+part1 125580
+part2 120801
+part3 126408
+part4 125150
+part5 125927
+part6 125621
+part7 125607
+part8 124906
+
+
+bin/hadoop fs -text hdfs://ametista:54312/usr/hadoop/10int/inteiros10-1.0-5/part-00000 | wc -l
+bin/hadoop fs -text hdfs://ametista:54312/usr/hadoop/10int/inteiros10-1.0-5/part-00001 | wc -l
+
+

@@ -1,0 +1,3 @@
+http://arifn.web.id/blog/2010/01/23/hadoop-in-netbeans.html
+
+http://arifn.web.id/blog/2011/03/15/running-hadoop-cluster-in-netbeans.html

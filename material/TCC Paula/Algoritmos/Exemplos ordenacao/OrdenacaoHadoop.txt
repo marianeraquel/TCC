@@ -1,0 +1,12 @@
+Sorting
+As we described above, Hadoop is fundamentally a distributed sorting engine, so using it for sorting is a natural fit.
+
+For example, we can use an Identity function for both map() and reduce(), then the output is equivalent to sorting the input data. Notice that we are using a single reducer here. So the merge is still sequential although the sorting is done at the mapper in parallel.
+
+We can perform the merge in parallel by using multiple reducers. In this case, output of each reducer are sorted. We may need to do a final merge on all the reducer's output. Another way is to use a customized partition() function such that the keys are partitioned by range. In this case, each reducer is sorting a particular range and the final result is just to concatenate the each reducer's sorted result.
+
+partition(key) {
+  range = (KEY_MAX - KEY_MIN) / NUM_OF_REDUCERS
+  reducer_no = (key - KEY_MIN) / range
+  return reducer_no
+}
