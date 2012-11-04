@@ -1,0 +1,53 @@
+<project basedir="." default="build" name="QuickSort">
+
+	<property name="project.name" value="QuickSort" />
+	<property name="main.class" value="quicksort.QuickSortJob" />
+
+
+	<property name="external.lib.dir" value="../../HadoopLibrary" />
+	<property name="final.jar" value="${project.name}.jar" />
+	
+	<property environment="env" />
+	<property name="debuglevel" value="source,lines,vars" />
+	<property name="target" value="1.6" />
+	<property name="source" value="1.6" />
+	<property name="src.dir" value="src" />
+	<property name="bin.dir" value="bin" />	
+
+	<!-- Compilação e criação do .jar: ant run -->
+	<target name="run" depends="build-jar" />
+	
+	<!-- Adiciona Arquivos .jar do Hadoop -->
+	<path id="project.classpath">
+		<fileset dir="${external.lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<!-- Compilação -->
+	<target name="build">
+		<echo message="${ant.project.name}: ${ant.file}" />
+		<javac includeantruntime="false" debug="true" debuglevel="${debuglevel}" destdir="${bin.dir}" source="${source}" target="${target}">
+			<src path="${src.dir}" />
+			<classpath refid="project.classpath" />
+		</javac>
+	</target>
+
+	<!-- Criação .jar -->
+	<target name="build-jar" depends="build">
+		<delete file="${final.jar}" />
+		<jar destfile="${final.jar}">
+			<fileset dir="${bin.dir}" includes="**/*.class" />
+			<manifest>
+				<attribute name="Main-Class" value="${main.class}" />
+				<attribute name="Class-Path" value="${project.classpath}" />
+			</manifest>
+		</jar>
+	</target>
+
+	<!-- Limpar arquivos temporários -->
+	<target name="clean">
+		<delete dir="${bin.dir}" />
+	</target>
+
+</project>
