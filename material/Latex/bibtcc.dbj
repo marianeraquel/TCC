@@ -40,9 +40,9 @@ End of customized bst file
 % html,htdes,%: Hypertext with keys
 %--------------------
 %AUTHOR--YEAR SUPPORT SYSTEM (if author-year citations)
-  nat,%: Natbib
+%  nat,%: Natbib
 %   %: (def) Older Natbib
-% alk,%: Apalike
+ alk,%: Apalike
 % har,%: Harvard
 % ast,%: Astronomy
 % cay,%: Chicago
@@ -129,12 +129,12 @@ End of customized bst file
 %--------------------
 %NUMBER OF AUTHORS IN BIBLIOGRAPHY:
 %   %: (def) All authors
-%  nmlm,%: Limited authors
+  nmlm,%: Limited authors
 %--------------------
 %    x3,%: Maximum of 3 authors
-%    m3,%: Minimum of 3 authors
+    m3,%: Minimum of 3 authors
 %AUTHORS IN CITATIONS:
-    %: (def) One author et al
+%    %: (def) One author et al
  mcite,%: Some other truncation scheme
 %--------------------
 %MAX AUTHORS BEFORE ET AL: (if regular cite not selected)
@@ -304,10 +304,10 @@ End of customized bst file
 % vol-2bf,%: Volume and number bold
 %--------------------
 %JOURNAL VOL AND NUMBER:
-    %: (def) Journal vol(num)
+%    %: (def) Journal vol(num)
 % vnum-sp,%: Journal vol (num)
 % vnum-cm,%: Journal vol, num
-% vnum-nr,%: Journal vol, no. num
+ vnum-nr,%: Journal vol, no. num
 % vnum-h,%: Journal vol, \# number
 % vnum-b,%: Journal vol number
 % vnum-x,%: Journal vol, without number
@@ -338,7 +338,7 @@ End of customized bst file
 %--------------------
 %WORD `PAGE' IN ARTICLES:
     %: (def) Article pages numbers only
-% jwdpg,%: Include `page' in articles
+ jwdpg,%: Include `page' in articles
 %--------------------
 %POSITION OF PAGES:
 %   %: (def) Pages given mid text
@@ -346,7 +346,7 @@ End of customized bst file
 %--------------------
 %WORD `VOLUME' IN ARTICLES:
     %: (def) Article volume as number only
-% jwdvol,%: Include `volume' in articles
+ jwdvol,%: Include `volume' in articles
 %--------------------
 %NUMBER AND SERIES FOR COLLECTIONS:
   num-xser,%: Allows number without series

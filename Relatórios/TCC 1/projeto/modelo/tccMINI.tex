@@ -1,0 +1,58 @@
+% Modelo da Raquel - Este modelo foi baseado em: modelo-ufpr.tex,v 1.1 2003/06/30 
+% incluir o pacote estilo.
+% <mariane.raquel@ymail.com>
+
+\documentclass[normaltoc, ruledheader, espacosimples, 10pt, sumarioincompleto]{abnt} %11pt
+\usepackage[brazil]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+%\usepackage{graphicx}	
+\usepackage[left=1.3cm,right=1.3cm,top=1.3cm,bottom=1.3cm, pdftex]{geometry}
+\usepackage{fancyhdr}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{courier}
+\usepackage{color}
+\usepackage{multirow}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage{estilo}
+\usepackage[num]{abntcite}
+%\bibliographystyle{abnt-alf-mod}
+
+% --------- Início do Documento ---------
+\renewcommand{\ABNTchaptersize}{\large}
+\makeatletter
+
+\renewcommand\section{\ABNTstartsection{section}{1}{\z@}%
+{3.5ex \@plus -1ex \@minus -.2ex} {3.3ex \@plus.2ex}%
+{\espaco{simples}\normalfont  \ABNTsectionfont\normalsize}}
+
+
+\def\@makechapterhead#1{%
+  {\normalfont\ABNTchaptersize\ABNTchapterfont%
+   \vspace*{0.1cm} \noindent%
+   \parbox[b]{\textwidth}{\parbox[t]{4ex}{\thechapter}%
+      \parbox[t]{\textwidth-4ex-1ex} {\interlinepenalty\@M\raggedright%
+        \ifthenelse{\boolean{ABNTcapchap}} {\MakeUppercase{#1}} {#1}} \vspace*{0cm}
+   }\\[2pt] \vspace{0pt}}}
+\makeatother
+
+\begin{document}
+
+%\include{0-capa}
+%\include{0-pretextuais}
+%\include{0-resumo}
+%\sumario
+%\listadefiguras
+%\listadetabelas
+\include{./capitulos/1-introducao}
+\include{./capitulos/2-computacaoParalela}
+\include{./capitulos/3-ordenacaoDeDados}
+\include{./capitulos/4-desenvolvimento}
+\include{./capitulos/5-resultados}
+\include{./capitulos/6-conclusao}
+
+% Referências
+\nocite{Paula:2011}
+\bibliography{bibliografia} % o nome do arquivo .bib						
+\end{document}
