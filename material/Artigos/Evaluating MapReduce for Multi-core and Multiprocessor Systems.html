@@ -1,0 +1,1610 @@
+
+<!-- saved from url=(0128)http://webcache.googleusercontent.com/search?q=cache:http://pages.cs.wisc.edu/~david/courses/cs758/Fall2009/papers/mapreduce.pdf -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head><body bgcolor="#ffffff" vlink="blue" link="blue"><div style="background:#fff;border:1px solid #999;margin:-1px -1px 0;padding:0;"><div style="background:#ddd;border:1px solid #999;color:#000;font:13px arial,sans-serif;font-weight:normal;margin:12px;padding:8px;text-align:left">This is the html version of the file <a href="http://pages.cs.wisc.edu/~david/courses/cs758/Fall2009/papers/mapreduce.pdf" style="text-decoration:underline;color:#00c">http://pages.cs.wisc.edu/~david/courses/cs758/Fall2009/papers/mapreduce.pdf</a>.<br><b>Google</b> automatically generates html versions of documents as we crawl the web.</div></div><div style="position:relative">
+
+
+
+<meta name="ModDate" content="D:20061216092538-08&#39;00&#39;">
+<meta name="CreationDate" content="D:20061215232547-08&#39;00&#39;">
+<meta name="Title" content="Evaluating MapReduce for Multi-core and Multiprocessor Systems">
+<meta name="Creator" content="TeX">
+<meta name="Author" content="Colby Ranger, Ramanan Raghuraman, Arun Penmetsa, Gary Bradski, Christos Kozyrakis">
+<meta name="Keywords" content="Parallel Programming, Multi-core Systems, MapReduce, Scheduling">
+<meta name="Subject" content="Parallel Computing">
+<meta name="Producer" content="pdfeTeX-1.21a">
+<meta name="Fullbanner" content="This is pdfeTeX, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) kpathsea version 3.5.4">
+<title>Evaluating MapReduce for Multi-core and Multiprocessor Systems</title>
+
+<table border="0" width="100%"><tbody><tr><td bgcolor="eeeeee" align="right"><font face="arial,sans-serif"><a name="1"><b>Page 1</b></a></font></td></tr></tbody></table><font size="3" face="Times"><span style="font-size:19px;font-family:Times">
+<div style="position:absolute;top:336;left:138"><nobr>Evaluating MapReduce for Multi-core and Multiprocessor Systems</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:15px;font-family:Times">
+<div style="position:absolute;top:395;left:123"><nobr>Colby Ranger, Ramanan Raghuraman, Arun Penmetsa, Gary Bradski, Christos Kozyrakis<font style="font-size:9px">∗</font></nobr></div>
+<div style="position:absolute;top:420;left:336"><nobr>Computer Systems Laboratory</nobr></div>
+<div style="position:absolute;top:441;left:376"><nobr>Stanford University</nobr></div>
+<div style="position:absolute;top:504;left:219"><nobr>Abstract</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:543;left:90"><nobr>This paper evaluates the suitability of the MapReduce</nobr></div>
+<div style="position:absolute;top:561;left:75"><nobr>model for multi-core and multi-processor systems. MapRe-</nobr></div>
+<div style="position:absolute;top:579;left:75"><nobr>duce was created by Google for application development</nobr></div>
+<div style="position:absolute;top:597;left:75"><nobr>on data-centers with thousands of servers. It allows pro-</nobr></div>
+<div style="position:absolute;top:614;left:75"><nobr>grammers to write functional-style code that is automati-</nobr></div>
+<div style="position:absolute;top:632;left:75"><nobr>cally parallelized and scheduled in a distributed system.</nobr></div>
+<div style="position:absolute;top:651;left:90"><nobr>We describe Phoenix, an implementation of MapReduce</nobr></div>
+<div style="position:absolute;top:669;left:75"><nobr>for shared-memory systems that includes a programming</nobr></div>
+<div style="position:absolute;top:687;left:75"><nobr>API and an efficient runtime system. The Phoenix run-</nobr></div>
+<div style="position:absolute;top:705;left:75"><nobr>time automatically manages thread creation, dynamic task</nobr></div>
+<div style="position:absolute;top:723;left:75"><nobr>scheduling, data partitioning, and fault tolerance across</nobr></div>
+<div style="position:absolute;top:741;left:75"><nobr>processor nodes. We study Phoenix with multi-core and</nobr></div>
+<div style="position:absolute;top:758;left:75"><nobr>symmetric multiprocessor systems and evaluate its perfor-</nobr></div>
+<div style="position:absolute;top:776;left:75"><nobr>mance potential and error recovery features. We also com-</nobr></div>
+<div style="position:absolute;top:794;left:75"><nobr>pare MapReduce code to code written in lower-level APIs</nobr></div>
+<div style="position:absolute;top:812;left:75"><nobr>such as P-threads. Overall, we establish that, given a care-</nobr></div>
+<div style="position:absolute;top:830;left:75"><nobr>ful implementation, MapReduce is a promising model for</nobr></div>
+<div style="position:absolute;top:848;left:75"><nobr>scalable performance on shared-memory systems with sim-</nobr></div>
+<div style="position:absolute;top:866;left:75"><nobr>ple parallel code.</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:15px;font-family:Times">
+<div style="position:absolute;top:909;left:75"><nobr>1 Introduction</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:937;left:90"><nobr>As multi-core chips become ubiquitous, we need parallel</nobr></div>
+<div style="position:absolute;top:955;left:75"><nobr>programs that can exploit more than one processor. Tradi-</nobr></div>
+<div style="position:absolute;top:973;left:75"><nobr>tional parallel programming techniques, such as message-</nobr></div>
+<div style="position:absolute;top:991;left:75"><nobr>passing and shared-memory threads, are too cumbersome</nobr></div>
+<div style="position:absolute;top:1009;left:75"><nobr>for most developers. They require that the programmer</nobr></div>
+<div style="position:absolute;top:1026;left:75"><nobr>manages concurrency explicitly by creating threads and</nobr></div>
+<div style="position:absolute;top:1044;left:75"><nobr>synchronizing them through messages or locks. They also</nobr></div>
+<div style="position:absolute;top:1062;left:75"><nobr>require manual management of data locality. Hence, it is</nobr></div>
+<div style="position:absolute;top:1080;left:75"><nobr>very difficult to write correct and scalable parallel code for</nobr></div>
+<div style="position:absolute;top:1098;left:75"><nobr>non-trivial algorithms. Moreover, the programmer must of-</nobr></div>
+<div style="position:absolute;top:1116;left:75"><nobr>ten re-tune the code when the application is ported to a dif-</nobr></div>
+<div style="position:absolute;top:1134;left:75"><nobr>ferent or larger-scale system.</nobr></div>
+<div style="position:absolute;top:1153;left:90"><nobr>To simplify parallel coding, we need to develop two com-</nobr></div>
+<div style="position:absolute;top:1170;left:75"><nobr>ponents: a practical programming model that allows users</nobr></div>
+<div style="position:absolute;top:1188;left:75"><nobr>to specify concurrency and locality at a high level and an</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:6px;font-family:Times">
+<div style="position:absolute;top:1216;left:90"><nobr>*<font style="font-size:9px">Email addresses: {cranger, ramananr, penmetsa}@stanford.edu,</font></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:9px;font-family:Times">
+<div style="position:absolute;top:1234;left:75"><nobr>garybradski@gmail.com, and christos@ee.stanford.edu.</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:506;left:463"><nobr>efficient runtime system that handles low-level mapping, re-</nobr></div>
+<div style="position:absolute;top:524;left:463"><nobr>source management, and fault tolerance issues automati-</nobr></div>
+<div style="position:absolute;top:542;left:463"><nobr>cally regardless of the system characteristics or scale. Nat-</nobr></div>
+<div style="position:absolute;top:560;left:463"><nobr>urally, the two components are closely linked. Recently,</nobr></div>
+<div style="position:absolute;top:578;left:463"><nobr>there has been a significant body of research towards these</nobr></div>
+<div style="position:absolute;top:596;left:463"><nobr>goals using approaches such as streaming [13, 15], mem-</nobr></div>
+<div style="position:absolute;top:614;left:463"><nobr>ory transactions [14, 5], data-flow based schemes [2], asyn-</nobr></div>
+<div style="position:absolute;top:632;left:463"><nobr>chronous parallelism, and partitioned global address space</nobr></div>
+<div style="position:absolute;top:650;left:463"><nobr>languages [6, 1, 7].</nobr></div>
+<div style="position:absolute;top:670;left:478"><nobr>This paper presents Phoenix, a programming API and</nobr></div>
+<div style="position:absolute;top:688;left:463"><nobr>runtime system based on Google’s MapReduce model [8].</nobr></div>
+<div style="position:absolute;top:706;left:463"><nobr>MapReduce borrows two concepts from functional lan-</nobr></div>
+<div style="position:absolute;top:724;left:463"><nobr>guages to express data-intensive algorithms. The Map func-</nobr></div>
+<div style="position:absolute;top:742;left:463"><nobr>tion processes the input data and generates a set of interme-</nobr></div>
+<div style="position:absolute;top:760;left:463"><nobr>diate key/value pairs. The Reduce function properly merges</nobr></div>
+<div style="position:absolute;top:778;left:463"><nobr>the intermediate pairs which have the same key. Given such</nobr></div>
+<div style="position:absolute;top:796;left:463"><nobr>a functional specification, the MapReduce runtime automat-</nobr></div>
+<div style="position:absolute;top:814;left:463"><nobr>ically parallelizes the computation by running multiple map</nobr></div>
+<div style="position:absolute;top:832;left:463"><nobr>and/or reduce tasks in parallel over disjoined portions of</nobr></div>
+<div style="position:absolute;top:850;left:463"><nobr>the input or intermediate data. Google’s MapReduce im-</nobr></div>
+<div style="position:absolute;top:867;left:463"><nobr>plementation facilitates processing of terabytes on clusters</nobr></div>
+<div style="position:absolute;top:885;left:463"><nobr>with thousands of nodes. The Phoenix implementation is</nobr></div>
+<div style="position:absolute;top:903;left:463"><nobr>based on the same principles but targets shared-memory</nobr></div>
+<div style="position:absolute;top:921;left:463"><nobr>systems such as multi-core chips and symmetric multipro-</nobr></div>
+<div style="position:absolute;top:939;left:463"><nobr>cessors.</nobr></div>
+<div style="position:absolute;top:960;left:478"><nobr>Phoenix uses threads to spawn parallel Map or Reduce</nobr></div>
+<div style="position:absolute;top:978;left:463"><nobr>tasks. It also uses shared-memory buffers to facilitate com-</nobr></div>
+<div style="position:absolute;top:996;left:463"><nobr>munication without excessive data copying. The runtime</nobr></div>
+<div style="position:absolute;top:1014;left:463"><nobr>schedules tasks dynamically across the available processors</nobr></div>
+<div style="position:absolute;top:1031;left:463"><nobr>in order to achieve load balance and maximize task through-</nobr></div>
+<div style="position:absolute;top:1049;left:463"><nobr>put. Locality is managed by adjusting the granularity and</nobr></div>
+<div style="position:absolute;top:1067;left:463"><nobr>assignment of parallel tasks. The runtime automatically re-</nobr></div>
+<div style="position:absolute;top:1085;left:463"><nobr>covers from transient and permanent faults during task exe-</nobr></div>
+<div style="position:absolute;top:1103;left:463"><nobr>cution by repeating or re-assigning tasks and properly merg-</nobr></div>
+<div style="position:absolute;top:1121;left:463"><nobr>ing their output with that from the rest of the computation.</nobr></div>
+<div style="position:absolute;top:1139;left:463"><nobr>Overall, the Phoenix runtime handles the complicated con-</nobr></div>
+<div style="position:absolute;top:1157;left:463"><nobr>currency, locality, and fault-tolerance tradeoffs that make</nobr></div>
+<div style="position:absolute;top:1175;left:463"><nobr>parallel programming difficult. Nevertheless, it also allows</nobr></div>
+<div style="position:absolute;top:1193;left:463"><nobr>the programmer to provide application specific knowledge</nobr></div>
+<div style="position:absolute;top:1211;left:463"><nobr>such as custom data partitioning functions (if desired).</nobr></div>
+<div style="position:absolute;top:1231;left:478"><nobr>We evaluate Phoenix on commercial multi-core and mul-</nobr></div>
+</span></font>
+
+<div style="position:absolute;top:1363;left:0"><hr><table border="0" width="100%"><tbody><tr><td bgcolor="eeeeee" align="right"><font face="arial,sans-serif"><a name="2"><b>Page 2</b></a></font></td></tr></tbody></table></div><font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:1476;left:75"><nobr>tiprocessor systems and demonstrate that it leads to scal-</nobr></div>
+<div style="position:absolute;top:1494;left:75"><nobr>able performance in both environments. Through fault in-</nobr></div>
+<div style="position:absolute;top:1512;left:75"><nobr>jection experiments, we show that Phoenix can handle per-</nobr></div>
+<div style="position:absolute;top:1530;left:75"><nobr>manent and transient faults during Map and Reduce tasks</nobr></div>
+<div style="position:absolute;top:1548;left:75"><nobr>at a small performance penalty. Finally, we compare the</nobr></div>
+<div style="position:absolute;top:1565;left:75"><nobr>performance of Phoenix code to tuned parallel code written</nobr></div>
+<div style="position:absolute;top:1583;left:75"><nobr>directly with P-threads. Despite the overheads associated</nobr></div>
+<div style="position:absolute;top:1601;left:75"><nobr>with the MapReduce model, Phoenix provides similar per-</nobr></div>
+<div style="position:absolute;top:1619;left:75"><nobr>formance for many applications. Nevertheless, the stylized</nobr></div>
+<div style="position:absolute;top:1637;left:75"><nobr>key management and additional data copying in MapRe-</nobr></div>
+<div style="position:absolute;top:1655;left:75"><nobr>duce lead to significant performance losses for some ap-</nobr></div>
+<div style="position:absolute;top:1673;left:75"><nobr>plications. Overall, even though MapReduce may not be</nobr></div>
+<div style="position:absolute;top:1691;left:75"><nobr>applicable to all algorithms, it can be a valuable tool for</nobr></div>
+<div style="position:absolute;top:1709;left:75"><nobr>simple parallel programming and resource management on</nobr></div>
+<div style="position:absolute;top:1727;left:75"><nobr>shared-memory systems.</nobr></div>
+<div style="position:absolute;top:1745;left:90"><nobr>The rest of the paper is organized as follows. Section</nobr></div>
+<div style="position:absolute;top:1763;left:75"><nobr>2 provides an overview of MapReduce, while Section 3</nobr></div>
+<div style="position:absolute;top:1781;left:75"><nobr>presents our shared-memory implementation. Section 4 de-</nobr></div>
+<div style="position:absolute;top:1799;left:75"><nobr>scribes our evaluation methodology and Section 5 presents</nobr></div>
+<div style="position:absolute;top:1817;left:75"><nobr>the evaluation results. Section 6 reviews related work and</nobr></div>
+<div style="position:absolute;top:1835;left:75"><nobr>Section 7 concludes the paper.</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:15px;font-family:Times">
+<div style="position:absolute;top:1862;left:75"><nobr>2 MapReduce Overview</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:1889;left:90"><nobr>This section summarizes the basic principles of the</nobr></div>
+<div style="position:absolute;top:1907;left:75"><nobr>MapReduce model.</nobr></div>
+<div style="position:absolute;top:1933;left:75"><nobr>2.1 Programming Model</nobr></div>
+<div style="position:absolute;top:1958;left:90"><nobr>The MapReduce programming model is inspired by func-</nobr></div>
+<div style="position:absolute;top:1976;left:75"><nobr>tional languages and targets data-intensive computations.</nobr></div>
+<div style="position:absolute;top:1994;left:75"><nobr>The input data format is application-specific, and is spec-</nobr></div>
+<div style="position:absolute;top:2012;left:75"><nobr>ified by the user. The output is a set of &lt;key,value&gt;</nobr></div>
+<div style="position:absolute;top:2030;left:75"><nobr>pairs. The user expresses an algorithm using two functions,</nobr></div>
+<div style="position:absolute;top:2048;left:75"><nobr>Map and Reduce. The Map function is applied on the in-</nobr></div>
+<div style="position:absolute;top:2066;left:75"><nobr>put data and produces a list of intermediate &lt;key,value&gt;</nobr></div>
+<div style="position:absolute;top:2084;left:75"><nobr>pairs. The Reduce function is applied to all intermediate</nobr></div>
+<div style="position:absolute;top:2102;left:75"><nobr>pairs with the same key. It typically performs some kind of</nobr></div>
+<div style="position:absolute;top:2120;left:75"><nobr>merging operation and produces zero or more output pairs.</nobr></div>
+<div style="position:absolute;top:2138;left:75"><nobr>Finally, the output pairs are sorted by their key value. In</nobr></div>
+<div style="position:absolute;top:2156;left:75"><nobr>the simplest form of MapReduce programs, the program-</nobr></div>
+<div style="position:absolute;top:2173;left:75"><nobr>mer provides just the Map function. All other functionality,</nobr></div>
+<div style="position:absolute;top:2191;left:75"><nobr>including the grouping of the intermediate pairs which have</nobr></div>
+<div style="position:absolute;top:2209;left:75"><nobr>the same key and the final sorting, is provided by the run-</nobr></div>
+<div style="position:absolute;top:2227;left:75"><nobr>time.</nobr></div>
+<div style="position:absolute;top:2246;left:90"><nobr>The following pseudocode shows the basic structure of a</nobr></div>
+<div style="position:absolute;top:2264;left:75"><nobr>MapReduce program that counts the number of occurences</nobr></div>
+<div style="position:absolute;top:2282;left:75"><nobr>of each word in a collection of documents [8]. The map</nobr></div>
+<div style="position:absolute;top:2300;left:75"><nobr>function emits each word in the documents with the tempo-</nobr></div>
+<div style="position:absolute;top:2318;left:75"><nobr>rary count 1. The reduce function sums the counts for each</nobr></div>
+<div style="position:absolute;top:2335;left:75"><nobr>unique word.</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:11px;font-family:Times">
+<div style="position:absolute;top:2372;left:91"><nobr>// input: a document</nobr></div>
+<div style="position:absolute;top:2388;left:91"><nobr>// intermediate output: key=word; value=1</nobr></div>
+<div style="position:absolute;top:2405;left:75"><nobr>Map(void *input) {</nobr></div>
+<div style="position:absolute;top:2421;left:91"><nobr>for each word w in input</nobr></div>
+<div style="position:absolute;top:1478;left:504"><nobr>EmitIntermediate(w, 1);</nobr></div>
+<div style="position:absolute;top:1494;left:463"><nobr>}</nobr></div>
+<div style="position:absolute;top:1527;left:479"><nobr>// intermediate output: key=word; value=1</nobr></div>
+<div style="position:absolute;top:1543;left:479"><nobr>// output: key=word; value=occurences</nobr></div>
+<div style="position:absolute;top:1560;left:463"><nobr>Reduce(String key, Iterator values) {</nobr></div>
+<div style="position:absolute;top:1576;left:471"><nobr>int result = 0;</nobr></div>
+<div style="position:absolute;top:1593;left:471"><nobr>for each v in values</nobr></div>
+<div style="position:absolute;top:1609;left:496"><nobr>result += v;</nobr></div>
+<div style="position:absolute;top:1625;left:471"><nobr>Emit(w, result);</nobr></div>
+<div style="position:absolute;top:1642;left:463"><nobr>}</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:1671;left:478"><nobr>The main benefit of this model is simplicity. The pro-</nobr></div>
+<div style="position:absolute;top:1689;left:463"><nobr>grammer provides a simple description of the algorithm that</nobr></div>
+<div style="position:absolute;top:1707;left:463"><nobr>focuses on functionality and not on parallelization. The ac-</nobr></div>
+<div style="position:absolute;top:1725;left:463"><nobr>tual parallelization and the details of concurrency manage-</nobr></div>
+<div style="position:absolute;top:1743;left:463"><nobr>ment are left to the runtime system. Hence the program</nobr></div>
+<div style="position:absolute;top:1761;left:463"><nobr>code is generic and easily portable across systems. Nev-</nobr></div>
+<div style="position:absolute;top:1779;left:463"><nobr>ertheless, the model provides sufficient high-level informa-</nobr></div>
+<div style="position:absolute;top:1797;left:463"><nobr>tion for parallelization. The Map function can be executed</nobr></div>
+<div style="position:absolute;top:1815;left:463"><nobr>in parallel on non-overlapping portions of the input data and</nobr></div>
+<div style="position:absolute;top:1833;left:463"><nobr>the Reduce function can be executed in parallel on each set</nobr></div>
+<div style="position:absolute;top:1851;left:463"><nobr>of intermediate pairs with the same key. Similarly, since</nobr></div>
+<div style="position:absolute;top:1869;left:463"><nobr>it is explicitly known which pairs each function will oper-</nobr></div>
+<div style="position:absolute;top:1887;left:463"><nobr>ate upon, one can employ prefetching or other scheduling</nobr></div>
+<div style="position:absolute;top:1904;left:463"><nobr>optimizations for locality.</nobr></div>
+<div style="position:absolute;top:1922;left:478"><nobr>The critical question is how widely applicable is the</nobr></div>
+<div style="position:absolute;top:1940;left:463"><nobr>MapReduce model. Dean and Ghemawat provided several</nobr></div>
+<div style="position:absolute;top:1958;left:463"><nobr>examples of data-intensive problems that were successfully</nobr></div>
+<div style="position:absolute;top:1976;left:463"><nobr>coded with MapReduce, including a production indexing</nobr></div>
+<div style="position:absolute;top:1994;left:463"><nobr>system, distributed grep, web-link graph construction, and</nobr></div>
+<div style="position:absolute;top:2012;left:463"><nobr>statistical machine translation [8]. A recent study by Intel</nobr></div>
+<div style="position:absolute;top:2030;left:463"><nobr>has also concluded that many data-intensive computations</nobr></div>
+<div style="position:absolute;top:2048;left:463"><nobr>can be expressed as sums over data points [9]. Such compu-</nobr></div>
+<div style="position:absolute;top:2066;left:463"><nobr>tations should be a good match for the MapReduce model.</nobr></div>
+<div style="position:absolute;top:2084;left:463"><nobr>Nevertheless, an extensive evaluation of the applicability</nobr></div>
+<div style="position:absolute;top:2102;left:463"><nobr>and ease-of-use of the MapReduce model is beyond the</nobr></div>
+<div style="position:absolute;top:2120;left:463"><nobr>scope of this work. Our goal is to provide an efficient im-</nobr></div>
+<div style="position:absolute;top:2138;left:463"><nobr>plementation on shared-memory systems that demonstrates</nobr></div>
+<div style="position:absolute;top:2156;left:463"><nobr>its feasibility and enables programmers to experiment with</nobr></div>
+<div style="position:absolute;top:2173;left:463"><nobr>this programming approach.</nobr></div>
+<div style="position:absolute;top:2198;left:463"><nobr>2.2 Runtime System</nobr></div>
+<div style="position:absolute;top:2222;left:478"><nobr>The MapReduce runtime is responsible for paralleliza-</nobr></div>
+<div style="position:absolute;top:2240;left:463"><nobr>tion and concurrency control. To parallelize the Map func-</nobr></div>
+<div style="position:absolute;top:2258;left:463"><nobr>tion, it splits the input pairs into units that are processed</nobr></div>
+<div style="position:absolute;top:2276;left:463"><nobr>concurrently on multiple nodes. Next, the runtime parti-</nobr></div>
+<div style="position:absolute;top:2294;left:463"><nobr>tions the intermediate pairs using a scheme that keeps pairs</nobr></div>
+<div style="position:absolute;top:2312;left:463"><nobr>with the same key in the same unit. The partitions are</nobr></div>
+<div style="position:absolute;top:2330;left:463"><nobr>processed in parallel by Reduce tasks running on multi-</nobr></div>
+<div style="position:absolute;top:2348;left:463"><nobr>ple nodes. In both steps, the runtime must decide on fac-</nobr></div>
+<div style="position:absolute;top:2366;left:463"><nobr>tors such as the size of the units, the number of nodes in-</nobr></div>
+<div style="position:absolute;top:2384;left:463"><nobr>volved, how units are assigned to nodes dynamically, and</nobr></div>
+<div style="position:absolute;top:2401;left:463"><nobr>how buffer space is allocated. The decisions can be fully</nobr></div>
+<div style="position:absolute;top:2419;left:463"><nobr>automatic or guided by the programmer given application</nobr></div>
+</span></font>
+
+<div style="position:absolute;top:2551;left:0"><hr><table border="0" width="100%"><tbody><tr><td bgcolor="eeeeee" align="right"><font face="arial,sans-serif"><a name="3"><b>Page 3</b></a></font></td></tr></tbody></table></div><font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:2664;left:75"><nobr>specific knowledge (e.g., number of pairs produced by each</nobr></div>
+<div style="position:absolute;top:2682;left:75"><nobr>function or the distribution of keys). These decisions allow</nobr></div>
+<div style="position:absolute;top:2700;left:75"><nobr>the runtime to execute a program efficiently across a wide</nobr></div>
+<div style="position:absolute;top:2718;left:75"><nobr>range of machines and dataset scenarios without modifica-</nobr></div>
+<div style="position:absolute;top:2736;left:75"><nobr>tions to the source code. Finally, the runtime must merge</nobr></div>
+<div style="position:absolute;top:2753;left:75"><nobr>and sort the output pairs from all Reduce tasks.</nobr></div>
+<div style="position:absolute;top:2783;left:90"><nobr>The runtime can perform several optimizations. It can re-</nobr></div>
+<div style="position:absolute;top:2801;left:75"><nobr>duce function-call overheads by increasing the granularity</nobr></div>
+<div style="position:absolute;top:2819;left:75"><nobr>of Map or Reduce tasks. It can also reduce load imbal-</nobr></div>
+<div style="position:absolute;top:2837;left:75"><nobr>ance by adjusting task granularity or the number of nodes</nobr></div>
+<div style="position:absolute;top:2855;left:75"><nobr>used. The runtime can also optimize locality in several</nobr></div>
+<div style="position:absolute;top:2873;left:75"><nobr>ways. First, each node can prefetch pairs for its current</nobr></div>
+<div style="position:absolute;top:2891;left:75"><nobr>Map or Reduce tasks using hardware or software schemes.</nobr></div>
+<div style="position:absolute;top:2909;left:75"><nobr>A node can also prefetch the input for its next Map or Re-</nobr></div>
+<div style="position:absolute;top:2927;left:75"><nobr>duce task while processing the current one, which is simi-</nobr></div>
+<div style="position:absolute;top:2945;left:75"><nobr>lar to the double-buffering schemes used in streaming mod-</nobr></div>
+<div style="position:absolute;top:2962;left:75"><nobr>els [23]. Bandwidth and cache space can be preserved using</nobr></div>
+<div style="position:absolute;top:2980;left:75"><nobr>hardware compression of intermediate pairs which tend to</nobr></div>
+<div style="position:absolute;top:2998;left:75"><nobr>have high redundancy [10].</nobr></div>
+<div style="position:absolute;top:3028;left:90"><nobr>The runtime can also assist with fault tolerance. When it</nobr></div>
+<div style="position:absolute;top:3046;left:75"><nobr>detects that a node has failed, it can re-assign the Map or</nobr></div>
+<div style="position:absolute;top:3064;left:75"><nobr>Reduce task it was processing at the time to another node.</nobr></div>
+<div style="position:absolute;top:3082;left:75"><nobr>To avoid interference, the replicated task will use separate</nobr></div>
+<div style="position:absolute;top:3100;left:75"><nobr>output buffers. If a portion of the memory is corrupted, the</nobr></div>
+<div style="position:absolute;top:3118;left:75"><nobr>runtime can re-execute just the necessary Map or Reduce</nobr></div>
+<div style="position:absolute;top:3136;left:75"><nobr>tasks that will re-produce the lost data. It is also possible to</nobr></div>
+<div style="position:absolute;top:3154;left:75"><nobr>produce a meaningful partial or approximated output even</nobr></div>
+<div style="position:absolute;top:3171;left:75"><nobr>when some input or intermediate data is permanently lost.</nobr></div>
+<div style="position:absolute;top:3189;left:75"><nobr>Moreover, the runtime can dynamically adjust the number</nobr></div>
+<div style="position:absolute;top:3207;left:75"><nobr>of nodes it uses to deal with failures or power and tempera-</nobr></div>
+<div style="position:absolute;top:3225;left:75"><nobr>ture related issues.</nobr></div>
+<div style="position:absolute;top:3255;left:90"><nobr>Google’s runtime implementation targets large clusters of</nobr></div>
+<div style="position:absolute;top:3273;left:75"><nobr>Linux PCs connected through Ethernet switches [3]. Tasks</nobr></div>
+<div style="position:absolute;top:3291;left:75"><nobr>are forked using remote procedure calls. Buffering and</nobr></div>
+<div style="position:absolute;top:3309;left:75"><nobr>communication occurs by reading and writing files on a dis-</nobr></div>
+<div style="position:absolute;top:3327;left:75"><nobr>tributed file system [12]. The locality optimizations focus</nobr></div>
+<div style="position:absolute;top:3345;left:75"><nobr>mostly on avoiding remote file accesses. While such a sys-</nobr></div>
+<div style="position:absolute;top:3363;left:75"><nobr>tem is effective with distributed computing [8], it leads to</nobr></div>
+<div style="position:absolute;top:3380;left:75"><nobr>very high overheads if used with shared-memory systems</nobr></div>
+<div style="position:absolute;top:3398;left:75"><nobr>that facilitate communication through memory and are typ-</nobr></div>
+<div style="position:absolute;top:3416;left:75"><nobr>ically of much smaller scale.</nobr></div>
+<div style="position:absolute;top:3446;left:90"><nobr>The critical question for the runtime is how significant</nobr></div>
+<div style="position:absolute;top:3464;left:75"><nobr>are the overheads it introduces. The MapReduce model re-</nobr></div>
+<div style="position:absolute;top:3482;left:75"><nobr>quires that data is associated with keys and that pairs are</nobr></div>
+<div style="position:absolute;top:3500;left:75"><nobr>handled in a specific manner at each execution step. Hence,</nobr></div>
+<div style="position:absolute;top:3518;left:75"><nobr>there can be non-trivial overheads due to key management,</nobr></div>
+<div style="position:absolute;top:3536;left:75"><nobr>data copying, data sorting, or memory allocation between</nobr></div>
+<div style="position:absolute;top:3554;left:75"><nobr>execution steps. While programmers may be willing to sac-</nobr></div>
+<div style="position:absolute;top:3572;left:75"><nobr>rifice some of the parallel efficiency in return for a simple</nobr></div>
+<div style="position:absolute;top:3589;left:75"><nobr>programming model, we must show that the overheads are</nobr></div>
+<div style="position:absolute;top:3607;left:75"><nobr>not overwhelming.</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:15px;font-family:Times">
+<div style="position:absolute;top:2662;left:463"><nobr>3 The Phoenix System</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:2690;left:478"><nobr>Phoenix implements MapReduce for shared-memory</nobr></div>
+<div style="position:absolute;top:2708;left:463"><nobr>systems. Its goal is to support efficient execution on mul-</nobr></div>
+<div style="position:absolute;top:2726;left:463"><nobr>tiple cores without burdening the programmer with concur-</nobr></div>
+<div style="position:absolute;top:2744;left:463"><nobr>rency management. Phoenix consists of a simple API that</nobr></div>
+<div style="position:absolute;top:2762;left:463"><nobr>is visible to application programmers and an efficient run-</nobr></div>
+<div style="position:absolute;top:2780;left:463"><nobr>time that handles parallelization, resource management, and</nobr></div>
+<div style="position:absolute;top:2797;left:463"><nobr>fault recovery.</nobr></div>
+<div style="position:absolute;top:2824;left:463"><nobr>3.1 The Phoenix API</nobr></div>
+<div style="position:absolute;top:2851;left:478"><nobr>The current Phoenix implementation provides an</nobr></div>
+<div style="position:absolute;top:2869;left:463"><nobr>application-programmer interface (API) for C and C++.</nobr></div>
+<div style="position:absolute;top:2886;left:463"><nobr>However, similar APIs can be defined for languages like</nobr></div>
+<div style="position:absolute;top:2904;left:463"><nobr>Java or C#. The API includes two sets of functions sum-</nobr></div>
+<div style="position:absolute;top:2922;left:463"><nobr>marized in Table 1. The first set is provided by Phoenix</nobr></div>
+<div style="position:absolute;top:2940;left:463"><nobr>and is used by the programmer’s application code to ini-</nobr></div>
+<div style="position:absolute;top:2958;left:463"><nobr>tialize the system and emit output pairs (1 required and</nobr></div>
+<div style="position:absolute;top:2976;left:463"><nobr>2 optional functions). The second set includes the func-</nobr></div>
+<div style="position:absolute;top:2994;left:463"><nobr>tions that the programmer defines (3 required and 2 optional</nobr></div>
+<div style="position:absolute;top:3012;left:463"><nobr>functions). Apart from the Map and Reduce functions, the</nobr></div>
+<div style="position:absolute;top:3030;left:463"><nobr>user provides functions that partition the data before each</nobr></div>
+<div style="position:absolute;top:3048;left:463"><nobr>step and a function that implements key comparison. Note</nobr></div>
+<div style="position:absolute;top:3066;left:463"><nobr>that the API is quite small compared to other models. The</nobr></div>
+<div style="position:absolute;top:3084;left:463"><nobr>API is type agnostic. The function arguments are declared</nobr></div>
+<div style="position:absolute;top:3102;left:463"><nobr>as void pointers wherever possible to provide flexibility in</nobr></div>
+<div style="position:absolute;top:3120;left:463"><nobr>their declaration and fast use without conversion overhead.</nobr></div>
+<div style="position:absolute;top:3138;left:463"><nobr>In constrast, the Google implementation uses strings for ar-</nobr></div>
+<div style="position:absolute;top:3155;left:463"><nobr>guments as string manipulation is inexpensive compared to</nobr></div>
+<div style="position:absolute;top:3173;left:463"><nobr>remote procedure calls and file accesses.</nobr></div>
+<div style="position:absolute;top:3193;left:478"><nobr>The data structure used to communicate basic function</nobr></div>
+<div style="position:absolute;top:3210;left:463"><nobr>information and buffer allocation between the user code and</nobr></div>
+<div style="position:absolute;top:3228;left:463"><nobr>runtime is of type scheduler args t. Its fields are sum-</nobr></div>
+<div style="position:absolute;top:3246;left:463"><nobr>marized in Table 2. The basic fields provide pointers to in-</nobr></div>
+<div style="position:absolute;top:3264;left:463"><nobr>put/output data buffers and to the user-provided functions.</nobr></div>
+<div style="position:absolute;top:3282;left:463"><nobr>They must be properly set by the programmer before call-</nobr></div>
+<div style="position:absolute;top:3300;left:463"><nobr>ing phoenix scheduler(). The remaining fields are</nobr></div>
+<div style="position:absolute;top:3318;left:463"><nobr>optionally used by the programmer to control scheduling</nobr></div>
+<div style="position:absolute;top:3336;left:463"><nobr>decisions by the runtime. We discuss these decisions further</nobr></div>
+<div style="position:absolute;top:3354;left:463"><nobr>in Section 3.2.4. There are additional data structure types to</nobr></div>
+<div style="position:absolute;top:3372;left:463"><nobr>facilitate communication between the Splitter, Map, Parti-</nobr></div>
+<div style="position:absolute;top:3390;left:463"><nobr>tion, and Reduce functions. These types use pointers when-</nobr></div>
+<div style="position:absolute;top:3408;left:463"><nobr>ever possible to implement communication without actually</nobr></div>
+<div style="position:absolute;top:3426;left:463"><nobr>copying significant amounts of data.</nobr></div>
+<div style="position:absolute;top:3445;left:478"><nobr>The API guarantees that within a partition of the interme-</nobr></div>
+<div style="position:absolute;top:3463;left:463"><nobr>diate output, the pairs will be processed in key order. This</nobr></div>
+<div style="position:absolute;top:3481;left:463"><nobr>makes it easier to produce a sorted final output which is of-</nobr></div>
+<div style="position:absolute;top:3499;left:463"><nobr>ten desired. There is no guarantee in the processing order of</nobr></div>
+<div style="position:absolute;top:3517;left:463"><nobr>the original input during the Map stage. These assumptions</nobr></div>
+<div style="position:absolute;top:3534;left:463"><nobr>did not cause any complications with the programs we ex-</nobr></div>
+<div style="position:absolute;top:3552;left:463"><nobr>amined. In general it is up to the programmer to verify that</nobr></div>
+<div style="position:absolute;top:3570;left:463"><nobr>the algorithm can be expressed with the Phoenix API given</nobr></div>
+<div style="position:absolute;top:3588;left:463"><nobr>these restrictions.</nobr></div>
+<div style="position:absolute;top:3607;left:478"><nobr>The Phoenix API does not rely on any specific com-</nobr></div>
+</span></font>
+
+<div style="position:absolute;top:3739;left:0"><hr><table border="0" width="100%"><tbody><tr><td bgcolor="eeeeee" align="right"><font face="arial,sans-serif"><a name="4"><b>Page 4</b></a></font></td></tr></tbody></table></div><font size="3" face="Times"><span style="font-size:11px;font-family:Times">
+<div style="position:absolute;top:3850;left:94"><nobr>Function Description</nobr></div>
+<div style="position:absolute;top:3850;left:772"><nobr>R/O</nobr></div>
+<div style="position:absolute;top:3871;left:360"><nobr>Functions Provided by Runtime</nobr></div>
+<div style="position:absolute;top:3888;left:94"><nobr>int phoenix scheduler (scheduler args t * args)</nobr></div>
+<div style="position:absolute;top:3888;left:779"><nobr>R</nobr></div>
+<div style="position:absolute;top:3904;left:119"><nobr>Initializes the runtime system. The scheduler args t struct provides the needed function &amp; data pointers</nobr></div>
+<div style="position:absolute;top:3922;left:94"><nobr>void emit intermediate(void *key, void *val, int key size)</nobr></div>
+<div style="position:absolute;top:3921;left:779"><nobr>O</nobr></div>
+<div style="position:absolute;top:3938;left:119"><nobr>Used in Map to emit an intermediate output &lt;key,value&gt; pair. Required if the Reduce is defined</nobr></div>
+<div style="position:absolute;top:3955;left:94"><nobr>void emit(void *key, void *val)</nobr></div>
+<div style="position:absolute;top:3955;left:779"><nobr>O</nobr></div>
+<div style="position:absolute;top:3971;left:115"><nobr>Used in Reduce to emit a final output pair</nobr></div>
+<div style="position:absolute;top:3992;left:372"><nobr>Functions Defined by User</nobr></div>
+<div style="position:absolute;top:4009;left:94"><nobr>int (*splitter t)(void *, int, map args t *)</nobr></div>
+<div style="position:absolute;top:4009;left:779"><nobr>R</nobr></div>
+<div style="position:absolute;top:4025;left:115"><nobr>Splits the input data across Map tasks. The arguments are the input data pointer, the unit size for each task, and the</nobr></div>
+<div style="position:absolute;top:4042;left:94"><nobr>input buffer pointer for each Map task</nobr></div>
+<div style="position:absolute;top:4059;left:94"><nobr>void (*map t)(map args t*)</nobr></div>
+<div style="position:absolute;top:4059;left:779"><nobr>R</nobr></div>
+<div style="position:absolute;top:4075;left:119"><nobr>The Map function. Each Map task executes this function on its input</nobr></div>
+<div style="position:absolute;top:4093;left:94"><nobr>int (*partition t)(int, void *, int)</nobr></div>
+<div style="position:absolute;top:4092;left:779"><nobr>O</nobr></div>
+<div style="position:absolute;top:4109;left:119"><nobr>Partitions intermediate pair for Reduce tasks based on their keys. The arguments are the number of Reduce tasks, a</nobr></div>
+<div style="position:absolute;top:4125;left:94"><nobr>pointer to the keys, and a the size of the key. Phoenix provides a default partitioning function based on key hashing</nobr></div>
+<div style="position:absolute;top:4143;left:94"><nobr>void (*reduce t)(void *, void **, int)</nobr></div>
+<div style="position:absolute;top:4142;left:779"><nobr>O</nobr></div>
+<div style="position:absolute;top:4158;left:118"><nobr>The Reduce function. Each reduce task executes this on its input. The arguments are a pointer to a key, a pointer to the</nobr></div>
+<div style="position:absolute;top:4175;left:94"><nobr>associated values, and value count. If not specified, Phoenix uses a default identity function</nobr></div>
+<div style="position:absolute;top:4193;left:94"><nobr>int (*key cmp t)(const void *, const void*)</nobr></div>
+<div style="position:absolute;top:4192;left:779"><nobr>R</nobr></div>
+<div style="position:absolute;top:4208;left:119"><nobr>Function that compares two keys</nobr></div>
+<div style="position:absolute;top:4242;left:119"><nobr><b>Table 1. The functions in the Phoenix API. </b><font style="font-size:12px">R </font><b>and </b><font style="font-size:12px">O </font><b>identify required and optional fuctions respectively.</b></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:4303;left:75"><nobr>piler options and does not require a parallelizing com-</nobr></div>
+<div style="position:absolute;top:4321;left:75"><nobr>piler. However, it assumes that its functions can freely</nobr></div>
+<div style="position:absolute;top:4339;left:75"><nobr>use stack-allocated and heap-allocated stuctures for pri-</nobr></div>
+<div style="position:absolute;top:4357;left:75"><nobr>vate data. It also assumes that there is no communica-</nobr></div>
+<div style="position:absolute;top:4374;left:75"><nobr>tion through shared-memory structures other than the in-</nobr></div>
+<div style="position:absolute;top:4392;left:75"><nobr>put/output buffers for these functions. For C/C++, we can-</nobr></div>
+<div style="position:absolute;top:4410;left:75"><nobr>not check these assumptions statically for arbitrary pro-</nobr></div>
+<div style="position:absolute;top:4428;left:75"><nobr>grams. Although there are stringent checks within the sys-</nobr></div>
+<div style="position:absolute;top:4446;left:75"><nobr>tem to ensure valid data are communicated between user</nobr></div>
+<div style="position:absolute;top:4464;left:75"><nobr>and runtime code, eventually we trust the user to provide</nobr></div>
+<div style="position:absolute;top:4482;left:75"><nobr>functionally correct code. For Java and C#, static checks</nobr></div>
+<div style="position:absolute;top:4500;left:75"><nobr>that validate these assumptions are possible.</nobr></div>
+<div style="position:absolute;top:4524;left:75"><nobr>3.2 The Phoenix Runtime</nobr></div>
+<div style="position:absolute;top:4549;left:90"><nobr>The Phoenix runtime was developed on top of P-</nobr></div>
+<div style="position:absolute;top:4567;left:75"><nobr>threads [18], but can be easily ported to other shared-</nobr></div>
+<div style="position:absolute;top:4585;left:75"><nobr>memory thread packages.</nobr></div>
+<div style="position:absolute;top:4609;left:75"><nobr>3.2.1 Basic Operation and Control Flow</nobr></div>
+<div style="position:absolute;top:4634;left:75"><nobr>Figure 1 shows the basic data flow for the runtime system.</nobr></div>
+<div style="position:absolute;top:4652;left:75"><nobr>The runtime is controlled by the scheduler, which is initi-</nobr></div>
+<div style="position:absolute;top:4670;left:75"><nobr>ated by user code. The scheduler creates and manages the</nobr></div>
+<div style="position:absolute;top:4688;left:75"><nobr>threads that run all Map and Reduce tasks. It also manages</nobr></div>
+<div style="position:absolute;top:4706;left:75"><nobr>the buffers used for task communication. The programmer</nobr></div>
+<div style="position:absolute;top:4724;left:75"><nobr>provides the scheduler with all the required data and func-</nobr></div>
+<div style="position:absolute;top:4742;left:75"><nobr>tion pointers through the scheduler args t structure.</nobr></div>
+<div style="position:absolute;top:4760;left:75"><nobr>After initialization, the scheduler determines the number of</nobr></div>
+<div style="position:absolute;top:4777;left:75"><nobr>cores to use for this computation. For each core, it spawns</nobr></div>
+<div style="position:absolute;top:4795;left:75"><nobr>a worker thread that is dynamically assigned some number</nobr></div>
+<div style="position:absolute;top:4303;left:463"><nobr>of Map and Reduce tasks.</nobr></div>
+<div style="position:absolute;top:4325;left:478"><nobr>To start the Map stage, the scheduler uses the Splitter</nobr></div>
+<div style="position:absolute;top:4343;left:463"><nobr>to divide input pairs into equally sized units to be processed</nobr></div>
+<div style="position:absolute;top:4361;left:463"><nobr>by the Map tasks. The Splitter is called once per Map</nobr></div>
+<div style="position:absolute;top:4379;left:463"><nobr>task and returns a pointer to the data the Map task will pro-</nobr></div>
+<div style="position:absolute;top:4397;left:463"><nobr>cess. The Map tasks are allocated dynamically to work-</nobr></div>
+<div style="position:absolute;top:4415;left:463"><nobr>ers and each one emits intermediate &lt;key,value&gt; pairs.</nobr></div>
+<div style="position:absolute;top:4432;left:463"><nobr>The Partition function splits the intermediate pairs into</nobr></div>
+<div style="position:absolute;top:4450;left:463"><nobr>units for the Reduce tasks. The function ensures all values</nobr></div>
+<div style="position:absolute;top:4468;left:463"><nobr>of the same key go to the same unit. Within each buffer,</nobr></div>
+<div style="position:absolute;top:4486;left:463"><nobr>values are ordered by key to assist with the final sorting. At</nobr></div>
+<div style="position:absolute;top:4504;left:463"><nobr>this point, the Map stage is over. The scheduler must wait</nobr></div>
+<div style="position:absolute;top:4522;left:463"><nobr>for all Map tasks to complete before initiating the Reduce</nobr></div>
+<div style="position:absolute;top:4540;left:463"><nobr>stage.</nobr></div>
+<div style="position:absolute;top:4562;left:478"><nobr>Reduce tasks are also assigned to workers dynamically,</nobr></div>
+<div style="position:absolute;top:4580;left:463"><nobr>similar to Map tasks. The one difference is that, while with</nobr></div>
+<div style="position:absolute;top:4598;left:463"><nobr>Map tasks we have complete freedom in distributing pairs</nobr></div>
+<div style="position:absolute;top:4616;left:463"><nobr>across tasks, with Reduce we must process all values for the</nobr></div>
+<div style="position:absolute;top:4634;left:463"><nobr>same key in one task. Hence, the Reduce stage may exhibit</nobr></div>
+<div style="position:absolute;top:4652;left:463"><nobr>higher imbalance across workers and dynamic scheduling is</nobr></div>
+<div style="position:absolute;top:4670;left:463"><nobr>more important. The output of each Reduce task is already</nobr></div>
+<div style="position:absolute;top:4688;left:463"><nobr>sorted by key. As the last step, the final output from all tasks</nobr></div>
+<div style="position:absolute;top:4706;left:463"><nobr>is merged into a single buffer, sorted by keys. The merging</nobr></div>
+<div style="position:absolute;top:4724;left:463"><nobr>takes place in log<font style="font-size:8px">2</font>(P/2) steps, where P is the number of</nobr></div>
+<div style="position:absolute;top:4742;left:463"><nobr>workers used. While one can imagine cases where the out-</nobr></div>
+<div style="position:absolute;top:4760;left:463"><nobr>put pairs do not have to be ordered, our current implemen-</nobr></div>
+<div style="position:absolute;top:4777;left:463"><nobr>tation always sorts the final output as it is also the case in</nobr></div>
+<div style="position:absolute;top:4795;left:463"><nobr>Google’s implementation [8].</nobr></div>
+</span></font>
+
+<div style="position:absolute;top:4927;left:0"><hr><table border="0" width="100%"><tbody><tr><td bgcolor="eeeeee" align="right"><font face="arial,sans-serif"><a name="5"><b>Page 5</b></a></font></td></tr></tbody></table></div><font size="3" face="Times"><span style="font-size:11px;font-family:Times">
+<div style="position:absolute;top:5038;left:213"><nobr>Field</nobr></div>
+<div style="position:absolute;top:5038;left:371"><nobr>Description</nobr></div>
+<div style="position:absolute;top:5059;left:412"><nobr>Basic Fields</nobr></div>
+<div style="position:absolute;top:5076;left:213"><nobr>Input data</nobr></div>
+<div style="position:absolute;top:5076;left:371"><nobr>Input data pointer; passed to the Splitter by the runtime</nobr></div>
+<div style="position:absolute;top:5093;left:213"><nobr>Data size</nobr></div>
+<div style="position:absolute;top:5093;left:371"><nobr>Input dataset size</nobr></div>
+<div style="position:absolute;top:5110;left:213"><nobr>Output data</nobr></div>
+<div style="position:absolute;top:5110;left:371"><nobr>Output data pointer; buffer space allocated by user</nobr></div>
+<div style="position:absolute;top:5127;left:213"><nobr>Splitter</nobr></div>
+<div style="position:absolute;top:5127;left:371"><nobr>Pointer to Splitter function</nobr></div>
+<div style="position:absolute;top:5145;left:213"><nobr>Map</nobr></div>
+<div style="position:absolute;top:5144;left:371"><nobr>Pointer to Map function</nobr></div>
+<div style="position:absolute;top:5162;left:213"><nobr>Reduce</nobr></div>
+<div style="position:absolute;top:5161;left:371"><nobr>Pointer to Reduce function</nobr></div>
+<div style="position:absolute;top:5179;left:213"><nobr>Partition</nobr></div>
+<div style="position:absolute;top:5178;left:371"><nobr>Pointer to Partition function</nobr></div>
+<div style="position:absolute;top:5196;left:213"><nobr>Key cmp</nobr></div>
+<div style="position:absolute;top:5195;left:371"><nobr>Pointer to key compare function</nobr></div>
+<div style="position:absolute;top:5216;left:336"><nobr>Optional Fields for Performance Tuning</nobr></div>
+<div style="position:absolute;top:5233;left:213"><nobr>Unit size</nobr></div>
+<div style="position:absolute;top:5233;left:371"><nobr>Pairs processed per Map/Reduce task</nobr></div>
+<div style="position:absolute;top:5250;left:213"><nobr>L1 cache size</nobr></div>
+<div style="position:absolute;top:5250;left:371"><nobr>L1 data cache size in bytes</nobr></div>
+<div style="position:absolute;top:5267;left:213"><nobr>Num Map workers</nobr></div>
+<div style="position:absolute;top:5267;left:371"><nobr>Maximum number of threads (workers) for Map tasks</nobr></div>
+<div style="position:absolute;top:5284;left:213"><nobr>Num Reduce workers</nobr></div>
+<div style="position:absolute;top:5284;left:371"><nobr>Maximum number of threads (workers) for Reduce tasks</nobr></div>
+<div style="position:absolute;top:5301;left:213"><nobr>Num Merge workers</nobr></div>
+<div style="position:absolute;top:5301;left:371"><nobr>Maximum number of threads (workers) for Merge tasks</nobr></div>
+<div style="position:absolute;top:5318;left:213"><nobr>Num procs</nobr></div>
+<div style="position:absolute;top:5318;left:371"><nobr>Maximum number of processors cores used</nobr></div>
+<div style="position:absolute;top:5352;left:273"><nobr><b>Table 2. The </b><font style="font-size:12px">scheduler args t </font><b>data structure type.</b></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:5412;left:75"><nobr>3.2.2 Buffer Management</nobr></div>
+<div style="position:absolute;top:5439;left:75"><nobr>Two types of temporary buffers are necessary to store data</nobr></div>
+<div style="position:absolute;top:5457;left:75"><nobr>between the various stages. All buffers are allocated in</nobr></div>
+<div style="position:absolute;top:5475;left:75"><nobr>shared memory but are accessed in a well specified way by</nobr></div>
+<div style="position:absolute;top:5493;left:75"><nobr>a few functions. Whenever we have to re-arrange buffers</nobr></div>
+<div style="position:absolute;top:5511;left:75"><nobr>(e.g., split across tasks), we manipulate pointers instead of</nobr></div>
+<div style="position:absolute;top:5529;left:75"><nobr>the actual pairs, which may be large in size. The intermedi-</nobr></div>
+<div style="position:absolute;top:5547;left:75"><nobr>ate buffers are not directly visible to user code.</nobr></div>
+<div style="position:absolute;top:5567;left:90"><nobr>Map-Reduce buffers are used to store the intermediate</nobr></div>
+<div style="position:absolute;top:5585;left:75"><nobr>output pairs. Each worker has its own set of buffers. The</nobr></div>
+<div style="position:absolute;top:5603;left:75"><nobr>buffers are initially sized to a default value and then resized</nobr></div>
+<div style="position:absolute;top:5621;left:75"><nobr>dynamically as needed. At this stage, there may be multiple</nobr></div>
+<div style="position:absolute;top:5639;left:75"><nobr>pairs with the same key. To accelerate the Partition</nobr></div>
+<div style="position:absolute;top:5656;left:75"><nobr>function, the Emit intermediate function stores all</nobr></div>
+<div style="position:absolute;top:5674;left:75"><nobr>values for the same key in the same buffer. At the end of</nobr></div>
+<div style="position:absolute;top:5692;left:75"><nobr>the Map task, we sort each buffer by key order. Reduce-</nobr></div>
+<div style="position:absolute;top:5710;left:75"><nobr>Merge buffers are used to store the outputs of Reduce tasks</nobr></div>
+<div style="position:absolute;top:5728;left:75"><nobr>before they are sorted. At this stage, each key has only one</nobr></div>
+<div style="position:absolute;top:5746;left:75"><nobr>value associated with it. After sorting, the final output is</nobr></div>
+<div style="position:absolute;top:5764;left:75"><nobr>available in the user allocated Output data buffer.</nobr></div>
+<div style="position:absolute;top:5793;left:75"><nobr>3.2.3 Fault Recovery</nobr></div>
+<div style="position:absolute;top:5820;left:75"><nobr>The runtime provides support for fault tolerance for tran-</nobr></div>
+<div style="position:absolute;top:5838;left:75"><nobr>sient and permanent faults during Map and Reduce tasks. It</nobr></div>
+<div style="position:absolute;top:5856;left:75"><nobr>focuses mostly on recovery with some limited support for</nobr></div>
+<div style="position:absolute;top:5874;left:75"><nobr>fault detection.</nobr></div>
+<div style="position:absolute;top:5894;left:90"><nobr>Phoenix detects faults through timeouts. If a worker does</nobr></div>
+<div style="position:absolute;top:5912;left:75"><nobr>not complete a task within a reasonable amount of time,</nobr></div>
+<div style="position:absolute;top:5930;left:75"><nobr>then a failure is assumed. The execution time of similar</nobr></div>
+<div style="position:absolute;top:5948;left:75"><nobr>tasks on other workers is used as a yardstick for the timeout</nobr></div>
+<div style="position:absolute;top:5965;left:75"><nobr>interval. Of course, a fault may cause a task to complete</nobr></div>
+<div style="position:absolute;top:5983;left:75"><nobr>with incorrect or incomplete data instead of failing com-</nobr></div>
+<div style="position:absolute;top:5412;left:463"><nobr>pletely. Phoenix has no way of detecting this case on its own</nobr></div>
+<div style="position:absolute;top:5430;left:463"><nobr>and cannot stop an affected task from potentially corrupt-</nobr></div>
+<div style="position:absolute;top:5448;left:463"><nobr>ing the shared memory. To address this shortcoming, one</nobr></div>
+<div style="position:absolute;top:5466;left:463"><nobr>should combine the Phoenix runtime with known error de-</nobr></div>
+<div style="position:absolute;top:5484;left:463"><nobr>tection techniques [20, 21, 24]. Due to the functional nature</nobr></div>
+<div style="position:absolute;top:5502;left:463"><nobr>of the MapReduce model, Phoenix can actually provide in-</nobr></div>
+<div style="position:absolute;top:5520;left:463"><nobr>formation that simplifies error detection. For example, since</nobr></div>
+<div style="position:absolute;top:5538;left:463"><nobr>the address ranges for input and output buffers are known,</nobr></div>
+<div style="position:absolute;top:5556;left:463"><nobr>Phoenix can notify the hardware about which load/store ad-</nobr></div>
+<div style="position:absolute;top:5574;left:463"><nobr>dresses to shared structures should be considered safe for</nobr></div>
+<div style="position:absolute;top:5591;left:463"><nobr>each worker and which should signal a potential fault.</nobr></div>
+<div style="position:absolute;top:5615;left:478"><nobr>Once a fault is detected or at least suspected, the runtime</nobr></div>
+<div style="position:absolute;top:5632;left:463"><nobr>attempts to re-execute the failed task. Since the original</nobr></div>
+<div style="position:absolute;top:5650;left:463"><nobr>task may still be running, separate output buffers are allo-</nobr></div>
+<div style="position:absolute;top:5668;left:463"><nobr>cated for the new task to avoid conflicts and data corruption.</nobr></div>
+<div style="position:absolute;top:5686;left:463"><nobr>When one of the two tasks completes successfully, the run-</nobr></div>
+<div style="position:absolute;top:5704;left:463"><nobr>time considers the task completed and merges its result with</nobr></div>
+<div style="position:absolute;top:5722;left:463"><nobr>the rest of the output data for this stage. The scheduler ini-</nobr></div>
+<div style="position:absolute;top:5740;left:463"><nobr>tially assumes that the fault was a transient one and assigns</nobr></div>
+<div style="position:absolute;top:5758;left:463"><nobr>the replicated task to the same worker. If the task fails a</nobr></div>
+<div style="position:absolute;top:5776;left:463"><nobr>few times or a worker exhibits a high frequency of failed</nobr></div>
+<div style="position:absolute;top:5794;left:463"><nobr>tasks overall, the scheduler assumes a permanent fault and</nobr></div>
+<div style="position:absolute;top:5812;left:463"><nobr>no further tasks are assigned to this worker.</nobr></div>
+<div style="position:absolute;top:5835;left:478"><nobr>The current Phoenix code does not provide fault recovery</nobr></div>
+<div style="position:absolute;top:5853;left:463"><nobr>for the scheduler itself. The scheduler runs only for a very</nobr></div>
+<div style="position:absolute;top:5871;left:463"><nobr>small fraction of the time and has a small memory footprint,</nobr></div>
+<div style="position:absolute;top:5889;left:463"><nobr>hence it is less likely to be affected by a transient error. On</nobr></div>
+<div style="position:absolute;top:5907;left:463"><nobr>the other hand, a fault in the scheduler has more serious im-</nobr></div>
+<div style="position:absolute;top:5924;left:463"><nobr>plications for the program correctness. We can use known</nobr></div>
+<div style="position:absolute;top:5942;left:463"><nobr>techniques such as redundant execution or checkpointing to</nobr></div>
+<div style="position:absolute;top:5960;left:463"><nobr>address this shortcoming.</nobr></div>
+<div style="position:absolute;top:5983;left:478"><nobr>Google’s MapReduce system uses a different approach</nobr></div>
+</span></font>
+
+<div style="position:absolute;top:6115;left:0"><hr><table border="0" width="100%"><tbody><tr><td bgcolor="eeeeee" align="right"><font face="arial,sans-serif"><a name="6"><b>Page 6</b></a></font></td></tr></tbody></table></div><font size="3" face="Times"><span style="font-size:15px;font-family:Times">
+<div style="position:absolute;top:6395;left:104"><nobr>In</nobr></div>
+<div style="position:absolute;top:6380;left:104"><nobr>p</nobr></div>
+<div style="position:absolute;top:6371;left:104"><nobr>u</nobr></div>
+<div style="position:absolute;top:6361;left:104"><nobr>t</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:6382;left:159"><nobr>Split</nobr></div>
+<div style="position:absolute;top:6299;left:288"><nobr>Map</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:6px;font-family:Times">
+<div style="position:absolute;top:6301;left:356"><nobr>Partition</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:6347;left:288"><nobr>Map</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:6px;font-family:Times">
+<div style="position:absolute;top:6349;left:356"><nobr>Partition</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:6427;left:288"><nobr>Map</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:6px;font-family:Times">
+<div style="position:absolute;top:6430;left:356"><nobr>Partition</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:6476;left:288"><nobr>Map</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:6px;font-family:Times">
+<div style="position:absolute;top:6478;left:356"><nobr>Partition</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:6260;left:221"><nobr>Worker 1</nobr></div>
+<div style="position:absolute;top:6518;left:220"><nobr>Worker N</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:6300;left:508"><nobr>Reduce</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:6px;font-family:Times">
+<div style="position:absolute;top:6330;left:630"><nobr>Merge</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:6352;left:508"><nobr>Reduce</nobr></div>
+<div style="position:absolute;top:6429;left:508"><nobr>Reduce</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:6px;font-family:Times">
+<div style="position:absolute;top:6459;left:630"><nobr>Merge</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:6480;left:508"><nobr>Reduce</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:6260;left:459"><nobr>Worker 1</nobr></div>
+<div style="position:absolute;top:6518;left:451"><nobr>Worker M</nobr></div>
+</span></font>
+<font size="5" face="Times"><span style="font-size:30px;font-family:Times">
+<div style="position:absolute;top:6385;left:305"><nobr>...</nobr></div>
+<div style="position:absolute;top:6385;left:527"><nobr>...</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:6px;font-family:Times">
+<div style="position:absolute;top:6391;left:707"><nobr>Merge</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:15px;font-family:Times">
+<div style="position:absolute;top:6409;left:800"><nobr>O</nobr></div>
+<div style="position:absolute;top:6395;left:800"><nobr>u</nobr></div>
+<div style="position:absolute;top:6385;left:800"><nobr>tp</nobr></div>
+<div style="position:absolute;top:6370;left:800"><nobr>u</nobr></div>
+<div style="position:absolute;top:6360;left:800"><nobr>t</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:6228;left:292"><nobr>Map Stage</nobr></div>
+<div style="position:absolute;top:6228;left:480"><nobr>Reduce Stage</nobr></div>
+</span></font>
+<font size="5" face="Times"><span style="font-size:30px;font-family:Times">
+<div style="position:absolute;top:6385;left:685"><nobr>...</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:11px;font-family:Times">
+<div style="position:absolute;top:6560;left:275"><nobr><b>Figure 1. The basic data flow for the Phoenix runtime.</b></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:6590;left:75"><nobr>for worker fault tolerance. Towards the end of the Map or</nobr></div>
+<div style="position:absolute;top:6608;left:75"><nobr>Reduce stage, they always spawn redundant executions of</nobr></div>
+<div style="position:absolute;top:6626;left:75"><nobr>the remaining tasks, as they proactively assume that some</nobr></div>
+<div style="position:absolute;top:6644;left:75"><nobr>workers have performance or failure issues. This approach</nobr></div>
+<div style="position:absolute;top:6662;left:75"><nobr>works well in large clusters where hundreds of machines</nobr></div>
+<div style="position:absolute;top:6680;left:75"><nobr>are available for redundant execution and failures are more</nobr></div>
+<div style="position:absolute;top:6698;left:75"><nobr>frequent. On multi-core and symmetric multiprocessor sys-</nobr></div>
+<div style="position:absolute;top:6716;left:75"><nobr>tems, the number of processors and frequency of failures</nobr></div>
+<div style="position:absolute;top:6734;left:75"><nobr>are much smaller hence this approach is less profitable.</nobr></div>
+<div style="position:absolute;top:6773;left:75"><nobr>3.2.4 Concurrency and Locality Management</nobr></div>
+<div style="position:absolute;top:6806;left:75"><nobr>The runtime makes scheduling decisions that affect the</nobr></div>
+<div style="position:absolute;top:6824;left:75"><nobr>overall parallel efficiency. In general, there are three</nobr></div>
+<div style="position:absolute;top:6842;left:75"><nobr>scheduling approaches one can employ: 1) use a default</nobr></div>
+<div style="position:absolute;top:6860;left:75"><nobr>policy for the specific system which has been developed</nobr></div>
+<div style="position:absolute;top:6878;left:75"><nobr>taking into account its characteristics; 2) dynamically de-</nobr></div>
+<div style="position:absolute;top:6896;left:75"><nobr>termine the best policy for each decision by monitoring re-</nobr></div>
+<div style="position:absolute;top:6914;left:75"><nobr>source availability and runtime behavior; 3) allow the pro-</nobr></div>
+<div style="position:absolute;top:6932;left:75"><nobr>grammer to provide application specific policies. Phoenix</nobr></div>
+<div style="position:absolute;top:6950;left:75"><nobr>employs all three approaches in making the scheduling de-</nobr></div>
+<div style="position:absolute;top:6968;left:75"><nobr>cisions described below.</nobr></div>
+<div style="position:absolute;top:6992;left:90"><nobr>Number of Cores and Workers/Core: Since MapRe-</nobr></div>
+<div style="position:absolute;top:7010;left:75"><nobr>duce programs are data-intensive, we currently spawn</nobr></div>
+<div style="position:absolute;top:7028;left:75"><nobr>workers to all available cores. In a multi-programming en-</nobr></div>
+<div style="position:absolute;top:7046;left:75"><nobr>vironment, the scheduler can periodically check the sys-</nobr></div>
+<div style="position:absolute;top:7064;left:75"><nobr>tem load and scale its usage based on system-wide priori-</nobr></div>
+<div style="position:absolute;top:7082;left:75"><nobr>ties. The mechanism for dynamically scaling the number of</nobr></div>
+<div style="position:absolute;top:7100;left:75"><nobr>workers is already in place to support fault recovery. In sys-</nobr></div>
+<div style="position:absolute;top:7118;left:75"><nobr>tems with multithreaded cores (e.g., UltraSparc T1 [16]),</nobr></div>
+<div style="position:absolute;top:7136;left:75"><nobr>we spawn one worker per hardware thread. This typically</nobr></div>
+<div style="position:absolute;top:7153;left:75"><nobr>maximizes the system throughput even if an individual task</nobr></div>
+<div style="position:absolute;top:7171;left:75"><nobr>takes longer.</nobr></div>
+<div style="position:absolute;top:6590;left:478"><nobr>Task Assignment: To achieve load balance, we always</nobr></div>
+<div style="position:absolute;top:6608;left:463"><nobr>assign Map and Reduce task to workers dynamically. Since</nobr></div>
+<div style="position:absolute;top:6626;left:463"><nobr>all Map tasks must execute before Reduce tasks, it is dif-</nobr></div>
+<div style="position:absolute;top:6644;left:463"><nobr>ficult to exploit any producer-consumer locality between</nobr></div>
+<div style="position:absolute;top:6662;left:463"><nobr>Map and Reduce tasks.</nobr></div>
+<div style="position:absolute;top:6688;left:478"><nobr>Task Size: Each Map task processes a unit of the input</nobr></div>
+<div style="position:absolute;top:6706;left:463"><nobr>data. Given the size of an element of input data, Phoenix</nobr></div>
+<div style="position:absolute;top:6724;left:463"><nobr>adjusts the unit size so that the input and output data for</nobr></div>
+<div style="position:absolute;top:6742;left:463"><nobr>a Map task fit in the L1 data cache. Note that for some</nobr></div>
+<div style="position:absolute;top:6760;left:463"><nobr>computations there is little temporal locality within Map or</nobr></div>
+<div style="position:absolute;top:6778;left:463"><nobr>Reduce stages. Nevertheless, partitioning the input at L1</nobr></div>
+<div style="position:absolute;top:6796;left:463"><nobr>cache granularity provides a good tradeoff between lower</nobr></div>
+<div style="position:absolute;top:6814;left:463"><nobr>overheads (few larger units) and load balance (more smaller</nobr></div>
+<div style="position:absolute;top:6832;left:463"><nobr>units). The programmer can vary this parameter given spe-</nobr></div>
+<div style="position:absolute;top:6850;left:463"><nobr>cific knowledge of the locality within a task, the amount of</nobr></div>
+<div style="position:absolute;top:6868;left:463"><nobr>output data produced per task, or the processing overheads.</nobr></div>
+<div style="position:absolute;top:6894;left:478"><nobr>Partition Function: The partition function determines</nobr></div>
+<div style="position:absolute;top:6912;left:463"><nobr>the distribution of intermediate data. The default partition</nobr></div>
+<div style="position:absolute;top:6930;left:463"><nobr>function partitions keys evenly across tasks. This may be</nobr></div>
+<div style="position:absolute;top:6948;left:463"><nobr>suboptimal since keys may have a different number of val-</nobr></div>
+<div style="position:absolute;top:6966;left:463"><nobr>ues associated with them. The user can provide a function</nobr></div>
+<div style="position:absolute;top:6984;left:463"><nobr>that has application-specific knowledge of the values’ dis-</nobr></div>
+<div style="position:absolute;top:7002;left:463"><nobr>tribution and reduces imbalance.</nobr></div>
+<div style="position:absolute;top:7028;left:478"><nobr>There are additional locality optimizations one can use</nobr></div>
+<div style="position:absolute;top:7046;left:463"><nobr>with Phoenix. The runtime can trigger a prefetch engine</nobr></div>
+<div style="position:absolute;top:7064;left:463"><nobr>that brings the data for the next task to the L2 cache in par-</nobr></div>
+<div style="position:absolute;top:7082;left:463"><nobr>allel with processing the current task. The runtime can also</nobr></div>
+<div style="position:absolute;top:7100;left:463"><nobr>provide cache replacement hints for input and output pairs</nobr></div>
+<div style="position:absolute;top:7118;left:463"><nobr>accessed in Map and Reduce tasks [25]. Finally, hardware</nobr></div>
+<div style="position:absolute;top:7136;left:463"><nobr>compression/decompression of intermediate outputs as they</nobr></div>
+<div style="position:absolute;top:7153;left:463"><nobr>are emitted in the Map stage or consumed in the Reduce</nobr></div>
+<div style="position:absolute;top:7171;left:463"><nobr>stage can reduce bandwdith and storage requirements [10].</nobr></div>
+</span></font>
+
+<div style="position:absolute;top:7303;left:0"><hr><table border="0" width="100%"><tbody><tr><td bgcolor="eeeeee" align="right"><font face="arial,sans-serif"><a name="7"><b>Page 7</b></a></font></td></tr></tbody></table></div><font size="3" face="Times"><span style="font-size:15px;font-family:Times">
+<div style="position:absolute;top:7414;left:75"><nobr>4 Methodology</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:7442;left:90"><nobr>This section describes the experimental methodology we</nobr></div>
+<div style="position:absolute;top:7460;left:75"><nobr>used to evaluate Phoenix.</nobr></div>
+<div style="position:absolute;top:7487;left:75"><nobr>4.1 Shared Memory Systems</nobr></div>
+<div style="position:absolute;top:7514;left:90"><nobr>We ran Phoenix on the two shared-memory systems de-</nobr></div>
+<div style="position:absolute;top:7532;left:75"><nobr>scribed in Table 3. Both systems are based on the Sparc</nobr></div>
+<div style="position:absolute;top:7550;left:75"><nobr>architecture. Nevertheless, Phoenix should work with-</nobr></div>
+<div style="position:absolute;top:7568;left:75"><nobr>out modifications on any architecture that supports the P-</nobr></div>
+<div style="position:absolute;top:7586;left:75"><nobr>threads library. The CMP system is based on the UltraSparc</nobr></div>
+<div style="position:absolute;top:7603;left:75"><nobr>T1 multi-core chip with 8 multithreaded cores sharing the</nobr></div>
+<div style="position:absolute;top:7621;left:75"><nobr>L2 cache [16]. The SMP system is a symmetric multipro-</nobr></div>
+<div style="position:absolute;top:7639;left:75"><nobr>cessor with 24 chips. The use of two drastically different</nobr></div>
+<div style="position:absolute;top:7657;left:75"><nobr>systems allows us to evaluate if the Phoenix runtime can</nobr></div>
+<div style="position:absolute;top:7675;left:75"><nobr>deliver on its promise: the same program should run as ef-</nobr></div>
+<div style="position:absolute;top:7693;left:75"><nobr>ficiently as possible on any type of shared-memory system</nobr></div>
+<div style="position:absolute;top:7711;left:75"><nobr>without any involvement by the user.</nobr></div>
+<div style="position:absolute;top:7738;left:75"><nobr>4.2 Applications</nobr></div>
+<div style="position:absolute;top:7765;left:90"><nobr>We used the 8 benchmarks described in Table 4. They</nobr></div>
+<div style="position:absolute;top:7783;left:75"><nobr>represent key computations from application domains such</nobr></div>
+<div style="position:absolute;top:7801;left:75"><nobr>as enterprise computing (Word Count, Reverse Index,</nobr></div>
+<div style="position:absolute;top:7819;left:75"><nobr>String Match), scientific computing (Matrix Multiply), ar-</nobr></div>
+<div style="position:absolute;top:7837;left:75"><nobr>tificial intelligence (Kmeans, PCA, Linear Regression), and</nobr></div>
+<div style="position:absolute;top:7855;left:75"><nobr>image processing (Histogram). We used three datasets for</nobr></div>
+<div style="position:absolute;top:7872;left:75"><nobr>each bemchmarks (S, M, L) to test locality and scalability</nobr></div>
+<div style="position:absolute;top:7890;left:75"><nobr>issues. We started with sequential code for all benchmarks</nobr></div>
+<div style="position:absolute;top:7908;left:75"><nobr>that serves as the baseline for speedups. From that, we de-</nobr></div>
+<div style="position:absolute;top:7926;left:75"><nobr>veloped a MapReduce version using Phoenix and a conven-</nobr></div>
+<div style="position:absolute;top:7944;left:75"><nobr>tional parallel version using P-threads. The P-threads code</nobr></div>
+<div style="position:absolute;top:7962;left:75"><nobr>is statically scheduled.</nobr></div>
+<div style="position:absolute;top:7981;left:90"><nobr>Table 4 also lists the code size ratio of each parallel ver-</nobr></div>
+<div style="position:absolute;top:7999;left:75"><nobr>sion to that of the sequential code (lower is better). Code</nobr></div>
+<div style="position:absolute;top:8017;left:75"><nobr>size is measured in number of source code lines. In general,</nobr></div>
+<div style="position:absolute;top:8035;left:75"><nobr>parallel code is significantly longer than sequential code.</nobr></div>
+<div style="position:absolute;top:8053;left:75"><nobr>Certain applications, such as WordCount and ReverseIndex,</nobr></div>
+<div style="position:absolute;top:8071;left:75"><nobr>fit well with the MapReduce model and lead to very com-</nobr></div>
+<div style="position:absolute;top:8089;left:75"><nobr>pact and simple Phoenix code. In contrast, the MapReduce</nobr></div>
+<div style="position:absolute;top:8107;left:75"><nobr>style and structure introduce significant amounts of addi-</nobr></div>
+<div style="position:absolute;top:8125;left:75"><nobr>tional code for applications like PCA and MatrixMultiply</nobr></div>
+<div style="position:absolute;top:8143;left:75"><nobr>because key-based data management is not the most natu-</nobr></div>
+<div style="position:absolute;top:8161;left:75"><nobr>ral way to express their data accesses. The P-threads code</nobr></div>
+<div style="position:absolute;top:8179;left:75"><nobr>would be signifciantly longer if dynamic scheduling was</nobr></div>
+<div style="position:absolute;top:8197;left:75"><nobr>implemented. Phoenix provides dynamic scheduling in the</nobr></div>
+<div style="position:absolute;top:8215;left:75"><nobr>runtime. Of course, the number of lines of code is not a</nobr></div>
+<div style="position:absolute;top:8232;left:75"><nobr>direct metric of programming complexity. It is difficult to</nobr></div>
+<div style="position:absolute;top:8250;left:75"><nobr>compare the complexity of code that manages keys or type-</nobr></div>
+<div style="position:absolute;top:8268;left:75"><nobr>agnostic Phoenix function interfaces against the complexity</nobr></div>
+<div style="position:absolute;top:8286;left:75"><nobr>of code that manually manages threads. For reference, the</nobr></div>
+<div style="position:absolute;top:8304;left:75"><nobr>Phoenix runtime is approximately 1,500 lines of code (in-</nobr></div>
+<div style="position:absolute;top:8322;left:75"><nobr>cluding headers).</nobr></div>
+<div style="position:absolute;top:8341;left:90"><nobr>The following are brief descriptions of the main mecha-</nobr></div>
+<div style="position:absolute;top:8359;left:75"><nobr>nisms used to code each benchmark with Phoenix.</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:11px;font-family:Times">
+<div style="position:absolute;top:7415;left:570"><nobr>CMP</nobr></div>
+<div style="position:absolute;top:7415;left:681"><nobr>SMP</nobr></div>
+<div style="position:absolute;top:7436;left:473"><nobr>Model</nobr></div>
+<div style="position:absolute;top:7436;left:570"><nobr>Sun Fire T1200</nobr></div>
+<div style="position:absolute;top:7436;left:681"><nobr>Sun Ultra-Enterprise 6000</nobr></div>
+<div style="position:absolute;top:7453;left:473"><nobr>CPU Type</nobr></div>
+<div style="position:absolute;top:7453;left:570"><nobr>UltraSparc T1</nobr></div>
+<div style="position:absolute;top:7453;left:681"><nobr>UltraSparc II</nobr></div>
+<div style="position:absolute;top:7470;left:570"><nobr>single-issue</nobr></div>
+<div style="position:absolute;top:7470;left:681"><nobr>4-way issue</nobr></div>
+<div style="position:absolute;top:7486;left:570"><nobr>in-order</nobr></div>
+<div style="position:absolute;top:7486;left:681"><nobr>in-order</nobr></div>
+<div style="position:absolute;top:7503;left:473"><nobr>CPU Count</nobr></div>
+<div style="position:absolute;top:7503;left:570"><nobr>8</nobr></div>
+<div style="position:absolute;top:7503;left:681"><nobr>24</nobr></div>
+<div style="position:absolute;top:7520;left:473"><nobr>Threads/CPU</nobr></div>
+<div style="position:absolute;top:7520;left:570"><nobr>4</nobr></div>
+<div style="position:absolute;top:7520;left:681"><nobr>1</nobr></div>
+<div style="position:absolute;top:7537;left:473"><nobr>L1 Cache</nobr></div>
+<div style="position:absolute;top:7537;left:570"><nobr>8KB 4-way SA</nobr></div>
+<div style="position:absolute;top:7537;left:681"><nobr>16KB DM</nobr></div>
+<div style="position:absolute;top:7554;left:473"><nobr>L2 Size</nobr></div>
+<div style="position:absolute;top:7554;left:570"><nobr>3MB 12-way SA</nobr></div>
+<div style="position:absolute;top:7554;left:681"><nobr>512KB per CPU</nobr></div>
+<div style="position:absolute;top:7571;left:570"><nobr>shared</nobr></div>
+<div style="position:absolute;top:7571;left:681"><nobr>(off chip)</nobr></div>
+<div style="position:absolute;top:7587;left:473"><nobr>Clock Freq.</nobr></div>
+<div style="position:absolute;top:7588;left:570"><nobr>1.2 GHz</nobr></div>
+<div style="position:absolute;top:7588;left:681"><nobr>250 MHz</nobr></div>
+<div style="position:absolute;top:7623;left:463"><nobr><b>Table 3. The characteristics of the CMP and SMP sys-</b></nobr></div>
+<div style="position:absolute;top:7641;left:463"><nobr><b>tems used to evaluate Phoenix.</b></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:7702;left:494"><nobr>Word Count: It counts the frequency of occurence for</nobr></div>
+<div style="position:absolute;top:7720;left:463"><nobr>each word in a set of files. The Map tasks process different</nobr></div>
+<div style="position:absolute;top:7738;left:463"><nobr>sections of the input files and return intermediate data that</nobr></div>
+<div style="position:absolute;top:7756;left:463"><nobr>consist of a word (key) and a value of 1 to indicate that the</nobr></div>
+<div style="position:absolute;top:7774;left:463"><nobr>word was found. The Reduce tasks add up the values for</nobr></div>
+<div style="position:absolute;top:7792;left:463"><nobr>each word (key).</nobr></div>
+<div style="position:absolute;top:7812;left:496"><nobr>Reverse Index: It traverses a set of HTML files, ex-</nobr></div>
+<div style="position:absolute;top:7831;left:463"><nobr>tracts all links, and compiles an index from links to files.</nobr></div>
+<div style="position:absolute;top:7849;left:463"><nobr>Each Map task parses a collection of HTML files. For each</nobr></div>
+<div style="position:absolute;top:7866;left:463"><nobr>link it finds, it outputs an intermediate pair with the link</nobr></div>
+<div style="position:absolute;top:7884;left:463"><nobr>as the key and the file info as the value. The Reduce task</nobr></div>
+<div style="position:absolute;top:7902;left:463"><nobr>combines all files referencing the same link into a single</nobr></div>
+<div style="position:absolute;top:7920;left:463"><nobr>linked-list.</nobr></div>
+<div style="position:absolute;top:7941;left:497"><nobr>Matrix Multiply: Each Map task computes the re-</nobr></div>
+<div style="position:absolute;top:7959;left:463"><nobr>sults for a set of rows of the output matrix and returns the</nobr></div>
+<div style="position:absolute;top:7977;left:463"><nobr>(x,y) location of each element as the key and the result of</nobr></div>
+<div style="position:absolute;top:7995;left:463"><nobr>the computation as the value. The Reduce task is just the</nobr></div>
+<div style="position:absolute;top:8013;left:463"><nobr>identity function.</nobr></div>
+<div style="position:absolute;top:8033;left:496"><nobr>String Match: It processes two files: the “encrypt”</nobr></div>
+<div style="position:absolute;top:8052;left:463"><nobr>file contains a set of encrypted words and a “keys” file con-</nobr></div>
+<div style="position:absolute;top:8070;left:463"><nobr>tains a list of non-encrypted words. The goal is to encrypt</nobr></div>
+<div style="position:absolute;top:8087;left:463"><nobr>the words in the “keys” file to determine which words were</nobr></div>
+<div style="position:absolute;top:8105;left:463"><nobr>originally encrypted to generate the “encrypt file”. Each</nobr></div>
+<div style="position:absolute;top:8123;left:463"><nobr>Map task parses a portion of the “keys” file and returns a</nobr></div>
+<div style="position:absolute;top:8141;left:463"><nobr>word in the “keys” file as the key and a flag to indicate</nobr></div>
+<div style="position:absolute;top:8159;left:463"><nobr>whether it was a match as the value. The reduce task is</nobr></div>
+<div style="position:absolute;top:8177;left:463"><nobr>just the identity function.</nobr></div>
+<div style="position:absolute;top:8198;left:497"><nobr>KMeans: It implements the popular kmeans algo-</nobr></div>
+<div style="position:absolute;top:8216;left:463"><nobr>rithm that groups a set of input data points into clusters.</nobr></div>
+<div style="position:absolute;top:8234;left:463"><nobr>Since it is iterative, the Phoenix scheduler is called multi-</nobr></div>
+<div style="position:absolute;top:8252;left:463"><nobr>ple times until it converges. In each iteration, the Map task</nobr></div>
+<div style="position:absolute;top:8270;left:463"><nobr>takes in the existing mean vectors and a subset of the data</nobr></div>
+<div style="position:absolute;top:8288;left:463"><nobr>points. It finds the distance between each point and each</nobr></div>
+<div style="position:absolute;top:8306;left:463"><nobr>mean and assigns the point to the closest cluster. For each</nobr></div>
+<div style="position:absolute;top:8324;left:463"><nobr>point, it emits the cluster id as the key and the data vector as</nobr></div>
+<div style="position:absolute;top:8341;left:463"><nobr>the value. The Reduce task gathers all points with the same</nobr></div>
+<div style="position:absolute;top:8359;left:463"><nobr>cluster-id, and finds their centriod (mean vector). It emits</nobr></div>
+</span></font>
+
+<div style="position:absolute;top:8491;left:0"><hr><table border="0" width="100%"><tbody><tr><td bgcolor="eeeeee" align="right"><font face="arial,sans-serif"><a name="8"><b>Page 8</b></a></font></td></tr></tbody></table></div><font size="3" face="Times"><span style="font-size:11px;font-family:Times">
+<div style="position:absolute;top:8602;left:178"><nobr>Description</nobr></div>
+<div style="position:absolute;top:8602;left:438"><nobr>Data Sets</nobr></div>
+<div style="position:absolute;top:8602;left:691"><nobr>Code Size Ratio</nobr></div>
+<div style="position:absolute;top:8618;left:678"><nobr>Pthreads Phoenix</nobr></div>
+<div style="position:absolute;top:8639;left:95"><nobr>Word</nobr></div>
+<div style="position:absolute;top:8655;left:95"><nobr>Count</nobr></div>
+<div style="position:absolute;top:8639;left:178"><nobr>Determine frequency of words in a file</nobr></div>
+<div style="position:absolute;top:8639;left:438"><nobr>S:10MB, M:50MB, L:100MB</nobr></div>
+<div style="position:absolute;top:8639;left:695"><nobr>1.8</nobr></div>
+<div style="position:absolute;top:8639;left:763"><nobr>0.9</nobr></div>
+<div style="position:absolute;top:8672;left:95"><nobr>Matrix</nobr></div>
+<div style="position:absolute;top:8689;left:95"><nobr>Multiply</nobr></div>
+<div style="position:absolute;top:8673;left:178"><nobr>Dense integer matrix multiplication</nobr></div>
+<div style="position:absolute;top:8673;left:438"><nobr>S:100x100, M:500x500, L:1000x1000</nobr></div>
+<div style="position:absolute;top:8673;left:695"><nobr>1.8</nobr></div>
+<div style="position:absolute;top:8673;left:763"><nobr>2.2</nobr></div>
+<div style="position:absolute;top:8706;left:95"><nobr>Reverse</nobr></div>
+<div style="position:absolute;top:8722;left:95"><nobr>Index</nobr></div>
+<div style="position:absolute;top:8706;left:178"><nobr>Build reverse index for links in HTML files</nobr></div>
+<div style="position:absolute;top:8706;left:438"><nobr>S:100MB, M:500MB, L:1GB</nobr></div>
+<div style="position:absolute;top:8706;left:695"><nobr>1.5</nobr></div>
+<div style="position:absolute;top:8706;left:763"><nobr>0.9</nobr></div>
+<div style="position:absolute;top:8739;left:95"><nobr>Kmeans</nobr></div>
+<div style="position:absolute;top:8739;left:178"><nobr>Iterative clustering algorithm to classify 3D</nobr></div>
+<div style="position:absolute;top:8756;left:178"><nobr>data points into groups</nobr></div>
+<div style="position:absolute;top:8739;left:438"><nobr>S:10K, M:50K, L:100K points</nobr></div>
+<div style="position:absolute;top:8739;left:695"><nobr>1.2</nobr></div>
+<div style="position:absolute;top:8739;left:763"><nobr>1.7</nobr></div>
+<div style="position:absolute;top:8773;left:95"><nobr>String</nobr></div>
+<div style="position:absolute;top:8789;left:95"><nobr>Match</nobr></div>
+<div style="position:absolute;top:8773;left:178"><nobr>Search file with keys for an encrypted word</nobr></div>
+<div style="position:absolute;top:8773;left:438"><nobr>S:50MB, M:100MB, L:500MB</nobr></div>
+<div style="position:absolute;top:8773;left:695"><nobr>1.8</nobr></div>
+<div style="position:absolute;top:8773;left:763"><nobr>1.5</nobr></div>
+<div style="position:absolute;top:8806;left:95"><nobr>PCA</nobr></div>
+<div style="position:absolute;top:8806;left:178"><nobr>Principal components analysis on a matrix</nobr></div>
+<div style="position:absolute;top:8806;left:438"><nobr>S:500x500, M:1000x1000, L:1500x1500</nobr></div>
+<div style="position:absolute;top:8806;left:695"><nobr>1.7</nobr></div>
+<div style="position:absolute;top:8806;left:763"><nobr>2.5</nobr></div>
+<div style="position:absolute;top:8823;left:95"><nobr>Histogram</nobr></div>
+<div style="position:absolute;top:8823;left:178"><nobr>Determine frequency of each RGB compo-</nobr></div>
+<div style="position:absolute;top:8840;left:178"><nobr>nent in a set of images</nobr></div>
+<div style="position:absolute;top:8823;left:438"><nobr>S:100MB, M:400MB, L:1.4GB</nobr></div>
+<div style="position:absolute;top:8823;left:695"><nobr>2.4</nobr></div>
+<div style="position:absolute;top:8823;left:763"><nobr>2.2</nobr></div>
+<div style="position:absolute;top:8857;left:95"><nobr>Linear</nobr></div>
+<div style="position:absolute;top:8857;left:178"><nobr>Compute the best fit line for a set of points</nobr></div>
+<div style="position:absolute;top:8857;left:438"><nobr>S:50M, M:100M, L:500M</nobr></div>
+<div style="position:absolute;top:8857;left:695"><nobr>1.7</nobr></div>
+<div style="position:absolute;top:8857;left:763"><nobr>1.6</nobr></div>
+<div style="position:absolute;top:8873;left:95"><nobr>Regression</nobr></div>
+<div style="position:absolute;top:8907;left:141"><nobr><b>Table 4. The applications used in this study. Relative code size with respect to sequential code.</b></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:8968;left:75"><nobr>the cluster id as the key and the mean vector as the value.</nobr></div>
+<div style="position:absolute;top:8987;left:108"><nobr>PCA: It performs a portion of the Principal Compo-</nobr></div>
+<div style="position:absolute;top:9005;left:75"><nobr>nent Analysis algorithm in order to find the mean vector and</nobr></div>
+<div style="position:absolute;top:9023;left:75"><nobr>the covariance matrix of a set of data points. The data is pre-</nobr></div>
+<div style="position:absolute;top:9041;left:75"><nobr>sented in a matrix as a collection of column vectors. The al-</nobr></div>
+<div style="position:absolute;top:9059;left:75"><nobr>gorithm uses two MapReduce iterations. To find the mean,</nobr></div>
+<div style="position:absolute;top:9077;left:75"><nobr>each Map task in the first iteration computes the mean for</nobr></div>
+<div style="position:absolute;top:9094;left:75"><nobr>a set of rows and emits the row numbers as the keys, and</nobr></div>
+<div style="position:absolute;top:9112;left:75"><nobr>the means as the values. In the second iteration, the Map</nobr></div>
+<div style="position:absolute;top:9130;left:75"><nobr>task is assigned to compute a few elements in the required</nobr></div>
+<div style="position:absolute;top:9148;left:75"><nobr>covariance matrix, and is provided with the data required to</nobr></div>
+<div style="position:absolute;top:9166;left:75"><nobr>calculate the value of those elements. It emits the element</nobr></div>
+<div style="position:absolute;top:9184;left:75"><nobr>row and column numbers as the key, and the covariance as</nobr></div>
+<div style="position:absolute;top:9202;left:75"><nobr>the value. The Reduce task is the identity in both iterations.</nobr></div>
+<div style="position:absolute;top:9221;left:106"><nobr>Histogram: It analyzes a given bitmap image to com-</nobr></div>
+<div style="position:absolute;top:9239;left:75"><nobr>pute the frequency of occurence of a value in the 0-255</nobr></div>
+<div style="position:absolute;top:9257;left:75"><nobr>range for the RGB components of the pixels. The algo-</nobr></div>
+<div style="position:absolute;top:9275;left:75"><nobr>rithm assigns different portions of the image to different</nobr></div>
+<div style="position:absolute;top:9293;left:75"><nobr>Map tasks, which parse the image and insert the frequency</nobr></div>
+<div style="position:absolute;top:9311;left:75"><nobr>of component occurences into arrays. The reduce tasks sum</nobr></div>
+<div style="position:absolute;top:9329;left:75"><nobr>up these numbers across all the portions.</nobr></div>
+<div style="position:absolute;top:9348;left:107"><nobr>Linear Regression: It computes the line that best fits</nobr></div>
+<div style="position:absolute;top:9366;left:75"><nobr>a given set of coordinates in an input file. The algorithm</nobr></div>
+<div style="position:absolute;top:9384;left:75"><nobr>assigns different portions of the file to different map tasks,</nobr></div>
+<div style="position:absolute;top:9402;left:75"><nobr>which compute certain summary statistics like the sum of</nobr></div>
+<div style="position:absolute;top:9420;left:75"><nobr>squares. The reduce tasks compute these statistics across</nobr></div>
+<div style="position:absolute;top:9438;left:75"><nobr>the entire data set in order to finally determine the best fit</nobr></div>
+<div style="position:absolute;top:9455;left:75"><nobr>line.</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:15px;font-family:Times">
+<div style="position:absolute;top:9483;left:75"><nobr>5 Evaluation</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:9512;left:90"><nobr>This section presents the evaluation results for Phoenix</nobr></div>
+<div style="position:absolute;top:9529;left:75"><nobr>using the CMP and SMP shared-memory systems. All</nobr></div>
+<div style="position:absolute;top:9547;left:75"><nobr>speedups are calculated with respect to the sequential code</nobr></div>
+<div style="position:absolute;top:8968;left:463"><nobr>of the application. Unless otherwise specified, we use the</nobr></div>
+<div style="position:absolute;top:8986;left:463"><nobr>large datasets for each application.</nobr></div>
+<div style="position:absolute;top:9015;left:463"><nobr>5.1 Basic Performance Evaluation</nobr></div>
+<div style="position:absolute;top:9043;left:478"><nobr>Figure 2 presents the speedup with Phoenix as we scale</nobr></div>
+<div style="position:absolute;top:9061;left:463"><nobr>the number of processor cores used in the two systems.</nobr></div>
+<div style="position:absolute;top:9079;left:463"><nobr>Higher speedup is better. With the CMP, we use 4 workers</nobr></div>
+<div style="position:absolute;top:9097;left:463"><nobr>per core taking advantage of the hardware support for mul-</nobr></div>
+<div style="position:absolute;top:9115;left:463"><nobr>tithreading. This choice leads to good throughput across all</nobr></div>
+<div style="position:absolute;top:9133;left:463"><nobr>applications. Hence, the CMP speedup with 8 cores can be</nobr></div>
+<div style="position:absolute;top:9151;left:463"><nobr>significantly higher than 8 as we use 32 workers. Figure</nobr></div>
+<div style="position:absolute;top:9168;left:463"><nobr>3 presents the execution time breakdown between Map, Re-</nobr></div>
+<div style="position:absolute;top:9186;left:463"><nobr>duce, and Merge tasks for the CMP system. The breakdown</nobr></div>
+<div style="position:absolute;top:9204;left:463"><nobr>is similar for the SMP.</nobr></div>
+<div style="position:absolute;top:9225;left:478"><nobr>Phoenix provides significant speedups with both systems</nobr></div>
+<div style="position:absolute;top:9243;left:463"><nobr>for all processor counts and across all benchmarks. In</nobr></div>
+<div style="position:absolute;top:9260;left:463"><nobr>some cases, such as MatrixMultiply, we observe superlin-</nobr></div>
+<div style="position:absolute;top:9278;left:463"><nobr>ear speedups due to caching effects (beneficial sharing in</nobr></div>
+<div style="position:absolute;top:9296;left:463"><nobr>the CMP, increased cache capacity in the SMP with more</nobr></div>
+<div style="position:absolute;top:9314;left:463"><nobr>cores). At high core counts, the SMP system often suffers</nobr></div>
+<div style="position:absolute;top:9332;left:463"><nobr>from saturation of the bus that interconnects the processors</nobr></div>
+<div style="position:absolute;top:9350;left:463"><nobr>(e.g., PCA and Histogram). With a large number of cores,</nobr></div>
+<div style="position:absolute;top:9368;left:463"><nobr>we also noticed that some applications suffered from load</nobr></div>
+<div style="position:absolute;top:9386;left:463"><nobr>imbalance in the Reduce stage (e.g., WordCount). Rever-</nobr></div>
+<div style="position:absolute;top:9404;left:463"><nobr>seIndex achieves the highest speedups due to a number of</nobr></div>
+<div style="position:absolute;top:9422;left:463"><nobr>reasons. Its code uses array based heaps to track indices. As</nobr></div>
+<div style="position:absolute;top:9440;left:463"><nobr>work is distributed across more cores, the heaps accessed</nobr></div>
+<div style="position:absolute;top:9458;left:463"><nobr>by each core are smaller and operations on them become</nobr></div>
+<div style="position:absolute;top:9476;left:463"><nobr>significantly faster. Another contributor to the superlinear</nobr></div>
+<div style="position:absolute;top:9494;left:463"><nobr>speedup is that it spends a signficant portion of its execu-</nobr></div>
+<div style="position:absolute;top:9512;left:463"><nobr>tion time on the final merging/sorting of the output data.</nobr></div>
+<div style="position:absolute;top:9529;left:463"><nobr>The additional cores and their caches reduce the merging</nobr></div>
+<div style="position:absolute;top:9547;left:463"><nobr>overhead.</nobr></div>
+</span></font>
+
+<div style="position:absolute;top:9679;left:0"><hr><table border="0" width="100%"><tbody><tr><td bgcolor="eeeeee" align="right"><font face="arial,sans-serif"><a name="9"><b>Page 9</b></a></font></td></tr></tbody></table></div><font size="2" face="Times"><span style="font-size:6px;font-family:Times">
+<div style="position:absolute;top:10005;left:103"><nobr>0</nobr></div>
+<div style="position:absolute;top:9970;left:103"><nobr>5</nobr></div>
+<div style="position:absolute;top:9935;left:98"><nobr>10</nobr></div>
+<div style="position:absolute;top:9900;left:98"><nobr>15</nobr></div>
+<div style="position:absolute;top:9864;left:98"><nobr>20</nobr></div>
+<div style="position:absolute;top:9829;left:98"><nobr>25</nobr></div>
+<div style="position:absolute;top:9794;left:98"><nobr>30</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:4px;font-family:Times">
+<div style="position:absolute;top:10014;left:120"><nobr>WordCount</nobr></div>
+<div style="position:absolute;top:10014;left:161"><nobr>MatrixMult</nobr></div>
+<div style="position:absolute;top:10014;left:199"><nobr>StringMatch</nobr></div>
+<div style="position:absolute;top:10014;left:244"><nobr>Kmeans</nobr></div>
+<div style="position:absolute;top:10014;left:277"><nobr>ReverseIndex</nobr></div>
+<div style="position:absolute;top:10014;left:329"><nobr>PCA</nobr></div>
+<div style="position:absolute;top:10014;left:361"><nobr>Histogram</nobr></div>
+<div style="position:absolute;top:10014;left:401"><nobr>LinearReg</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:7px;font-family:Times">
+<div style="position:absolute;top:9928;left:92"><nobr>C</nobr></div>
+<div style="position:absolute;top:9921;left:92"><nobr>M</nobr></div>
+<div style="position:absolute;top:9913;left:92"><nobr>P</nobr></div>
+<div style="position:absolute;top:9904;left:92"><nobr>S</nobr></div>
+<div style="position:absolute;top:9898;left:92"><nobr>p</nobr></div>
+<div style="position:absolute;top:9892;left:92"><nobr>e</nobr></div>
+<div style="position:absolute;top:9886;left:92"><nobr>e</nobr></div>
+<div style="position:absolute;top:9881;left:92"><nobr>d</nobr></div>
+<div style="position:absolute;top:9875;left:92"><nobr>u</nobr></div>
+<div style="position:absolute;top:9869;left:92"><nobr>p</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:6px;font-family:Times">
+<div style="position:absolute;top:9800;left:402"><nobr>2 Cores</nobr></div>
+<div style="position:absolute;top:9812;left:402"><nobr>4 Cores</nobr></div>
+<div style="position:absolute;top:9823;left:402"><nobr>8 Cores</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:4px;font-family:Times">
+<div style="position:absolute;top:9788;left:291"><nobr>43 72</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:6px;font-family:Times">
+<div style="position:absolute;top:10005;left:472"><nobr>0</nobr></div>
+<div style="position:absolute;top:9970;left:472"><nobr>5</nobr></div>
+<div style="position:absolute;top:9935;left:467"><nobr>10</nobr></div>
+<div style="position:absolute;top:9900;left:467"><nobr>15</nobr></div>
+<div style="position:absolute;top:9865;left:467"><nobr>20</nobr></div>
+<div style="position:absolute;top:9830;left:467"><nobr>25</nobr></div>
+<div style="position:absolute;top:9795;left:467"><nobr>30</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:4px;font-family:Times">
+<div style="position:absolute;top:10014;left:489"><nobr>WordCount</nobr></div>
+<div style="position:absolute;top:10014;left:531"><nobr>MatrixMult</nobr></div>
+<div style="position:absolute;top:10014;left:569"><nobr>StringMatch</nobr></div>
+<div style="position:absolute;top:10014;left:615"><nobr>Kmeans</nobr></div>
+<div style="position:absolute;top:10014;left:648"><nobr>ReverseIndex</nobr></div>
+<div style="position:absolute;top:10014;left:701"><nobr>PCA</nobr></div>
+<div style="position:absolute;top:10014;left:734"><nobr>Histogram</nobr></div>
+<div style="position:absolute;top:10014;left:774"><nobr>LinearReg</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:7px;font-family:Times">
+<div style="position:absolute;top:9929;left:464"><nobr>S</nobr></div>
+<div style="position:absolute;top:9922;left:464"><nobr>M</nobr></div>
+<div style="position:absolute;top:9914;left:464"><nobr>P</nobr></div>
+<div style="position:absolute;top:9905;left:464"><nobr>S</nobr></div>
+<div style="position:absolute;top:9899;left:464"><nobr>p</nobr></div>
+<div style="position:absolute;top:9893;left:464"><nobr>e</nobr></div>
+<div style="position:absolute;top:9887;left:464"><nobr>e</nobr></div>
+<div style="position:absolute;top:9882;left:464"><nobr>d</nobr></div>
+<div style="position:absolute;top:9876;left:464"><nobr>u</nobr></div>
+<div style="position:absolute;top:9870;left:464"><nobr>p</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:6px;font-family:Times">
+<div style="position:absolute;top:9801;left:770"><nobr>2 Cores</nobr></div>
+<div style="position:absolute;top:9812;left:770"><nobr>4 Cores</nobr></div>
+<div style="position:absolute;top:9822;left:770"><nobr>8 Cores</nobr></div>
+<div style="position:absolute;top:9833;left:770"><nobr>16 Cores</nobr></div>
+<div style="position:absolute;top:9843;left:770"><nobr>24 Cores</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:4px;font-family:Times">
+<div style="position:absolute;top:9791;left:670"><nobr>3539</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:11px;font-family:Times">
+<div style="position:absolute;top:10045;left:75"><nobr><b>Figure 2. Speedup with Phoenix for the large datasets as we scale the number of processors cores in the two systems.</b></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:7px;font-family:Times">
+<div style="position:absolute;top:10298;left:92"><nobr>0.00</nobr></div>
+<div style="position:absolute;top:10266;left:92"><nobr>0.05</nobr></div>
+<div style="position:absolute;top:10234;left:92"><nobr>0.10</nobr></div>
+<div style="position:absolute;top:10202;left:92"><nobr>0.15</nobr></div>
+<div style="position:absolute;top:10170;left:92"><nobr>0.20</nobr></div>
+<div style="position:absolute;top:10138;left:92"><nobr>0.25</nobr></div>
+<div style="position:absolute;top:10106;left:92"><nobr>0.30</nobr></div>
+<div style="position:absolute;top:10074;left:92"><nobr>0.35</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:5px;font-family:Times">
+<div style="position:absolute;top:10309;left:122"><nobr>2</nobr></div>
+<div style="position:absolute;top:10309;left:135"><nobr>4</nobr></div>
+<div style="position:absolute;top:10309;left:148"><nobr>8</nobr></div>
+<div style="position:absolute;top:10309;left:161"><nobr>2</nobr></div>
+<div style="position:absolute;top:10309;left:175"><nobr>4</nobr></div>
+<div style="position:absolute;top:10309;left:188"><nobr>8</nobr></div>
+<div style="position:absolute;top:10309;left:201"><nobr>2</nobr></div>
+<div style="position:absolute;top:10309;left:214"><nobr>4</nobr></div>
+<div style="position:absolute;top:10309;left:228"><nobr>8</nobr></div>
+<div style="position:absolute;top:10309;left:241"><nobr>2</nobr></div>
+<div style="position:absolute;top:10309;left:254"><nobr>4</nobr></div>
+<div style="position:absolute;top:10309;left:267"><nobr>8</nobr></div>
+<div style="position:absolute;top:10309;left:281"><nobr>2</nobr></div>
+<div style="position:absolute;top:10309;left:294"><nobr>4</nobr></div>
+<div style="position:absolute;top:10309;left:307"><nobr>8</nobr></div>
+<div style="position:absolute;top:10309;left:320"><nobr>2</nobr></div>
+<div style="position:absolute;top:10309;left:333"><nobr>4</nobr></div>
+<div style="position:absolute;top:10309;left:347"><nobr>8</nobr></div>
+<div style="position:absolute;top:10309;left:360"><nobr>2</nobr></div>
+<div style="position:absolute;top:10309;left:373"><nobr>4</nobr></div>
+<div style="position:absolute;top:10309;left:386"><nobr>8</nobr></div>
+<div style="position:absolute;top:10309;left:399"><nobr>2</nobr></div>
+<div style="position:absolute;top:10309;left:413"><nobr>4</nobr></div>
+<div style="position:absolute;top:10309;left:426"><nobr>8</nobr></div>
+<div style="position:absolute;top:10324;left:118"><nobr>WordCount MatrixMultStringMatch Kmeans ReverseIndex</nobr></div>
+<div style="position:absolute;top:10324;left:328"><nobr>PCA</nobr></div>
+<div style="position:absolute;top:10324;left:358"><nobr>Histogram LinearReg</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:7px;font-family:Times">
+<div style="position:absolute;top:10256;left:85"><nobr>C</nobr></div>
+<div style="position:absolute;top:10249;left:85"><nobr>MP</nobr></div>
+<div style="position:absolute;top:10233;left:85"><nobr>N</nobr></div>
+<div style="position:absolute;top:10226;left:85"><nobr>o</nobr></div>
+<div style="position:absolute;top:10220;left:85"><nobr>rm</nobr></div>
+<div style="position:absolute;top:10208;left:85"><nobr>a</nobr></div>
+<div style="position:absolute;top:10203;left:85"><nobr>liz</nobr></div>
+<div style="position:absolute;top:10193;left:85"><nobr>e</nobr></div>
+<div style="position:absolute;top:10187;left:85"><nobr>d</nobr></div>
+<div style="position:absolute;top:10179;left:85"><nobr>E</nobr></div>
+<div style="position:absolute;top:10173;left:85"><nobr>x</nobr></div>
+<div style="position:absolute;top:10167;left:85"><nobr>e</nobr></div>
+<div style="position:absolute;top:10162;left:85"><nobr>c</nobr></div>
+<div style="position:absolute;top:10157;left:85"><nobr>u</nobr></div>
+<div style="position:absolute;top:10151;left:85"><nobr>tio</nobr></div>
+<div style="position:absolute;top:10140;left:85"><nobr>n</nobr></div>
+<div style="position:absolute;top:10131;left:85"><nobr>T</nobr></div>
+<div style="position:absolute;top:10125;left:85"><nobr>im</nobr></div>
+<div style="position:absolute;top:10114;left:85"><nobr>e</nobr></div>
+<div style="position:absolute;top:10081;left:136"><nobr>Merge</nobr></div>
+<div style="position:absolute;top:10095;left:136"><nobr>Reduce</nobr></div>
+<div style="position:absolute;top:10108;left:136"><nobr>Map</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:11px;font-family:Times">
+<div style="position:absolute;top:10356;left:75"><nobr><b>Figure 3. Execution time breakdown for the CMP system.</b></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:10391;left:90"><nobr>In general, the applications in Figure 2 can be classified</nobr></div>
+<div style="position:absolute;top:10409;left:75"><nobr>into two types. The key-based structure that MapReduce</nobr></div>
+<div style="position:absolute;top:10427;left:75"><nobr>uses fits well the algorithm of WordCount, MatrixMultiply,</nobr></div>
+<div style="position:absolute;top:10445;left:75"><nobr>StringMatch, and LinearRegression. Hence, these applica-</nobr></div>
+<div style="position:absolute;top:10463;left:75"><nobr>tions achieve significant speedups across all system sizes.</nobr></div>
+<div style="position:absolute;top:10481;left:75"><nobr>On the other hand, the key-based approach is not the natu-</nobr></div>
+<div style="position:absolute;top:10499;left:75"><nobr>ral choice for Kmeans, PCA, and Histogram. Hence, fitting</nobr></div>
+<div style="position:absolute;top:10517;left:75"><nobr>these algorithms into the MapReduce models leads to sig-</nobr></div>
+<div style="position:absolute;top:10535;left:75"><nobr>nificant overheads compared to sequential code and reduces</nobr></div>
+<div style="position:absolute;top:10553;left:75"><nobr>the overall speedup. We discuss this issue further when we</nobr></div>
+<div style="position:absolute;top:10570;left:75"><nobr>compare the performance of Phoenix to that of P-threads in</nobr></div>
+<div style="position:absolute;top:10588;left:75"><nobr>Section 5.4.</nobr></div>
+<div style="position:absolute;top:10618;left:75"><nobr>5.2 Dependency to Dataset Size</nobr></div>
+<div style="position:absolute;top:10646;left:90"><nobr>Figure 4 shows the speedup Phoenix achieves on the</nobr></div>
+<div style="position:absolute;top:10664;left:75"><nobr>CMP with 8 cores when we vary the input dataset size. We</nobr></div>
+<div style="position:absolute;top:10682;left:75"><nobr>observed similar behavior for the SMP system. It is clear</nobr></div>
+<div style="position:absolute;top:10700;left:75"><nobr>that increasing the dataset leads to higher speedups over the</nobr></div>
+<div style="position:absolute;top:10717;left:75"><nobr>sequential version for most applications. This is due to two</nobr></div>
+<div style="position:absolute;top:10735;left:75"><nobr>reasons. First, a larger dataset allows the Phoenix runtime</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:6px;font-family:Times">
+<div style="position:absolute;top:10289;left:482"><nobr>0</nobr></div>
+<div style="position:absolute;top:10254;left:482"><nobr>5</nobr></div>
+<div style="position:absolute;top:10219;left:477"><nobr>10</nobr></div>
+<div style="position:absolute;top:10183;left:477"><nobr>15</nobr></div>
+<div style="position:absolute;top:10148;left:477"><nobr>20</nobr></div>
+<div style="position:absolute;top:10112;left:477"><nobr>25</nobr></div>
+<div style="position:absolute;top:10077;left:477"><nobr>30</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:4px;font-family:Times">
+<div style="position:absolute;top:10298;left:499"><nobr>Wordcount</nobr></div>
+<div style="position:absolute;top:10298;left:540"><nobr>Matrix mult</nobr></div>
+<div style="position:absolute;top:10298;left:579"><nobr>String match</nobr></div>
+<div style="position:absolute;top:10298;left:626"><nobr>Kmeans</nobr></div>
+<div style="position:absolute;top:10298;left:660"><nobr>Reverseindex</nobr></div>
+<div style="position:absolute;top:10298;left:713"><nobr>PCA</nobr></div>
+<div style="position:absolute;top:10298;left:747"><nobr>Histogram</nobr></div>
+<div style="position:absolute;top:10298;left:787"><nobr>Linear Reg</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:7px;font-family:Times">
+<div style="position:absolute;top:10212;left:473"><nobr>C</nobr></div>
+<div style="position:absolute;top:10205;left:473"><nobr>M</nobr></div>
+<div style="position:absolute;top:10197;left:473"><nobr>P</nobr></div>
+<div style="position:absolute;top:10188;left:473"><nobr>S</nobr></div>
+<div style="position:absolute;top:10181;left:473"><nobr>p</nobr></div>
+<div style="position:absolute;top:10175;left:473"><nobr>e</nobr></div>
+<div style="position:absolute;top:10170;left:473"><nobr>e</nobr></div>
+<div style="position:absolute;top:10165;left:473"><nobr>d</nobr></div>
+<div style="position:absolute;top:10159;left:473"><nobr>u</nobr></div>
+<div style="position:absolute;top:10153;left:473"><nobr>p</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:6px;font-family:Times">
+<div style="position:absolute;top:10084;left:790"><nobr>small</nobr></div>
+<div style="position:absolute;top:10096;left:790"><nobr>medium</nobr></div>
+<div style="position:absolute;top:10107;left:790"><nobr>large</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:4px;font-family:Times">
+<div style="position:absolute;top:10072;left:675"><nobr>38 72</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:11px;font-family:Times">
+<div style="position:absolute;top:10325;left:463"><nobr><b>Figure 4. CMP speedup with 8 cores as we vary the</b></nobr></div>
+<div style="position:absolute;top:10343;left:463"><nobr><b>dataset size.</b></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:10373;left:463"><nobr>to better amortize its overheads for task management, buffer</nobr></div>
+<div style="position:absolute;top:10391;left:463"><nobr>allocation, data spliting and sorting. Such overheads are</nobr></div>
+<div style="position:absolute;top:10409;left:463"><nobr>not dominant if the application is truly data intensive. Sec-</nobr></div>
+<div style="position:absolute;top:10427;left:463"><nobr>ond, caching effects are more significant when processing</nobr></div>
+<div style="position:absolute;top:10445;left:463"><nobr>large datasets and load imbalance is more rare. StringMatch</nobr></div>
+<div style="position:absolute;top:10463;left:463"><nobr>and LinearRegression perform similarly across all dataset</nobr></div>
+<div style="position:absolute;top:10481;left:463"><nobr>sizes. This is because even their small datasets contain a</nobr></div>
+<div style="position:absolute;top:10499;left:463"><nobr>large number of elements. Moreover, they perform a sig-</nobr></div>
+<div style="position:absolute;top:10517;left:463"><nobr>nificant amount of computation per element in their dataset.</nobr></div>
+<div style="position:absolute;top:10535;left:463"><nobr>Hence, even the small datasets are sufficient to fully utilize</nobr></div>
+<div style="position:absolute;top:10552;left:463"><nobr>the available parallel resources and hide the runtime over-</nobr></div>
+<div style="position:absolute;top:10570;left:463"><nobr>heads.</nobr></div>
+<div style="position:absolute;top:10600;left:463"><nobr>5.3 Dependency to Unit Size</nobr></div>
+<div style="position:absolute;top:10628;left:478"><nobr>Each Map task processes a unit of the input data. Hence,</nobr></div>
+<div style="position:absolute;top:10646;left:463"><nobr>the unit size determines the number of number of Map</nobr></div>
+<div style="position:absolute;top:10664;left:463"><nobr>tasks, their memory footprint, and how well their overhead</nobr></div>
+<div style="position:absolute;top:10682;left:463"><nobr>is amortized. Figure 5 shows the speedup for CMP system</nobr></div>
+<div style="position:absolute;top:10700;left:463"><nobr>as we vary the unit size from 4KB to 128KB. Many appli-</nobr></div>
+<div style="position:absolute;top:10717;left:463"><nobr>cations perform similarly with all unit sizes as there is little</nobr></div>
+<div style="position:absolute;top:10735;left:463"><nobr>temporal locality in the data access. Larger units can lead</nobr></div>
+</span></font>
+
+<div style="position:absolute;top:10867;left:0"><hr><table border="0" width="100%"><tbody><tr><td bgcolor="eeeeee" align="right"><font face="arial,sans-serif"><a name="10"><b>Page 10</b></a></font></td></tr></tbody></table></div><font size="2" face="Times"><span style="font-size:6px;font-family:Times">
+<div style="position:absolute;top:11205;left:94"><nobr>0</nobr></div>
+<div style="position:absolute;top:11168;left:94"><nobr>5</nobr></div>
+<div style="position:absolute;top:11131;left:89"><nobr>10</nobr></div>
+<div style="position:absolute;top:11094;left:89"><nobr>15</nobr></div>
+<div style="position:absolute;top:11057;left:89"><nobr>20</nobr></div>
+<div style="position:absolute;top:11020;left:89"><nobr>25</nobr></div>
+<div style="position:absolute;top:10983;left:89"><nobr>30</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:4px;font-family:Times">
+<div style="position:absolute;top:11214;left:111"><nobr>WordCount</nobr></div>
+<div style="position:absolute;top:11214;left:154"><nobr>MatrixMult</nobr></div>
+<div style="position:absolute;top:11214;left:193"><nobr>StringMatch</nobr></div>
+<div style="position:absolute;top:11214;left:239"><nobr>Kmeans</nobr></div>
+<div style="position:absolute;top:11214;left:273"><nobr>ReverseIndex</nobr></div>
+<div style="position:absolute;top:11214;left:326"><nobr>PCA</nobr></div>
+<div style="position:absolute;top:11214;left:360"><nobr>Histogram</nobr></div>
+<div style="position:absolute;top:11214;left:401"><nobr>LinearReg</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:7px;font-family:Times">
+<div style="position:absolute;top:11123;left:85"><nobr>C</nobr></div>
+<div style="position:absolute;top:11116;left:85"><nobr>M</nobr></div>
+<div style="position:absolute;top:11108;left:85"><nobr>P</nobr></div>
+<div style="position:absolute;top:11099;left:85"><nobr>S</nobr></div>
+<div style="position:absolute;top:11092;left:85"><nobr>p</nobr></div>
+<div style="position:absolute;top:11086;left:85"><nobr>e</nobr></div>
+<div style="position:absolute;top:11081;left:85"><nobr>e</nobr></div>
+<div style="position:absolute;top:11075;left:85"><nobr>d</nobr></div>
+<div style="position:absolute;top:11069;left:85"><nobr>u</nobr></div>
+<div style="position:absolute;top:11063;left:85"><nobr>p</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:6px;font-family:Times">
+<div style="position:absolute;top:10989;left:370"><nobr>4KB Unit Size</nobr></div>
+<div style="position:absolute;top:11001;left:370"><nobr>16KB Unit Size</nobr></div>
+<div style="position:absolute;top:11013;left:370"><nobr>64KB Unit Size</nobr></div>
+<div style="position:absolute;top:11025;left:370"><nobr>128KB Unit Size</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:4px;font-family:Times">
+<div style="position:absolute;top:10976;left:274"><nobr>64 68 72 73</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:11px;font-family:Times">
+<div style="position:absolute;top:11241;left:75"><nobr><b>Figure 5. Speedup for the CMP (8 cores) as we vary the</b></nobr></div>
+<div style="position:absolute;top:11259;left:75"><nobr><b>unit size for Map tasks.</b></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:11290;left:75"><nobr>to better performance for some applications as they reduce</nobr></div>
+<div style="position:absolute;top:11308;left:75"><nobr>significantly the portion of time spent on spawning tasks</nobr></div>
+<div style="position:absolute;top:11326;left:75"><nobr>and merging their outputs (fewer tasks). Histogram benefits</nobr></div>
+<div style="position:absolute;top:11344;left:75"><nobr>from larger units because it reduces the number of inter-</nobr></div>
+<div style="position:absolute;top:11362;left:75"><nobr>mediate values to merge across tasks. On the other hand,</nobr></div>
+<div style="position:absolute;top:11380;left:75"><nobr>applications with short term temporal locality in their ac-</nobr></div>
+<div style="position:absolute;top:11398;left:75"><nobr>cess patterns (e.g. Kmeans and MatrixMultiply) perform</nobr></div>
+<div style="position:absolute;top:11416;left:75"><nobr>better with smaller units as they allow tasks to operate on</nobr></div>
+<div style="position:absolute;top:11434;left:75"><nobr>data within their L1 cache or the data for all the active tasks</nobr></div>
+<div style="position:absolute;top:11452;left:75"><nobr>to fit in the shared L2.</nobr></div>
+<div style="position:absolute;top:11471;left:90"><nobr>The current implementation of Phoenix uses the user-</nobr></div>
+<div style="position:absolute;top:11489;left:75"><nobr>supplied unit size or determines the unit size based on the</nobr></div>
+<div style="position:absolute;top:11507;left:75"><nobr>input dataset size and the cache size. A better approach is</nobr></div>
+<div style="position:absolute;top:11525;left:75"><nobr>to use a dynamic framework that discovers the best unit size</nobr></div>
+<div style="position:absolute;top:11543;left:75"><nobr>for each program. At the beginning of a data intensive pro-</nobr></div>
+<div style="position:absolute;top:11561;left:75"><nobr>gram, the runtime can vary the unit size and monitor the</nobr></div>
+<div style="position:absolute;top:11579;left:75"><nobr>trends in the completion time or other performance indica-</nobr></div>
+<div style="position:absolute;top:11597;left:75"><nobr>tors (processor utilization, number of misses, etc.) in order</nobr></div>
+<div style="position:absolute;top:11615;left:75"><nobr>to select the best possible value.</nobr></div>
+<div style="position:absolute;top:11635;left:90"><nobr>The choice of Partition function was not particularly im-</nobr></div>
+<div style="position:absolute;top:11653;left:75"><nobr>portant for the applications we studied as they spend most</nobr></div>
+<div style="position:absolute;top:11671;left:75"><nobr>time on Map tasks. Nevertheless, an imbalanced partition-</nobr></div>
+<div style="position:absolute;top:11688;left:75"><nobr>ing of the intermediate outputs can lead to significant im-</nobr></div>
+<div style="position:absolute;top:11706;left:75"><nobr>balance.</nobr></div>
+<div style="position:absolute;top:11735;left:75"><nobr>5.4 Comparison to Pthreads</nobr></div>
+<div style="position:absolute;top:11762;left:90"><nobr>Figure 6 compares the speedup achieved with the</nobr></div>
+<div style="position:absolute;top:11780;left:75"><nobr>Phoenix and P-threads code for the two systems. All</nobr></div>
+<div style="position:absolute;top:11798;left:75"><nobr>speedups are with respect to the same sequential code. We</nobr></div>
+<div style="position:absolute;top:11816;left:75"><nobr>use 8 cores with the CMP and 24 cores with the SMP</nobr></div>
+<div style="position:absolute;top:11834;left:75"><nobr>(largest possible configurations). The P-threads code uses</nobr></div>
+<div style="position:absolute;top:11852;left:75"><nobr>the lower level API directly and has been manually opti-</nobr></div>
+<div style="position:absolute;top:11870;left:75"><nobr>mized to be as fast as possible. The parallel code man-</nobr></div>
+<div style="position:absolute;top:11888;left:75"><nobr>ages threads directly and does not have to comply with</nobr></div>
+<div style="position:absolute;top:11905;left:75"><nobr>the MapReduce model (computation models, data formats,</nobr></div>
+<div style="position:absolute;top:11923;left:75"><nobr>buffer management approach, final output sorting etc.).</nobr></div>
+<div style="position:absolute;top:10980;left:463"><nobr>Nevertheless, in many cases we re-optimized the P-threads</nobr></div>
+<div style="position:absolute;top:10998;left:463"><nobr>code once we observed how the Phoenix code operates and</nobr></div>
+<div style="position:absolute;top:11016;left:463"><nobr>why it leads to good performance. The only shortcoming of</nobr></div>
+<div style="position:absolute;top:11034;left:463"><nobr>the P-threads code we developed is the use of static schedul-</nobr></div>
+<div style="position:absolute;top:11052;left:463"><nobr>ing for simplicity. The Phoenix system handles dynamic</nobr></div>
+<div style="position:absolute;top:11069;left:463"><nobr>scheduling in the runtime in a manner transparent to the</nobr></div>
+<div style="position:absolute;top:11087;left:463"><nobr>programmer.</nobr></div>
+<div style="position:absolute;top:11108;left:478"><nobr>Figure 6 shows that for five of the applications, Phoenix</nobr></div>
+<div style="position:absolute;top:11126;left:463"><nobr>leads to similar or slightly better speedups. These are the</nobr></div>
+<div style="position:absolute;top:11144;left:463"><nobr>applications that fit naturally into the MapReduce model.</nobr></div>
+<div style="position:absolute;top:11162;left:463"><nobr>Either the data is always associated with keys (e.g., Word-</nobr></div>
+<div style="position:absolute;top:11179;left:463"><nobr>Count) or introducing a key per large block of data does</nobr></div>
+<div style="position:absolute;top:11197;left:463"><nobr>not lead to significant overheads due to key maniputation</nobr></div>
+<div style="position:absolute;top:11215;left:463"><nobr>and sorting (e.g., MatrixMultiply). The fact that Phoenix</nobr></div>
+<div style="position:absolute;top:11233;left:463"><nobr>operates mostly on pointers and avoids actual data copies</nobr></div>
+<div style="position:absolute;top:11251;left:463"><nobr>as much as possible helps reduce its overhead. The exact</nobr></div>
+<div style="position:absolute;top:11269;left:463"><nobr>comparison between Phoenix and P-threads for these appli-</nobr></div>
+<div style="position:absolute;top:11287;left:463"><nobr>cations depends on the usefulness for the specific configu-</nobr></div>
+<div style="position:absolute;top:11305;left:463"><nobr>ration of the dynamic scheduling that Phoenix implements</nobr></div>
+<div style="position:absolute;top:11323;left:463"><nobr>in the runtime. Note that we could change the P-threads</nobr></div>
+<div style="position:absolute;top:11341;left:463"><nobr>code to implement similar dynamic scheduling at the cost</nobr></div>
+<div style="position:absolute;top:11359;left:463"><nobr>of significant programming complexity.</nobr></div>
+<div style="position:absolute;top:11379;left:478"><nobr>For three applications in Figure 6 (Kmeans, PCA, and</nobr></div>
+<div style="position:absolute;top:11397;left:463"><nobr>Histogram), P-threads outperforms Phoenix significantly.</nobr></div>
+<div style="position:absolute;top:11415;left:463"><nobr>For these applications, the MapReduce program structure is</nobr></div>
+<div style="position:absolute;top:11433;left:463"><nobr>not an efficient fit. Kmeans invokes the Phoenix scheduler</nobr></div>
+<div style="position:absolute;top:11451;left:463"><nobr>iteratively, which introduces significant overhead. At the</nobr></div>
+<div style="position:absolute;top:11469;left:463"><nobr>end of each iteration, there is also an expensive operation</nobr></div>
+<div style="position:absolute;top:11487;left:463"><nobr>to translate the output pair format to the input pair format.</nobr></div>
+<div style="position:absolute;top:11505;left:463"><nobr>In addition, the Reduce function frequently performs mem-</nobr></div>
+<div style="position:absolute;top:11523;left:463"><nobr>ory allocation. For PCA, the MapReduce code does not use</nobr></div>
+<div style="position:absolute;top:11541;left:463"><nobr>the original array structure and must track the coordinates</nobr></div>
+<div style="position:absolute;top:11558;left:463"><nobr>for each data point separately. Hence, for each integer in</nobr></div>
+<div style="position:absolute;top:11576;left:463"><nobr>the input set, it must manipulate two other integers. In con-</nobr></div>
+<div style="position:absolute;top:11594;left:463"><nobr>trast, the P-threads code uses direct array accesses and does</nobr></div>
+<div style="position:absolute;top:11612;left:463"><nobr>not experience any additional overhead. For Histogram, the</nobr></div>
+<div style="position:absolute;top:11630;left:463"><nobr>P-threads code does not use keys as the output format is pre-</nobr></div>
+<div style="position:absolute;top:11648;left:463"><nobr>dictable. It also avoids the final sorting of the output data.</nobr></div>
+<div style="position:absolute;top:11668;left:478"><nobr>The conclusion from Figure 6 is that, given an effi-</nobr></div>
+<div style="position:absolute;top:11686;left:463"><nobr>cient implementation, MapReduce is an attractive model for</nobr></div>
+<div style="position:absolute;top:11704;left:463"><nobr>some classes of computation. It leads to good parallel effi-</nobr></div>
+<div style="position:absolute;top:11722;left:463"><nobr>ciency with simple code that is dynamically managed with-</nobr></div>
+<div style="position:absolute;top:11740;left:463"><nobr>out any programmer effort. Nevertheless, its model is not</nobr></div>
+<div style="position:absolute;top:11758;left:463"><nobr>general enough to cover all application domains. While</nobr></div>
+<div style="position:absolute;top:11776;left:463"><nobr>it always leads to significant speedups, it does not always</nobr></div>
+<div style="position:absolute;top:11794;left:463"><nobr>lead to the best possible performance. A good sign is that</nobr></div>
+<div style="position:absolute;top:11812;left:463"><nobr>MapReduce performs suboptimally for applications that are</nobr></div>
+<div style="position:absolute;top:11830;left:463"><nobr>difficult to express with its model anyway.</nobr></div>
+<div style="position:absolute;top:11860;left:463"><nobr>5.5 Fault Recovery</nobr></div>
+<div style="position:absolute;top:11888;left:478"><nobr>Figure 7 presents the results for a fault injection experi-</nobr></div>
+<div style="position:absolute;top:11905;left:463"><nobr>ment on the CMP system. We observed similar results with</nobr></div>
+<div style="position:absolute;top:11923;left:463"><nobr>fault injection experiments on the SMP system. The graphs</nobr></div>
+</span></font>
+
+<div style="position:absolute;top:12055;left:0"><hr><table border="0" width="100%"><tbody><tr><td bgcolor="eeeeee" align="right"><font face="arial,sans-serif"><a name="11"><b>Page 11</b></a></font></td></tr></tbody></table></div><font size="2" face="Times"><span style="font-size:6px;font-family:Times">
+<div style="position:absolute;top:12377;left:103"><nobr>0</nobr></div>
+<div style="position:absolute;top:12343;left:103"><nobr>5</nobr></div>
+<div style="position:absolute;top:12308;left:98"><nobr>10</nobr></div>
+<div style="position:absolute;top:12273;left:98"><nobr>15</nobr></div>
+<div style="position:absolute;top:12238;left:98"><nobr>20</nobr></div>
+<div style="position:absolute;top:12204;left:98"><nobr>25</nobr></div>
+<div style="position:absolute;top:12169;left:98"><nobr>30</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:4px;font-family:Times">
+<div style="position:absolute;top:12386;left:120"><nobr>Wordcount</nobr></div>
+<div style="position:absolute;top:12386;left:160"><nobr>Matrix_mult</nobr></div>
+<div style="position:absolute;top:12386;left:198"><nobr>String_match</nobr></div>
+<div style="position:absolute;top:12386;left:245"><nobr>Kmeans</nobr></div>
+<div style="position:absolute;top:12386;left:278"><nobr>Reverseindex</nobr></div>
+<div style="position:absolute;top:12386;left:330"><nobr>PCA</nobr></div>
+<div style="position:absolute;top:12386;left:362"><nobr>Histogram</nobr></div>
+<div style="position:absolute;top:12386;left:402"><nobr>Linear_reg</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:7px;font-family:Times">
+<div style="position:absolute;top:12302;left:92"><nobr>C</nobr></div>
+<div style="position:absolute;top:12295;left:92"><nobr>M</nobr></div>
+<div style="position:absolute;top:12287;left:92"><nobr>P</nobr></div>
+<div style="position:absolute;top:12278;left:92"><nobr>S</nobr></div>
+<div style="position:absolute;top:12271;left:92"><nobr>p</nobr></div>
+<div style="position:absolute;top:12265;left:92"><nobr>e</nobr></div>
+<div style="position:absolute;top:12260;left:92"><nobr>e</nobr></div>
+<div style="position:absolute;top:12255;left:92"><nobr>d</nobr></div>
+<div style="position:absolute;top:12249;left:92"><nobr>u</nobr></div>
+<div style="position:absolute;top:12243;left:92"><nobr>p</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:5px;font-family:Times">
+<div style="position:absolute;top:12179;left:400"><nobr>Pthreads</nobr></div>
+<div style="position:absolute;top:12198;left:400"><nobr>Phoenix</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:4px;font-family:Times">
+<div style="position:absolute;top:12164;left:287"><nobr>52 72</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:6px;font-family:Times">
+<div style="position:absolute;top:12378;left:472"><nobr>0</nobr></div>
+<div style="position:absolute;top:12343;left:472"><nobr>5</nobr></div>
+<div style="position:absolute;top:12309;left:468"><nobr>10</nobr></div>
+<div style="position:absolute;top:12275;left:468"><nobr>15</nobr></div>
+<div style="position:absolute;top:12241;left:468"><nobr>20</nobr></div>
+<div style="position:absolute;top:12206;left:468"><nobr>25</nobr></div>
+<div style="position:absolute;top:12172;left:468"><nobr>30</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:4px;font-family:Times">
+<div style="position:absolute;top:12386;left:490"><nobr>Wordcount</nobr></div>
+<div style="position:absolute;top:12386;left:530"><nobr>Matrix_mult</nobr></div>
+<div style="position:absolute;top:12386;left:568"><nobr>String_match</nobr></div>
+<div style="position:absolute;top:12386;left:615"><nobr>Kmeans</nobr></div>
+<div style="position:absolute;top:12386;left:649"><nobr>Reverseindex</nobr></div>
+<div style="position:absolute;top:12386;left:701"><nobr>PCA</nobr></div>
+<div style="position:absolute;top:12386;left:734"><nobr>Histogram</nobr></div>
+<div style="position:absolute;top:12386;left:774"><nobr>Linear_reg</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:7px;font-family:Times">
+<div style="position:absolute;top:12303;left:464"><nobr>S</nobr></div>
+<div style="position:absolute;top:12297;left:464"><nobr>M</nobr></div>
+<div style="position:absolute;top:12289;left:464"><nobr>P</nobr></div>
+<div style="position:absolute;top:12280;left:464"><nobr>S</nobr></div>
+<div style="position:absolute;top:12273;left:464"><nobr>p</nobr></div>
+<div style="position:absolute;top:12267;left:464"><nobr>e</nobr></div>
+<div style="position:absolute;top:12262;left:464"><nobr>e</nobr></div>
+<div style="position:absolute;top:12257;left:464"><nobr>d</nobr></div>
+<div style="position:absolute;top:12251;left:464"><nobr>u</nobr></div>
+<div style="position:absolute;top:12245;left:464"><nobr>p</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:5px;font-family:Times">
+<div style="position:absolute;top:12182;left:772"><nobr>Pthreads</nobr></div>
+<div style="position:absolute;top:12199;left:772"><nobr>Phoenix</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:4px;font-family:Times">
+<div style="position:absolute;top:12166;left:658"><nobr>38 39</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:11px;font-family:Times">
+<div style="position:absolute;top:12417;left:150"><nobr><b>Figure 6. Phoenix Vs. Pthreads speedup for the CMP (8 cores) and SMP (24 cores) systems.</b></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:6px;font-family:Times">
+<div style="position:absolute;top:12669;left:90"><nobr>0.90</nobr></div>
+<div style="position:absolute;top:12627;left:90"><nobr>0.95</nobr></div>
+<div style="position:absolute;top:12586;left:90"><nobr>1.00</nobr></div>
+<div style="position:absolute;top:12545;left:90"><nobr>1.05</nobr></div>
+<div style="position:absolute;top:12504;left:90"><nobr>1.10</nobr></div>
+<div style="position:absolute;top:12462;left:90"><nobr>1.15</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:5px;font-family:Times">
+<div style="position:absolute;top:12680;left:147"><nobr>WordCount</nobr></div>
+<div style="position:absolute;top:12680;left:253"><nobr>StringMatch</nobr></div>
+<div style="position:absolute;top:12680;left:358"><nobr>ReverseIndex</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:6px;font-family:Times">
+<div style="position:absolute;top:12634;left:84"><nobr>N</nobr></div>
+<div style="position:absolute;top:12627;left:84"><nobr>o</nobr></div>
+<div style="position:absolute;top:12622;left:84"><nobr>rm</nobr></div>
+<div style="position:absolute;top:12611;left:84"><nobr>a</nobr></div>
+<div style="position:absolute;top:12606;left:84"><nobr>liz</nobr></div>
+<div style="position:absolute;top:12597;left:84"><nobr>e</nobr></div>
+<div style="position:absolute;top:12592;left:84"><nobr>d</nobr></div>
+<div style="position:absolute;top:12584;left:84"><nobr>E</nobr></div>
+<div style="position:absolute;top:12578;left:84"><nobr>x</nobr></div>
+<div style="position:absolute;top:12573;left:84"><nobr>e</nobr></div>
+<div style="position:absolute;top:12568;left:84"><nobr>c</nobr></div>
+<div style="position:absolute;top:12563;left:84"><nobr>u</nobr></div>
+<div style="position:absolute;top:12558;left:84"><nobr>tio</nobr></div>
+<div style="position:absolute;top:12547;left:84"><nobr>n</nobr></div>
+<div style="position:absolute;top:12540;left:84"><nobr>T</nobr></div>
+<div style="position:absolute;top:12534;left:84"><nobr>im</nobr></div>
+<div style="position:absolute;top:12524;left:84"><nobr>e</nobr></div>
+<div style="position:absolute;top:12517;left:84"><nobr>(C</nobr></div>
+<div style="position:absolute;top:12507;left:84"><nobr>MP</nobr></div>
+<div style="position:absolute;top:12494;left:84"><nobr>)</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:5px;font-family:Times">
+<div style="position:absolute;top:12446;left:153"><nobr>No Faults</nobr></div>
+<div style="position:absolute;top:12446;left:197"><nobr>1 Permanent Fault</nobr></div>
+<div style="position:absolute;top:12446;left:270"><nobr>1 Transient Fault</nobr></div>
+<div style="position:absolute;top:12446;left:338"><nobr>2 Transient Faults</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:11px;font-family:Times">
+<div style="position:absolute;top:12709;left:75"><nobr><b>Figure 7. Normalized execution time in the presence of</b></nobr></div>
+<div style="position:absolute;top:12727;left:75"><nobr><b>transient and permanent faults for the CMP with 8 cores.</b></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:12771;left:75"><nobr>represent normalized execution time, hence lower is better.</nobr></div>
+<div style="position:absolute;top:12789;left:75"><nobr>For the case of a permanent error, a core in the system stops</nobr></div>
+<div style="position:absolute;top:12806;left:75"><nobr>responding at an arbitrary point within the program execu-</nobr></div>
+<div style="position:absolute;top:12824;left:75"><nobr>tion. For the case of a transient error, an arbitrary Map or</nobr></div>
+<div style="position:absolute;top:12842;left:75"><nobr>Reduce task fails to finish, but the core it was assigned to</nobr></div>
+<div style="position:absolute;top:12860;left:75"><nobr>remains functional. In both cases, the failure affects the</nobr></div>
+<div style="position:absolute;top:12878;left:75"><nobr>execution and buffers for the tasks, but does not corrupt</nobr></div>
+<div style="position:absolute;top:12896;left:75"><nobr>the runtime or its data structures (see discussion in Section</nobr></div>
+<div style="position:absolute;top:12914;left:75"><nobr>3.2.3).</nobr></div>
+<div style="position:absolute;top:12932;left:90"><nobr>The first important result from Figure 7 is that the</nobr></div>
+<div style="position:absolute;top:12950;left:75"><nobr>Phoenix runtime detects both types of faults through time-</nobr></div>
+<div style="position:absolute;top:12968;left:75"><nobr>outs and recovers to complete the execution correctly. Fail-</nobr></div>
+<div style="position:absolute;top:12986;left:75"><nobr>ure recovery is completely transparent to the application de-</nobr></div>
+<div style="position:absolute;top:13004;left:75"><nobr>veloper. In the case of the permanent error, the runtime does</nobr></div>
+<div style="position:absolute;top:13022;left:75"><nobr>not assign further tasks to the faulty core. Hence, execution</nobr></div>
+<div style="position:absolute;top:13040;left:75"><nobr>time increases by 9% to 14%, depending at which point the</nobr></div>
+<div style="position:absolute;top:13058;left:75"><nobr>fault occured within the program execution and how well</nobr></div>
+<div style="position:absolute;top:13076;left:75"><nobr>was the core utilized by the application. With a lower pro-</nobr></div>
+<div style="position:absolute;top:13093;left:75"><nobr>cessor count, the impact of a core failure is higher. In the</nobr></div>
+<div style="position:absolute;top:13111;left:75"><nobr>case of a transient fault, the runtime simply re-executes the</nobr></div>
+<div style="position:absolute;top:12447;left:463"><nobr>faulty task and integrates its output with the rest of the data.</nobr></div>
+<div style="position:absolute;top:12465;left:463"><nobr>Since the overall number of tasks is large, one or two failed</nobr></div>
+<div style="position:absolute;top:12483;left:463"><nobr>tasks does not affect execution time by more than 0.5%. In</nobr></div>
+<div style="position:absolute;top:12501;left:463"><nobr>other words, once Map and Reduce tasks are sized for con-</nobr></div>
+<div style="position:absolute;top:12519;left:463"><nobr>currency and locality, they are also efficient units for failure</nobr></div>
+<div style="position:absolute;top:12537;left:463"><nobr>recovery.</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:15px;font-family:Times">
+<div style="position:absolute;top:12563;left:463"><nobr>6 Related Work</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:12591;left:478"><nobr>MapReduce is similar to models that employ scan prim-</nobr></div>
+<div style="position:absolute;top:12609;left:463"><nobr>itives or parallel prefix schemes to express parallel compu-</nobr></div>
+<div style="position:absolute;top:12627;left:463"><nobr>tations [17, 4]. Dubey has recently suggested the use of</nobr></div>
+<div style="position:absolute;top:12645;left:463"><nobr>similar primitives in order to easily parallelize and schedule</nobr></div>
+<div style="position:absolute;top:12663;left:463"><nobr>recognition, mining, and synthesis computations [9]. Con-</nobr></div>
+<div style="position:absolute;top:12680;left:463"><nobr>cepts similar to MapReduce have also been employed in</nobr></div>
+<div style="position:absolute;top:12698;left:463"><nobr>application-specific systems [19].</nobr></div>
+<div style="position:absolute;top:12717;left:478"><nobr>The recent turn towards multi-core chips has sparked sig-</nobr></div>
+<div style="position:absolute;top:12735;left:463"><nobr>nificant work on novel programming models and runtime</nobr></div>
+<div style="position:absolute;top:12753;left:463"><nobr>systems. StreamIt uses a synchronous data-flow model that</nobr></div>
+<div style="position:absolute;top:12771;left:463"><nobr>allows a compiler to automatically map a streaming pro-</nobr></div>
+<div style="position:absolute;top:12789;left:463"><nobr>gram to a multi-core system [13]. The Click language</nobr></div>
+<div style="position:absolute;top:12807;left:463"><nobr>for network routes is also based on data-flow concepts and</nobr></div>
+<div style="position:absolute;top:12824;left:463"><nobr>is amenable to optimizations and static scheduling by the</nobr></div>
+<div style="position:absolute;top:12842;left:463"><nobr>compiler [15]. The Data-Demultiplexing approach com-</nobr></div>
+<div style="position:absolute;top:12860;left:463"><nobr>bines data-flow execution with speculative parallelization of</nobr></div>
+<div style="position:absolute;top:12878;left:463"><nobr>sequential programs [2]. Demultiplexed functions are spec-</nobr></div>
+<div style="position:absolute;top:12896;left:463"><nobr>ulatively executed as soon as their inputs are ready. Lan-</nobr></div>
+<div style="position:absolute;top:12914;left:463"><nobr>guages based on transactional memory introduce database</nobr></div>
+<div style="position:absolute;top:12932;left:463"><nobr>semantics for concurrency control to multithreaded pro-</nobr></div>
+<div style="position:absolute;top:12950;left:463"><nobr>gramming [14, 5]. Cilk is a faithful extension of C for mul-</nobr></div>
+<div style="position:absolute;top:12968;left:463"><nobr>tithreading that uses asynchronous parallelism and an effi-</nobr></div>
+<div style="position:absolute;top:12986;left:463"><nobr>cient work-stealing schedule [11]. There are also propos-</nobr></div>
+<div style="position:absolute;top:13004;left:463"><nobr>als for langauges based on partitioned global address space</nobr></div>
+<div style="position:absolute;top:13022;left:463"><nobr>that provide the programmer with explicit or implicit con-</nobr></div>
+<div style="position:absolute;top:13040;left:463"><nobr>trol over locality in large parallel systems [6, 1, 7]. Finally,</nobr></div>
+<div style="position:absolute;top:13058;left:463"><nobr>there are also mature commercial models for parallel pro-</nobr></div>
+<div style="position:absolute;top:13076;left:463"><nobr>gramming on shared memory systems such as OpenMP that</nobr></div>
+<div style="position:absolute;top:13093;left:463"><nobr>uses high-level directives to specify fork-join parallelism</nobr></div>
+<div style="position:absolute;top:13111;left:463"><nobr>from loops or independent tasks [22].</nobr></div>
+</span></font>
+
+<div style="position:absolute;top:13243;left:0"><hr><table border="0" width="100%"><tbody><tr><td bgcolor="eeeeee" align="right"><font face="arial,sans-serif"><a name="12"><b>Page 12</b></a></font></td></tr></tbody></table></div><font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:13356;left:90"><nobr>It is too early to discuss the applicability and practical</nobr></div>
+<div style="position:absolute;top:13374;left:75"><nobr>success of each approach. It is likely that multiple models</nobr></div>
+<div style="position:absolute;top:13392;left:75"><nobr>will succeed, each in a separate application domain. Apart</nobr></div>
+<div style="position:absolute;top:13410;left:75"><nobr>from ease-of-use and scalability, two factors that may affect</nobr></div>
+<div style="position:absolute;top:13428;left:75"><nobr>their acceptance is how well they run on existing hardware</nobr></div>
+<div style="position:absolute;top:13445;left:75"><nobr>and if they can tolerate errors. Phoenix runs on stock hard-</nobr></div>
+<div style="position:absolute;top:13463;left:75"><nobr>ware and automatically provides fault recovery for map and</nobr></div>
+<div style="position:absolute;top:13481;left:75"><nobr>reduce tasks.</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:15px;font-family:Times">
+<div style="position:absolute;top:13515;left:75"><nobr>7 Conclusions</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:13547;left:90"><nobr>This paper evaluated the suitability of MapReduce as a</nobr></div>
+<div style="position:absolute;top:13565;left:75"><nobr>programming environment for shared-memory systems. We</nobr></div>
+<div style="position:absolute;top:13583;left:75"><nobr>described Phoenix, an implementation of MapReduce that</nobr></div>
+<div style="position:absolute;top:13601;left:75"><nobr>uses shared memory in order to minimize the overheads</nobr></div>
+<div style="position:absolute;top:13619;left:75"><nobr>of task spawning and data communication. With Phoenix,</nobr></div>
+<div style="position:absolute;top:13637;left:75"><nobr>the programmer provides a simple, functional expression</nobr></div>
+<div style="position:absolute;top:13655;left:75"><nobr>of the algorithm and leaves parallelization and scheduling</nobr></div>
+<div style="position:absolute;top:13673;left:75"><nobr>to the runtime system. We showed that Phoenix leads to</nobr></div>
+<div style="position:absolute;top:13690;left:75"><nobr>scalable performance for both multi-core chips and con-</nobr></div>
+<div style="position:absolute;top:13708;left:75"><nobr>ventional symmetric multiprocessors. Phoenix automati-</nobr></div>
+<div style="position:absolute;top:13726;left:75"><nobr>cally handles key scheduling decisions during parallel ex-</nobr></div>
+<div style="position:absolute;top:13744;left:75"><nobr>ecution. It can also recover from transient and permanent</nobr></div>
+<div style="position:absolute;top:13762;left:75"><nobr>errors in Map and Reduce tasks. We compared the perfor-</nobr></div>
+<div style="position:absolute;top:13780;left:75"><nobr>mance of Phoenix to that of parallel code written directly</nobr></div>
+<div style="position:absolute;top:13798;left:75"><nobr>in P-threads. Despite runtime overheads, Phoenix leads to</nobr></div>
+<div style="position:absolute;top:13816;left:75"><nobr>similar performance for most applications. Nevertheless,</nobr></div>
+<div style="position:absolute;top:13834;left:75"><nobr>there are also applications that do not fit naturally in the</nobr></div>
+<div style="position:absolute;top:13852;left:75"><nobr>MapReduce model for which P-threads code performs sig-</nobr></div>
+<div style="position:absolute;top:13870;left:75"><nobr>nificantly better.</nobr></div>
+<div style="position:absolute;top:13891;left:90"><nobr>Overall, this work establishes that MapReduce provides</nobr></div>
+<div style="position:absolute;top:13909;left:75"><nobr>a useful programming and concurrency management ap-</nobr></div>
+<div style="position:absolute;top:13927;left:75"><nobr>proach for shared-memory systems.</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:15px;font-family:Times">
+<div style="position:absolute;top:13957;left:75"><nobr>References</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:11px;font-family:Times">
+<div style="position:absolute;top:13988;left:82"><nobr>[1] E. Allen et al. The Fortress Language Specification. Sun</nobr></div>
+<div style="position:absolute;top:14004;left:105"><nobr>Microsystems, 2005.</nobr></div>
+<div style="position:absolute;top:14021;left:82"><nobr>[2] S. Balakrishnan and G. S. Sohi. Program Demultiplexing:</nobr></div>
+<div style="position:absolute;top:14037;left:105"><nobr>Data-flow based Speculative Parallelization of Methods in</nobr></div>
+<div style="position:absolute;top:14054;left:105"><nobr>Sequential Programs. In the Proceedings of the 33rd Intl.</nobr></div>
+<div style="position:absolute;top:14070;left:105"><nobr>Symp. on Computer Architecture, June 2006.</nobr></div>
+<div style="position:absolute;top:14087;left:82"><nobr>[3] L. Barroso et al. Web Search for a Planet: The Google Clus-</nobr></div>
+<div style="position:absolute;top:14103;left:105"><nobr>ter Architecture. IEEE Micro, 23(2), Mar. 2003.</nobr></div>
+<div style="position:absolute;top:14120;left:82"><nobr>[4] G. E. Blelloch. Scans as Primitive Parallel Operations. IEEE</nobr></div>
+<div style="position:absolute;top:14136;left:105"><nobr>Transactions on Computers, 38(11), Nov. 1989.</nobr></div>
+<div style="position:absolute;top:14152;left:82"><nobr>[5] B. D. Carlstrom et al. The Atomos Transactional Program-</nobr></div>
+<div style="position:absolute;top:14169;left:105"><nobr>ming Language. In the Proceedings of the Conf. on Program-</nobr></div>
+<div style="position:absolute;top:14185;left:105"><nobr>ming Language Design and Implementation, June 2006.</nobr></div>
+<div style="position:absolute;top:14202;left:82"><nobr>[6] P. Charles et al. X10: an Object-oriented Approach to Non-</nobr></div>
+<div style="position:absolute;top:14218;left:105"><nobr>uniform Cluster Computing. In the Proceedings of the 20th</nobr></div>
+<div style="position:absolute;top:14235;left:105"><nobr>Conf. on Object Oriented Programming Systems Languages</nobr></div>
+<div style="position:absolute;top:14251;left:105"><nobr>and Applications, Oct. 2005.</nobr></div>
+<div style="position:absolute;top:14268;left:82"><nobr>[7] Cray. Chapel Specification. Feb. 2005.</nobr></div>
+<div style="position:absolute;top:14284;left:82"><nobr>[8] J. Dean and J. Ghemawat. MapReduce: Simplified Data Pro-</nobr></div>
+<div style="position:absolute;top:14300;left:105"><nobr>cessing on Large Clusters. In the Proceedings of the 6th</nobr></div>
+<div style="position:absolute;top:13357;left:493"><nobr>Symp. on Operating Systems Design and Implementation,</nobr></div>
+<div style="position:absolute;top:13373;left:493"><nobr>Dec. 2004.</nobr></div>
+<div style="position:absolute;top:13390;left:470"><nobr>[9] P. Dubey. Recognition, Mining, and Synthesis Moves Com-</nobr></div>
+<div style="position:absolute;top:13406;left:493"><nobr>puters to the Era of Tera. Technology@Intel Magazine, Feb.</nobr></div>
+<div style="position:absolute;top:13423;left:493"><nobr>2005.</nobr></div>
+<div style="position:absolute;top:13439;left:463"><nobr>[10] M. Ekman and P. Stenstrom. A Robust Main-Memory Com-</nobr></div>
+<div style="position:absolute;top:13455;left:493"><nobr>pression Scheme. In the Proceedings of the 32nd Intl. Symp.</nobr></div>
+<div style="position:absolute;top:13472;left:493"><nobr>on Computer Architecture, June 2005.</nobr></div>
+<div style="position:absolute;top:13488;left:463"><nobr>[11] M. Frigo et al. The Implementation of the Cilk-5 Mul-</nobr></div>
+<div style="position:absolute;top:13505;left:493"><nobr>tithreaded Language. In the Proceedings of the Conf. on</nobr></div>
+<div style="position:absolute;top:13521;left:493"><nobr>Programming Language Design and Implementation, June</nobr></div>
+<div style="position:absolute;top:13538;left:493"><nobr>1998.</nobr></div>
+<div style="position:absolute;top:13554;left:463"><nobr>[12] S. Ghemawat, H. Gobioff, and S.-T. Leung. The Google File</nobr></div>
+<div style="position:absolute;top:13571;left:493"><nobr>System. In the Proceedings of the 9th Symp. on Operating</nobr></div>
+<div style="position:absolute;top:13587;left:493"><nobr>Systems Principles, Oct. 2003.</nobr></div>
+<div style="position:absolute;top:13603;left:463"><nobr>[13] M. I. Gordon et al. A Stream Compiler for Communication-</nobr></div>
+<div style="position:absolute;top:13620;left:493"><nobr>exposed Architectures. In the Proceedings of the 10th Intl.</nobr></div>
+<div style="position:absolute;top:13636;left:493"><nobr>Conf. on Architectural Support for Programming Languages</nobr></div>
+<div style="position:absolute;top:13653;left:493"><nobr>and Operating Systems, Oct. 2002.</nobr></div>
+<div style="position:absolute;top:13669;left:463"><nobr>[14] T. Harris and K. Fraser. Language Support for Lightweight</nobr></div>
+<div style="position:absolute;top:13686;left:493"><nobr>Transactions. In the Proceedings of the 18th Conf. on Object-</nobr></div>
+<div style="position:absolute;top:13702;left:493"><nobr>oriented Programing, Systems, Languages, and Applica-</nobr></div>
+<div style="position:absolute;top:13719;left:493"><nobr>tions, Oct. 2003.</nobr></div>
+<div style="position:absolute;top:13735;left:463"><nobr>[15] E. Kohler et al. Programming Language Optimizations for</nobr></div>
+<div style="position:absolute;top:13751;left:493"><nobr>Modular Router Configurations. In Proceedings of the 10th</nobr></div>
+<div style="position:absolute;top:13768;left:493"><nobr>Intl. Conf. on Architectural Support for Programming Lan-</nobr></div>
+<div style="position:absolute;top:13784;left:493"><nobr>guages and Operating Systems, Oct. 2002.</nobr></div>
+<div style="position:absolute;top:13801;left:463"><nobr>[16] P. Kongetira et al. Niagara: A 32-Way Multithreaded Sparc</nobr></div>
+<div style="position:absolute;top:13817;left:493"><nobr>Processor. IEEE MICRO, 25(2), March 2005.</nobr></div>
+<div style="position:absolute;top:13834;left:463"><nobr>[17] R. E. Ladner and M. J. Fischer. Parallel Prefix Computation.</nobr></div>
+<div style="position:absolute;top:13850;left:493"><nobr>Journal of the ACM, 27(4), Oct. 1980.</nobr></div>
+<div style="position:absolute;top:13866;left:463"><nobr>[18] B. Lewis and D. J. Berg. Multithreaded Programming with</nobr></div>
+<div style="position:absolute;top:13883;left:493"><nobr>Pthreads. Prentice Hall, 1998.</nobr></div>
+<div style="position:absolute;top:13899;left:463"><nobr>[19] M. Linderman and T. Meng. A Low Power Merge Cell Pro-</nobr></div>
+<div style="position:absolute;top:13916;left:493"><nobr>cessor for Real-Time Spike Sorting in Implantable Neural</nobr></div>
+<div style="position:absolute;top:13932;left:493"><nobr>Prostheses. In the Proceedings of the Intl. Symp. on Circuits</nobr></div>
+<div style="position:absolute;top:13949;left:493"><nobr>and Systems, May 2006.</nobr></div>
+<div style="position:absolute;top:13965;left:463"><nobr>[20] S. Mitra et al. Robust System Design with Built-In Soft-Error</nobr></div>
+<div style="position:absolute;top:13981;left:493"><nobr>Resilience. IEEE Computer, 38(2), Feb. 2005.</nobr></div>
+<div style="position:absolute;top:13998;left:463"><nobr>[21] S. S. Mukherjee et al. Detailed Design and Evaluation of</nobr></div>
+<div style="position:absolute;top:14014;left:493"><nobr>Redundant Multithreading Alternatives. In the Proceedings</nobr></div>
+<div style="position:absolute;top:14031;left:493"><nobr>of the 29th Intl. Symp. on Computer architecture, May 2002.</nobr></div>
+<div style="position:absolute;top:14047;left:463"><nobr>[22] OpenMP Architecture Review Board. OpenMP Application</nobr></div>
+<div style="position:absolute;top:14064;left:493"><nobr>Program Interface, v. 2.5, May 2005.</nobr></div>
+<div style="position:absolute;top:14080;left:463"><nobr>[23] S. Rixner. Stream Processor Architecture. Kluwer, 2002.</nobr></div>
+<div style="position:absolute;top:14097;left:463"><nobr>[24] J. C. Smolens et al. Fingerprinting: Bounding Soft-error De-</nobr></div>
+<div style="position:absolute;top:14113;left:493"><nobr>tection Latency and Bandwidth. In Proceedings of the 11th</nobr></div>
+<div style="position:absolute;top:14130;left:493"><nobr>Intl. Conf. on Architectural Support for Programming Lan-</nobr></div>
+<div style="position:absolute;top:14146;left:493"><nobr>guages and Operating Systems, Oct. 2004.</nobr></div>
+<div style="position:absolute;top:14162;left:463"><nobr>[25] Z. Wang et al. Using the Compiler to Improve Cache Re-</nobr></div>
+<div style="position:absolute;top:14179;left:493"><nobr>placement Decisions. In the Proceedings of the Intl. Conf.</nobr></div>
+<div style="position:absolute;top:14195;left:493"><nobr>on Parallel Architectures and Compilation Techniques, Sept.</nobr></div>
+<div style="position:absolute;top:14212;left:493"><nobr>2002.</nobr></div>
+</span></font>
+<!-- t45578r14a13c32171e32117n40u1l0m0k0 -->
+
+
+</div></body></html>
