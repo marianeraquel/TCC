@@ -1,7 +1,7 @@
 <project basedir="." default="build" name="QuickSort">
 
 	<property name="project.name" value="QuickSort" />
-	<property name="main.class" value="quicksort.QuickSortJob" />
+	<property name="main.class" value="quicksort.QuickSort" />
 
 
 	<property name="external.lib.dir" value="../../HadoopLibrary" />

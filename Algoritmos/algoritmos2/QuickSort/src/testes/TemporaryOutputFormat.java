@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package quicksort;
+package testes;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
