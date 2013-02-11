@@ -1,11 +1,15 @@
-\chapter{Computação Paralela}
-\label{cap:referencial}
+%
+% Documento: Fundamentação Teórica
+%
+
+\chapter{Fundamentação Teórica}
+\label{chap:fundamentacaoTeorica}
 
 Esse capítulo aborda os principais conceitos da computação paralela envolvidos no trabalho, incluindo definições e métricas de avaliação de programas paralelos,
 princípios do processamento paralelo de grandes volumes de dados em \textit{clusters}, o modelo MapReduce e sua implementação de código aberto Hadoop.
 
 
-\section{Computação Paralela e Métricas de Desempenho}
+\section{Computação Paralela}
 \label{sec:computacaoparalela}
 
 A computação paralela constitui-se de uma coleção de elementos de processamento que se comunicam e cooperam entre si e com isso resolvem um problema de maneira mais rápida \cite{Almasi:1994}. Mesmo com o avanço tecnológico das últimas décadas, as arquiteturas de Von Neumann demostram limitações quando utilizadas por aplicações que necessitam de grande poder computacional. Essas limitações impulsionaram a utilização da computação paralela, com o objetivo de aumentar a capacidade de processamento das máquinas.
@@ -22,7 +26,11 @@ Manter a confiabilidade do sistema é essencial, pois ao se introduzir paralelis
 Outro desafio é minimizar o tempo de desenvolvimento, já que muitas vezes o desenvolvimento paralelo é mais complexo que o sequencial e demanda, do desenvolvedor, conhecimento prévio de paralelismo. Em geral, é preciso maior tempo para escrever o código e a depuração é mais trabalhosa, 	diversos testes devem ser feitos no sistema, o que pode dispender maior tempo.
 
 O bom desempenho da aplicação é um dos objetivos centrais da paralelização, mas pode ser comprometido por comunicação excessiva ou balanceamento irregular de carga. O balanceamento de carga busca atingir um aproveitamento ótimo dos recursos do sistema, alocando tarefas de forma a obter o mesmo nível de esforço em todos os processadores.  A comunicação e sincronização de tarefas devem ser minimizadas pelo desenvolvedor, pois são tipicamente as maiores barreiras para se atingir grande desempenho em programas paralelos.
-Após o desenvolvimento de uma aplicação paralela é importante avaliar se os tempos de execução paralelos são menores que os sequenciais e quão menores são esses tempos, com o uso de indicadores de desempenho. Para avaliar o desempenho de algoritmos paralelos, algumas das principais métricas utilizadas são o \textit{speedup}, a eficiência e a lei de Amdahl \cite{Rauber:2010, Breshears:2009}.
+Após o desenvolvimento de uma aplicação paralela é importante avaliar se os tempos de execução paralelos são menores que os sequenciais e quão menores são esses tempos, com o uso de indicadores de desempenho. A próxima seção apresenta os principais indicadores utilizados para esse propósito.  
+
+\subsection{Métricas de Desempenho}
+
+Para avaliar o desempenho de algoritmos paralelos, algumas das principais métricas utilizadas são o \textit{speedup}, a eficiência e a lei de Amdahl \cite{Rauber:2010, Breshears:2009}.
 
 O \textit{speedup} (S$_p$) é uma métrica que informa quão mais rápida é a aplicação paralela, em comparação com sua versão sequencial. Para isso, determina a relação existente entre o tempo gasto para executar um algoritmo  em um único processador (T$_{sequencial}$) e o tempo gasto para executá-lo em $p$ processadores (T$_{paralelo}$) \cite{Rauber:2010}: 
 \[ S_p = \frac{T_{sequencial}}{T_{paralelo}} \]	
@@ -83,8 +91,7 @@ Dentre algumas características observadas em um \textit{cluster}, é possível 
 Apesar dos computadores em um \textit{cluster} não precisarem processar necessariamente a mesma aplicação, a grande vantagem de tal organização é a habilidade de cada nó processar individualmente uma fração da aplicação, resultando em desempenho que pode ser comparado ao de um supercomputador.
 Em geral os computadores de \textit{clusters} são de baixo custo, o que permite que um grande número de máquinas seja interligado, garantindo desempenho e melhor custo-benefício que os supercomputadores, o que apresenta outra vantagem. Além disso, novas máquinas podem ser facilmente incorporadas  ao \textit{cluster}, tornando-o uma solução mais flexível, principalmente por ser formado por máquinas de capacidade de processamento similar.
 
-O bom desempenho das aplicações em \textit{clusters} envolve conceitos relacionados à infraestrutura, principalmente comunicação entre os nós e balanceamento de carga.
-Para que o processamento do \textit{cluster} possa ser utilizado de maneira eficiente, é importante que os dados a serem processados sejam transferidos rapidamente pelas de redes de alta velocidade, para evitar que os processadores fiquem ociosos, subutilizando o poder de processamento do \textit{cluster}\cite{Rauber:2010}. 
+O bom desempenho das aplicações em \textit{clusters} depende diretamente de fatores como o balanceamento de carga e infraestrutura, principalmente a comunicação entre os nós. A carga balanceada é essencial para que cada processador receba aproximadamente a mesma carga de dados, e o tempo de execução total não seja alterado pela sobrecarga em um único processador. Para que o processamento do \textit{cluster} possa ser utilizado de maneira eficiente, é importante também que os dados a serem processados sejam transferidos rapidamente pelas de redes de alta velocidade, para evitar que os processadores fiquem ociosos, subutilizando o poder de processamento do \textit{cluster}\cite{Rauber:2010}. 
 
 
 \subsection{Computação paralela em grandes volumes de dados}
@@ -132,10 +139,10 @@ Os Algoritmos \ref{funcaoMap} e \ref{funcaoReduce} apresentam um exemplo de uso 
 %	emit (palavra, total)
 %\end{lstlisting}
 
-\SetAlCapSkip{0.6cm}
+%\SetAlCapSkip{0.6cm}
 
 \begin{algorithm}	
-\DontPrintSemicolon
+%\DontPrintSemicolon
 	\SetKw{In}{in}
 	\SetKwFunction{Emit}{Emit}
 	\SetKwFunction{Split}{Split}
@@ -155,7 +162,7 @@ Os Algoritmos \ref{funcaoMap} e \ref{funcaoReduce} apresentam um exemplo de uso 
 \end{algorithm}
 
 \begin{algorithm}	 
-\DontPrintSemicolon
+%\DontPrintSemicolon
 	\SetKw{In}{in}
 	\SetKwFunction{Emit}{Emit}
 	\SetKwBlock{Begin}{Function Reduce (String chave, Iterator valores)}{end}
@@ -263,3 +270,11 @@ O HDFS incorpora funcionalidades que têm grande impacto no desempenho geral do 
 Uma delas é conhecida como \textit{rack awareness}. Com esse recurso, o sistema de arquivos é capaz de identificar os nós escravos que pertencem a um mesmo \textit{rack}, e distribuir as réplicas de maneira a melhorar o desempenho e a confiabilidade do sistema.
 Outra funcionalidade é a distribuição das tarefas considerando localização dos dados nos nós. O sistema de arquivos procura manter um balanceamento na ocupação das unidades de armazenamento, e o \textit{framework} busca atribuir tarefas a um escravo que possua, em sua unidade de armazenamento local, os dados que devem ser processados.
 Assim, quando executa-se grandes operações MapReduce com um número significativo de nós, a maioria dos dados são lidos localmente e o consumo de banda é mínimo.
+
+\subsection{Considerações Finais}
+
+O MapReduce, e sua versão \textit{open source} Hadoop são atualmente os principais modelos de programação paralela especialmente desenvolvido para processar grandes volumes de dados. Diversos problemas reais podem ser descritos na forma de programação utilizada no modelo, tais como indexação, processamento de texto e algoritmos em grafos, mas o próprio conceito em que se constrói o modelo cria limitações, de forma que sua aplicação não é possível para qualquer tipo de problema. 
+
+A ordenação de dados é parte fundamental do MapReduce. Mesmo que o objetivo do algoritmo desenvolvido não seja ordenar, é possível utilizar a capacidade do MapReduce de ordenar para organizar os dados.
+
+O funcionamento básico do modelo MapReduce, que consiste na leitura, processamento e escrita de arquivos é uma solução adequada ao problema de ordenação de dados, abordado neste trabalho. 

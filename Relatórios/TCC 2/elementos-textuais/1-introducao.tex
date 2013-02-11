@@ -1,30 +1,28 @@
-\chapter{Introdução}
-\label{cap:introducao}
+%
+% Documento: Introdução
+%
 
-%\textit{Fazer aqui uma introdução geral da área do conhecimento à qual o tema escolhido está ligado.} 
+\chapter{Introdução}\label{chap:introducao}
 
 Esse capítulo apresenta o contexto da computação que torna relevante o estudo e a comparação de algoritmos de ordenação paralela no modelo MapReduce, sobretudo na implementação Hadoop; o crescimento de dados que contribuiu para a necessidade de mudança da computação sequencial para a computação paralela e a importância dos algoritmos de ordenação, utilizados em diversas aplicações. Adicionalmente, busca delimitar o tema a ser tratado, os objetivos do trabalho e sua estrutura de capítulos.  
 
 
-%Com o esgotamento das possibilidades de evolução da computação sequencial a computação paralela se tornou a alternativa para o processamento da quantidade crescente de dados.
-%
-
-
-\section{Definição do Problema}
-
-%
-%Até década passada (?), a computação sequencial era o modelo utilizado, e ela comportava o processamento de quantidades “pequenas” de dados. Com o crescente aumento da quantidade de dados, na ultima década o processamento dos dados se tornou um desafio para a computação sequencial. Como resultado, torna-se crucial substituir a computação tradicional por computação distribuída eficiente \cite{Lin:2010}. A mudança no modelo de programação sequencial para paralelo é um fato inevitável e ocorre gradualmente, desde que a indústria declarou que seu futuro está em computação paralela \cite{Asanovic:2009}. 
-%
+\section{Caracterização do Problema}
+\label{sec:caracProblema}
 
 Na última década, a quantidade de dados  disponível na web, gerada e processada por empresas e sistemas computacionais, aumentou várias ordens de grandeza, fazendo do processamento dos dados um desafio para a computação sequencial. Como resultado, torna-se crucial substituir a computação tradicional pela computação distribuída eficiente \cite{Lin:2010}. A mudança no modelo de programação sequencial para paralelo é um fato inevitável e ocorre gradualmente, desde que a indústria declarou que seu futuro está em computação paralela \cite{Asanovic:2009}.
 
-O MapReduce é um modelo de programação paralela desenvolvido pela Google para processamento de grandes volumes de dados distribuídos em \textit{clusters} \cite{Dean:2008}. Esse modelo propõe simplificar a computação paralela, escondendo  do desenvolvedor os detalhes da paralelização e utilizando duas funções principais - Map e Reduce.
-Uma das implementações mais conhecidas e utilizadas do modelo é o Hadoop \cite{White:2009}, ferramenta de código aberto, desenvolvida por Doug Cutting em 2005 e apoiada pela Yahoo!. 
-
- A ordenação é um dos problemas fundamentais da ciência da computação e um dos problemas algorítmicos mais estudados. Suas aplicações vão desde sistemas de banco de dados à computação gráfica, além de muitos outros algoritmos que podem ser descritos em termos de ordenação \cite{Satish:2009,Amato:1996}.  Muitas aplicações dependem de ordenações eficientes como base para seu próprio desempenho e o uso crescente de computação paralela em sistemas computacionais gera a necessidade de algoritmos de ordenação inovadores, desenvolvidos para dar suporte a essas aplicações. Isso significa desenvolver rotinas eficientes de ordenação em arquiteturas paralelas e distribuídas. 
+A ordenação é um dos problemas fundamentais da ciência da computação e um dos problemas algorítmicos mais estudados. Suas aplicações vão desde sistemas de banco de dados à computação gráfica, além de muitos outros algoritmos que podem ser descritos em termos de ordenação \cite{Satish:2009,Amato:1996}.  Muitas aplicações dependem de ordenações eficientes como base para seu próprio desempenho, que podem ser desenvolvidas através de rotinas eficientes de ordenação em arquiteturas paralelas e distribuídas. 
+O uso crescente de computação paralela em sistemas computacionais gera a necessidade de algoritmos de ordenação inovadores, desenvolvidos para dar suporte a essas aplicações. 
  
 
-Com a constante evolução das arquiteturas de computadores há uma necessidade contínua de explorar técnicas de ordenação em arquiteturas emergentes. Nesse sentido, o trabalho proposto por %\citeonline{Paula:2011} 
+Com a constante evolução das arquiteturas de computadores há uma necessidade contínua de explorar técnicas de ordenação em arquiteturas emergentes. 
+Nesse sentido, são desenvolvidos diferentes modelos de programação paralela para ambientes \textit{multicore} e distribuído, como o MapReduce. O MapReduce é um modelo de programação paralela desenvolvido pela Google para processamento de grandes volumes de dados distribuídos em \textit{clusters} \cite{Dean:2008}. Esse modelo propõe simplificar a computação paralela, escondendo  do desenvolvedor os detalhes da paralelização e utilizando duas funções principais - Map e Reduce.
+Uma das implementações mais conhecidas e utilizadas do modelo é o Hadoop \cite{White:2009}, ferramenta de código aberto, desenvolvida por Doug Cutting em 2005 e apoiada pela Yahoo!. 
+
+
+
+O trabalho proposto por %\citeonline{Paula:2011} 
 Pinhão (2011) apresentou uma avaliação da escalabilidade 
 %- habilidade de um sistema manipular uma porção crescente de trabalho de forma uniforme - 
 de algoritmos de ordenação paralela no modelo MapReduce. Para tal, foi desenvolvido o algoritmo de Ordenação por Amostragem, no ambiente Hadoop, e seu desempenho foi avaliado em relação à quantidade de dados de entrada e ao número de máquinas utilizadas. 
@@ -33,6 +31,8 @@ Considerando esse contexto, o presente trabalho segue o tema e busca continuar o
 
 
 \section{Motivação}
+\label{sec:motivacao}
+
 
 % 1. crescimento dos dados requer mais poder computacional
 
@@ -70,6 +70,9 @@ MapReduce e sua implementação código aberto Hadoop oferecem  uma alternativa 
 Mesmo com o grande processamento  empregado em interfaces gráficas, visualização e jogos, a ordenação continua a ser uma parte considerável da computação e estima-se que seja responsável por aproximadamente 80\% dos ciclos de processamento\cite{Ranger:2007}. O uso de algoritmos paralelos de ordenação em tais aplicações melhora o tempo de execução do algoritmo e torna viável o processamento de grande quantidades de dados.
 
 
+\section{Justificativa}
+\label{sec:justificativa}
+
 Os algoritmos paralelos para ordenação têm sido objeto de estudo desde o princípio da computação paralela, uma vez que a  ordenação é um dos problemas fundamentais da ciência da computação.
 Um grande número de aplicações possui uma fase de computação intensa, na qual uma lista de elementos deve ser ordenada com base em algum de seus atributos. Um exemplo é o algoritmo de Page Rank \cite{Page:1999} da Google: as páginas de resultado de uma consulta são classificadas de acordo com sua relevância, e depois precisam ser ordenadas de maneira eficiente \cite{Kale:2010}. 
  
@@ -87,11 +90,21 @@ Dado o grande número de algoritmos de ordenação paralela e grande variedade d
  Além disso, não existe um modelo teórico conhecido que possa ser aplicado para prever com precisão o desempenho de um algoritmo em arquiteturas diferentes \cite{Amato:1996}.
 Assim, estudos experimentais assumem uma crescente importância para a avaliação e seleção de algoritmos apropriados para ambientes paralelos. É preciso que estudos sejam realizados para que determinado algoritmo possa ser recomendado em certa arquitetura com alto grau de confiança.
 
-\section{Objetivos}
 
+
+
+\section{Objetivos}
+\label{sec:objetivos}
+
+\subsection{Objetivo Geral}
+\label{subsec:objetivoGeral}
 
 Este projeto busca continuar o estudo sobre ordenação paralela desenvolvido por Pinhão (2011), com a análise de desempenho dos algoritmos de ordenação Ordenação por Amostragem e \textit{Quicksort}. No citado trabalho, foi feito um estudo sobre a computação paralela e algoritmos de ordenação no modelo MapReduce, com a implementação do algoritmo de Ordenação por Amostragem em ambiente Hadoop. 
 No presente trabalho busca-se comparar os algoritmos Ordenação por Amostragem e \textit{Quicksort} Paralelo em relação à quantidade de dados a serem ordenados, variabilidade dos dados de entrada e número máquinas utilizadas. 
+
+
+\subsection{Objetivos Específicos}
+\label{subsec:objetivosEspecificos}
 
 Desse modo, os objetivos deste trabalho são:
 
@@ -101,23 +114,8 @@ Desse modo, os objetivos deste trabalho são:
 \item Comparar as implementações dos algoritmos de ordenação paralela: Ordenação por Amostragem e \textit{Quicksort} Paralelo em termos de desempenho.
 \end{packed_enum}
 
-
 \section{Organização do Texto}
+\label{sec:organizacaoTexto}
 
-Esse projeto está organizado em seis capítulos. O próximo capítulo apresenta o referencial teórico para o desenvolvimento do trabalho, com conceitos de computação paralela  e do modelo MapReduce.
-O Capítulo \ref{cap:ordenacao} complementa o referencial teórico e apresenta os conceitos da ordenação de dados e os algoritmos de ordenação paralela.
-O Capítulo \ref{cap:desenvolvimento} descreve a metodologia de pesquisa, indicando os passos seguidos durante o desenvolvimento. Os resultados preliminares obtidos até a entrega do projeto são apresentados no Capítulo \ref{cap:resultados}. As conclusões e os próximos passos para a finalização do projeto estão no Capítulo \ref{cap:conclusao}.
-
-
-%%Citações: 
-%%\cite{Kale:2010} 
-%%\cite{Manferdelli:2008} 
-%%\cite{Dean:2008} 
-%%\cite{Asanovic:2009}
-%% \cite{Ernst:2009}
-%% \cite{Hadoop:2010}
-%% \cite{PageRank:1999}
-%% \cite{Cherkasova:2011}
-%% \cite{Prinslow:2011}
-
-
+Esse projeto está organizado em sete capítulos. O próximo capítulo apresenta o referencial teórico para o desenvolvimento do trabalho, com conceitos de computação paralela  e do modelo MapReduce. O Capítulo \ref{cap:ordenacao} complementa o referencial teórico e apresenta os conceitos da ordenação de dados e ordenação paralela. 
+O Capítulo \ref{cap:desenvolvimento} descreve a metodologia de pesquisa, indicando os passos seguidos durante o desenvolvimento. Os resultados preliminares obtidos até a entrega do projeto são apresentados no Capítulo \ref{cap:resultados}. As conclusões e os próximos passos para a finalização do projeto estão no Capítulo \ref{cap:conclusoes}.

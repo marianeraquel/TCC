@@ -1,0 +1,168 @@
+%
+% Documento: Trabalhos Relacionados
+%
+\chapter{Ordenação de Dados}
+\label{cap:ordenacao}
+
+
+A ordenação é o processo de organizar elementos de uma sequência em determinada ordem, considerada um dos problemas fundamentais da computação devido à sua importância teórica e prática \cite{Knuth:1998, Cormen:2009}. 
+A ordenação é utilizada por um grande número de aplicações computacionais, como compiladores e sistemas operacionais, que usam extensivamente a ordenação para lidar com tabelas e listas. 
+A construção de estruturas essenciais em computação gráfica e sistemas de informação geográfica são fundamentalmente operações de ordenação, que também participam de aplicações como a compressão de dados. A ordenação ainda é utilizada para determinar a duplicidade de elementos, encontrar o maior valor, realizar busca contínua e por operações SQL, que internamente a utilizam na criação de índices e buscas binárias. Dessa forma, diversos sistemas e bancos de dados se beneficiariam de uma rotina eficiente de ordenação \cite{Lauterbach:2009,Satish:2009,Dean:2008}.
+
+
+De forma geral, a ordenação pode ser dividida em dois grupos: ordenação interna e externa. 
+A ordenação em memória interna é caracterizada pelo armazenamento de todos os registros na memória principal, onde seus acessos são feitos diretamente pelo processador. Essa ordenação é possível apenas quando a quantidade de dados é pequena o suficiente para ser armazenada em memória. 
+
+Quando é preciso ordenar uma base de dados muito grande, que não cabe na memória principal, um outro modelo faz-se necessário, a ordenação externa.
+Apesar do problema nos dois casos ser o mesmo - rearranjar os registros de um arquivo em ordem ascendente ou descendente - não é possível usar as mesmas estratégias da ordenação interna, pois o acesso aos dados precisa ser feito em memória secundária, basicamente discos, cujo tempo de acesso é várias ordens de grandeza superior ao da memória principal.  %[Ziviani 2007, Knuth 1973].
+
+Na ordenação externa, os itens que não estão na memória principal devem ser buscados em memória secundária e trazidos para a memória principal, para assim serem comparados. Esse processo se repete numerosas vezes, o que o torna lento, uma vez que os processadores ficam grande parte do tempo ociosos à espera da chegada dos dados à memória principal para processá-los. Por esse motivo, a grande ênfase de um método de ordenação externa deve ser a minimização do número de vezes que cada item é transferido entre a memória interna e a memória externa. Além disso, cada transferência deve ser realizada de forma tão eficiente quanto as características dos equipamentos disponíveis permitam \cite{Ziviani:2007}.
+
+
+\section{Ordenação Paralela}
+
+
+Diversas aplicações possuem uma fase de processamento intenso, na qual é preciso ordenar uma lista de elementos. Mesmo algoritmos de ordenação sequenciais ótimos, como o \textit{Quicksort} e o \textit{HeapSort}, apresentam custo mínimo ${\cal O}(n/log \quad n)$ para ordenar uma sequência de $n$ chaves \cite{Cormen:2009}. 
+Isso significa que, com o crescimento do número de elementos a ser ordenado, o tempo para realizar a ordenação aumenta de maneira não linear, o que pode ser um entrave ao processamento. 
+A fim de resolver tal problema, com o surgimento do processamento paralelo, foram apresentadas versões paralelas dos algoritmos de ordenação sequenciais, com o intuito de diminuir consideravelmente o tempo de execução. A importância da ordenação têm originado estudos buscando desenvolver algoritmos de ordenação eficientes para uma grande variedade de arquiteturas paralelas \cite{Akl:1990}.
+
+\textbf{A ordenação paralela} é o processo  de ordenação feito em múltiplas unidades de processamento, que trabalham em conjunto para ordenar uma sequência de entrada. O conjunto inicial é dividido em subconjuntos disjuntos, que são associados a uma única unidade de processamento. A sequência final ordenada é obtida a partir da composição dos subconjuntos ordenados. É um ponto fundamental do algoritmo de ordenação paralela que a distribuição dos dados a serem ordenados, em cada processo individual, seja feita de tal forma que todas as unidades de processamento estejam trabalhando e que o custo de redistribuição de chaves entre os processadores seja minimizado. 
+
+\textbf{A ordenação paralela} é uma aplicação estudada intensivamente desde o início da computação paralela, com primeiro método \textit{Bitonic Sorting Network} proposto por Batcher \cite{Batcher:1968}. 
+Estudos teóricos foram realizados inicialmente, mas testes empíricos se tornaram possíveis na década de 80 com a disponibilidade de arquiteturas vetoriais, de multiprocessadores e multicomputadores e diversas versões paralelas dos algoritmos \textit{Quicksort}, \textit{RadixSort} e \textit{MergeSort} foram propostas.
+
+
+O \textit{Quicksort} Paralelo foi um dos algoritmos mais estudados \cite{Deminet:1982, Quinn:1994, Sanders:1997}, mas inicialmente a divisão dos dados limitava o aumento da velocidade, independente do número de processadores utilizados. Recentemente novas implementações foram propostas, utilizando as tecnologias  de \textit{hyperthreading} disponíveis em processadores atuais para desenvolver um esquema de balanço de carga, que têm se mostrado eficiente na divisão dos dados \cite{Parikh:2008}.
+Para o \textit{MergeSort} foi proposta uma versão chamada \textit{Simple Randomized Mergesort} \cite{Barve:1996, Barve:2002}, que foi o primeiro algoritmo de ordenação em disco a obter um número médio ótimo de movimentações de dados. 
+ A implementação \textit{Quickmerge} proposta por Quinn combinava os algoritmos \textit{Quicksort} e \textit{MergeSort}, reduzindo significativamente a quantidade de dados movimentada \cite{Quinn:1988}. Também foram estudados algoritmos de ordenação paralela que se baseiam em uma amostra para realizar a divisão do conjunto de dados. Podem ser citados o \textit{FlashSort} \cite{Reif:1987}, o \textit{Samplesort} \cite{Huang:1983} e suas variações como o \textit{Super-Scalar Samplesort }\cite{Sanders:2004} e o \textit{Parallel Sorting by Regular Sampling} \cite{Shi:1992}.
+
+Além disso, as propostas atuais de ordenação em grandes conjuntos de máquinas incluem os algoritmos implementados em Hadoop \textit{Sort} e \textit{TeraSort}, descritos na seção \ref{sec:benchmarks}, capazes de ordenar petabytes de informação em centenas ou milhares de nodos. 
+
+
+
+Com tamanha variedade de algoritmos e arquiteturas, diversas soluções podem ser consideradas ao implementar um algoritmo de ordenação em ambiente paralelo. Cada uma delas atende um cenário, tipo de entrada, plataforma ou arquitetura particulares. Dessa forma, ao desenvolver algoritmos de ordenação paralela, é importante ter em mente certas condições que interferem no desempenho final do algoritmo, relacionadas tanto ao ambiente de implementação, quanto ao conjunto de dados que deve ser ordenado. As principais questões a serem analisadas são \cite{Kale:2010}:
+
+\begin{itemize}
+\item \textbf{Habilidade de explorar distribuições iniciais parcialmente ordenadas:}
+Alguns algoritmos podem se beneficiar de cenários nos quais a sequência de entrada dos dados é a mesma, ou pouco alterada. Nesse caso, é possível obter melhor desempenho ao realizar menos trabalho e movimentação de dados.
+Se a alteração na posição dos elementos na sequência é pequena o suficiente, grande parte dos processadores mantém seus dados iniciais e precisam se comunicar apenas com os processadores vizinhos.
+
+\item \textbf{Movimentação dos dados:}
+A movimentação de dados entre processadores deve ser mínima durante a execução do algoritmo. Em um sistema de memória distribuída, a quantidade de dados a ser movimentada é um ponto crítico, pois o custo de troca de dados pode dominar o custo de execução total e limitar a escalabilidade.
+
+\item \textbf{Balanceamento de carga:}
+O algoritmo de ordenação paralela deve assegurar o balanceamento de carga ao distribuir os dados entre os processadores. Cada processador deve receber uma parcela equilibrada dos dados para ordenar, uma vez que o tempo de execução da aplicação é tipicamente limitada pela execução do processador mais sobrecarregado.
+
+\item \textbf{Latência de comunicação:}
+A latência de comunicação é definida como o tempo médio necessário para enviar uma mensagem de um processador a outro.
+Em grandes sistemas distribuídos, reduzir o tempo de latência se torna muito importante.
+
+\item \textbf{Sobreposição de comunicação e computação:}
+Em qualquer aplicação paralela, existem tarefas com focos em computação e comunicação. A sobreposição de tais tarefas permite que sejam feitas tarefas de processamento e ao mesmo tempo operações de entrada e saída de dados, evitando que os recursos fiquem ociosos durante o intervalo de tempo necessário para a transmissão da carga de trabalho.
+
+\end{itemize}
+
+
+Além das condições relacionadas à implementação do algoritmo em ambiente paralelo, existem outras condições necessárias, relacionadas principalmente ao conjunto de elementos a ser ordenado. Considerando um conjunto de $n$ chaves e  $p$ processadores,  durante a execução de qualquer algoritmo de ordenação paralela é preciso que o conjunto de chaves seja particionado em $p$ subconjuntos mutualmente exclusivos, sem nenhuma chave duplicada. É necessário ainda que todas as chaves da sequência inicial sejam mantidas, ou seja, que não se perca nenhuma chave durante a distribuição entre os processadores.
+
+Após o conjunto estar ordenado, é preciso verificar se todas as chaves da sequência inicial foram preservadas, se todas as chaves de cada processador estão ordenadas em ordem crescente, se a maior chave no processador $p_{i}$ é inferior ou igual à menor chave no processador $p_{i+1}$ e se a saída resultante é uma sequência de chaves totalmente ordenada.
+
+\subsection{Fluxo geral de execução da ordenação paralela}
+
+Na execução de um algoritmo de ordenação paralela podem ser identificadas algumas tarefas principais, que todos os algoritmos precisam executar em algum momento, normalmente realizadas de forma sequencial  \cite{Kale:2010}. 
+A primeira tarefa é a ordenação local, na qual as chaves em cada processador são ordenadas inicialmente  ou ordenadas em grupos.
+Existe também uma fase de agrupamento, pois muitas vezes é necessário colocar as chaves em grupos, a fim de enviá-las a outros processadores ou calcular histogramas. Por fim, é preciso realizar a intercalação das chaves ordenadas em subsequências em uma sequência completa.
+
+Os algoritmos de ordenação paralela executam tarefas similares que podem ser definidas, genericamente, como se segue: 
+\begin{num_enum}
+\item Realizar processamento local;
+\item Coletar informações relevantes de distribuição de todos os processadores;
+\item Em um único processador, inferir uma divisão de chaves a partir das informações coletadas;
+\item Transmitir aos outros processadores a divisão dos elementos;
+\item Realizar processamento local;
+\item Mover os dados de acordo com os elementos de divisão;
+\item Realizar processamento local;
+\item Se a divisão de chaves foi incompleta, retornar ao passo 1;
+\end{num_enum}
+
+
+De acordo com essa generalização  é possível identificar pontos que se relacionam diretamente com as condições que limitam o desempenho dos algoritmos de ordenação paralela e fornecem ideias para a análise de eficiência da comunicação dos algoritmos.
+Primeiro, há duas tarefas principais de comunicação: descobrir um vetor de divisão global e enviar os dados para os processadores adequados. 
+Em segundo lugar, a maioria dos algoritmos têm múltiplos estágios de computação local e pode ser muito vantajoso sobrepor este processamento local e a comunicação. 
+%Finalmente, se é possível realizar sobreposição entre o processamento local e a determinação do vetor de divisão, um processador pode ser reservado para o trabalho de divisão, encurtando o caminho crítico. 
+A fração de  processamento local que pode ser sobreposta à comunicação necessária em um algoritmo  é um bom indicativo para comparação da escalabilidade dos algoritmos de ordenação paralela.
+%ao custo para determinar a divisão e mover os dados
+
+
+\section{Algoritmos de Ordenação Paralela}
+
+Essa seção apresenta os algoritmos de ordenação paralela objetos desse trabalho: o algoritmo Ordenação por Amostragem  (\textit{Samplesort}) e o algoritmo \textit{Quicksort} Paralelo, bem como as aplicações de ordenação em Hadoop \textit{Terasort} e \textit{Sort}.  
+
+%%% EXEMPLO
+%A Figura 4.3 mostra três etapas de particionamento de um vetor de dez chaves inteiras. A primeira linha mostra os dados originais; a segunda mostra os dados após o vetor ter sido particionado; e a terceira mostra como cada uma das duas partições, a partir da segunda linha, seria particionada. As caixas encapsulam as partes do vetor que precisam ser ordenadas.
+
+\subsection{Ordenação no ambiente Hadoop}
+\label{sec:benchmarks}
+A ordenação de dados é uma das cargas de trabalho mais consideradas pelos \textit{benchmarks} em geral, que buscam, a partir de uma entrada desordenada, obter uma saída ordenada e avaliar o desempenho do algoritmo que realizou a ordenação.
+
+% O \textit{framework} Hadoop disponibiliza diversos programas que podem ser facilmente executados, dentre os quais se destacam o \textit{Sort} e o \textit{TeraSort}.
+O \textit{Sort} é um \textit{benckmark} criado por Jim Gray em 1998, e hoje é um dos mais conhecidos na ordenação de dados \cite{Gray:1998}. 
+Consiste em um conjunto de seis \textit{benchmarks}, cada um com as suas regras, que medem os tempos para ordenar diferentes números de registros e se diferem principalmente nas métricas de avaliação. 
+As principais categorias dos \textit{benchmarks Sort} são a \textit{MinuteSort} e a \textit{GraySort}. A categoria \textit{MinuteSort} deve ordenar a maior quantidade dos dados em um minuto e a \textit{GraySort} deve ordenar mais que 100 terabytes em pelo menos uma hora \cite{White:2009}. Ainda existem as categorias \textit{PennySort}, \textit{JouleSort}, e os descontinuados  \textit{DatamationSort} e \textit{TeraByte Sort}. 
+Em cada categoria de ordenação, existem duas classificações, de acordo com o tipo de registro a ser ordenado: \textit{Daytona} e \textit{Indy}. Os participantes da categoria \textit{Daytona} são códigos de ordenação de propósito geral, e os participantes da \textit{Indy} devem ordenar apenas registros de 100 bytes, sendo os primeiros 10 bytes reservados para a chave e o restante compõe o valor do elemento a ser ordenado.
+
+
+No Hadoop, o \textit{Sort} é uma aplicação MapReduce, composta de três etapas: gerar dados aleatórios, realizar a ordenação e validar os resultados.
+A geração de dados aleatórios é feita com o programa \textit{RandomWriter}. Ele executa dez tarefas MapReduce por nó, e cada função Map gera aproximadamente 1GB,  totalizando 10GB de dados binários aleatórios. 
+É possível determinar o número de dados e as configurações para os tamanhos das chaves e valores a serem gerados alterando algumas configurações do \textit{RandomWriter}.
+No segundo passo é realizada uma ordenação parcial dos dados de entrada e  o resultado é escrito em um diretório de saída. 
+O passo final é validar os resultados obtidos pela ordenação dos dados realizada pelo \textit{Sort}, através do programa \textit{SortValidator}, que realiza uma série de verificações nos dados ordenados e nos não ordenados para confirmar se a ordenação foi realizada corretamente. 
+
+Esse programa é muito útil para verificar o desempenho do sistema como um todo, uma vez que todo o conjunto de dados é transferido através da aplicação.
+
+%O Sort é um dos mais conhecidos 
+%Os benchmarks relacionados ao Sort possuem uma aplicação MapReduce, que realiza uma ordenação parcial dos dados de entrada, e são constituídos de três passos:
+%1. Geração de dados: gera dados aleatórios a serem ordenados;
+%2. Ordenação dos dados: ordena os dados gerados pelo passo 1;
+%3. Validação de dados: vno passo 2.
+
+
+O \textit{TeraSort} é outra aplicação de destaque para ordenação de dados com Hadoop, criada por Owen O' Malley \cite{OMalley:2009}, com o intuito de participar da competição \textit{Sort} \cite{Gray:1998}. Em 2009, o \textit{TeraSort} foi o campeão dessa competição em duas categorias: \textit{MinuteSort} ao ordenar 500 GB em 59 segundos, utilizando um \textit{cluster} com 1.406 nodos; e \textit{GraySort} ordenando 100 TB em 173 minutos em um \textit{cluster} com 3.452 nodos. A escalabilidade da solução foi provada pela ordenação de 1 PB em 975 minutos (equivalente a 16,25 horas) em 3.658 nodos.
+O \textit{TeraSort} consiste de três algoritmos, que são responsáveis pela geração dos dados, ordenação e validação. 
+
+\textit{Teragen} é o programa padrão para geração dados para a ordenação com \textit{Terasort}.
+Nele o número de registros gerados é um parâmetro definido pelo usuário, assim como o número de tarefas Map a serem realizadas. O programa divide o número desejado de registros pelo número de tarefas Map, e atribui a cada tarefa Map um intervalo de chaves para a geração de um arquivo. Cada tarefa Map corresponde a um arquivo de saída, assim os dados gerados são divididos em diversos arquivos. Deste modo, se existem duas tarefas Map, são escritos dois arquivos, cada um contendo metade das chaves geradas. 
+Os registros gerados têm um formato específico: uma chave, um id e um valor. As  chaves são caracteres aleatórios do conjunto \mbox{ `` '' .. ``$\sim$''}. O id é um valor inteiro que representa a linha, e o valor consiste de 70 caracteres de `A' a `Z'. 
+
+\textit{TeraSort} é uma espécie MapReduce padrão, mas apresenta um particionador personalizado que usa uma lista ordenada de $ N-1 $ chaves amostradas que definem a faixa de chaves para cada função Reduce. 
+Em particular, todas as chaves tal que $amostra [i-1] \le chave < amostra[i] $ são enviadas para a função \textit{i}. 
+Isto garante todas as chaves da saída $i$ sejam menores que as da saída $i + 1$ .
+Há também um formato de entrada e saída, \textit{TeraOutputFormat}, que é utilizado	 por todas as três aplicações  para ler e gravar os arquivos de texto no mesmo formato. 
+
+\textit{TeraValidate} garante que a saída está totalmente ordenada. A aplicação cria uma função Map para cada arquivo no diretório de saída, que se certifica que cada chave é  menor ou igual à anterior. O Map também gera registros com a primeira e última chave de cada arquivo. Em seguida, a função Reduce lê tais registros e garante que a primeira chave de um arquivo é maior do que a última chave do arquivo anterior. Caso alguma chave seja encontrada fora de ordem, ela é escrita em um  arquivo de saída do Reduce, caso nenhuma chave esteja fora de ordem, não há saídas na função Reduce.
+
+\subsection{Outros}
+\label{sec:alg-outros}
+
+O algoritmo \textit{Samplesort} ou Ordenação por Amostragem é um método de ordenação baseado na divisão do arquivo de entrada em subconjuntos, de forma que as chaves de um subconjunto $i$ sejam menores que as chaves do subconjunto $i+1$. Após a divisão, cada subconjunto é enviado a um processador, que ordena os dados localmente. Ao final, todos os subconjuntos são concatenados e formam um arquivo globalmente ordenado.
+
+Nesse algoritmo, o ponto chave é dividir as partições de maneira balanceada, para que cada processador receba aproximadamente a mesma carga de dados. Para isso, é preciso determinar o número de elementos que devem ser destinados a uma certa partição, o que é feito através da amostragem das chaves do arquivo original. Essa estratégia baseia-se na análise de um subconjunto de dados  denominado amostra, ao invés de todo o conjunto, para estimar a distribuição de chaves e construir partições balanceadas.
+
+
+%O algoritmo Quicksort é um método de ordenação muito rápido e eficiente, inventado por  e publicado em 1962, após uma série de refinamentos [Shustek 2009]. Ele aplica a abordagem 􏰂dividir para conquistar􏰃
+
+O \textit{Quicksort} foi criado por Hoare em 1960 e é considerado o algoritmo de ordenação sequencial mais rápido em grande parte dos casos \cite{Cormen:2009}. É um algoritmo recursivo, que usa a estratégia Dividir para Conquistar para ordenar as chaves.
+Na implementação sequencial, a estratégia é o particionamento recursivo da sequência de entrada utilizando um elemento como pivô.  
+Após a escolha do elemento pivô, a lista é dividida em duas sublistas, uma contendo elementos iguais e menores que o pivô,  e outra contendo elementos maiores.
+Em cada sublista é escolhido um novo pivô e o processo se repete, até que cada lista contenha apenas um elemento.  Ao final obtém-se um conjunto com elementos ordenados. 
+
+Em geral, a complexidade da versão sequencial do algoritmo \textit{Quicksort} é ${\cal O}(n \times log \quad n)$, mas em uma situação em que a entrada de dados seja um  conjunto ordenado ou quase ordenado o desempenho do \textit{Quicksort} pode ser comprometido, caso o pivô seja escolhido nas extremidades do conjunto, pois o tamanho das partições será muito desigual. Nesse cenário a complexidade do algoritmo pode chegar a ${\cal O}(n^2)$, assim o melhor caso será quando os conjuntos de dados tiverem tamanhos próximos após o particionamento.
+
+Existem várias implementações paralelas do \textit{Quicksort}, por exemplo: \textit{Quinn's Quicksort, Hyper Quicksort, Sanders Quicksort} e  \textit{Grama Quicksort} \cite{Quinn:1994, Sanders:1997}. Apesar das variações, todas as implementações se baseiam em um conjunto de processadores, um mecanismo de escolha do pivô e uma lista de chaves para nelas operarem. A saída dos algoritmos é uma sequência de chaves globalmente ordenadas. 
+
+
+
+No \textit{Quicksort} Paralelo, todas as chaves serão movidas entre os processadores durante a execução do algoritmo. No entanto, a latência de comunicação das mensagens aumenta apenas com o crescimento do número de processadores. Com isso a versão paralela do \textit{Quicksort} está sujeita a menor \textit{overhead} de latência de comunicação que as versões paralelas do \textit{RadixSort} e Ordenação por Amostragem. A complexidade da versão paralela do \textit{Quicksort} é ${\cal O}((n/p) \times log(n/p))$, pois o conjunto de $n$ elementos é divido entre os $p$ processadores.  
+
+O \textit{Quicksort} Paralelo apresenta vantagem em relação a outros algoritmos de ordenação paralela pois 
+não necessita de sincronização. Cada sublista gerada é associada a um único processo, que não precisa se comunicar com os demais porque seus dados são independentes. 

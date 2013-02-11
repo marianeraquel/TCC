@@ -1,0 +1,310 @@
+%
+% Documento: Resultados 
+%
+
+\chapter{Resultados Experimentais}
+\label{cap:resultados}
+
+Neste capítulo são apresentados e analisados os resultados obtidos com a realização dos testes
+descritos anteriormente na Seção \ref{sec:experimentos}.
+
+% --------------------------------------------------------
+% ----------------- TERASORT e SORT ----------------------
+% --------------------------------------------------------
+\section{\textit{Benchmarks: TeraSort} e \textit{Sort} ?}
+
+% A Tabela  \ref{tab:TeraSort} apresenta os resultados obtidos para o \textit{benchmark TeraSort}. Ela
+% indica que o \textit{TeraGen} executou duas tarefas Map em 14 segundos, ou seja, esse foi o tempo
+% utilizado pelo algoritmo para gerar dois arquivos de 50 mil linhas cada. Para ordenar os dados
+% fornecidos pelo \textit{TeraGen}, o \textit{Terasort} executou duas tarefas Map e uma Tarefa Reduce
+% em 22 segundos. Por fim, para validar a ordenação o \textit{TeraValidade} executou, em 22 segundos,
+% uma tarefa Map e uma Tarefa Reduce, sem arquivos de saída, o que indica que não foram encontradas
+% chaves fora da ordem.  
+% 
+% 
+% \begin{defaultTable}{| B R{3}}
+% {
+% Algoritmo 		&Tempo (s)	&Tarefas Map 		&Tarefas Reduce 			\\ \hline \hline
+% TeraGen 			&14			&2					&0						\\ \hline 
+% TeraSort			&22			&2					&1						\\ \hline 
+% TeraValidade 	&22			&1					&1						\\ \hline  
+% }
+% {Tempos médios do \textit{TeraSort} para ordenação em 2 máquinas}
+% \label{tab:TeraSort}
+% \end{defaultTable}
+% 
+% 
+% A Tabela \ref{tab:Sort} apresenta os resultados obtidos para o \textit{benchmarks} \textit{Sort} em
+% quatro máquinas, com dez execuções cada. Para cada máquina usada na execução, foram gerados pelo
+% \textit{RandomWriter}, dez arquivos de 1GB, em formato binário. Esses arquivos foram gerados  em 3
+% minutos e 54 segundos, realizando 40 tarefas Map. Para ordenar esses dados o algoritmo levou pouco
+% mais que 37 minutos, realizando 640 tarefas Map e 7 tarefas Reduce.  
+% 
+% \begin{defaultTable}{| B R{3}}
+% {
+% Algoritmo 		&Tempo (s) 	&Tarefas Map 	&Tarefas Reduce			\\ \hline \hline
+% RandomWriter 	&234			&40				&0						\\ \hline 
+% Sort				&2.242		&640				&7						\\ \hline 
+% }
+% {Tempos médios do \textit{Sort} para ordenação em 4 máquinas}
+% \label{tab:Sort}
+% \end{defaultTable}
+%  
+% 
+% \section{Ordenação por Amostragem e Quicksort Paralelo}
+% Os testes feitos com o algoritmo Ordenação por Amostragem tinham como objetivo reproduzir os
+% resultados encontrados no trabalho feito por Pinhão (2011), e gerar resultados 
+% que serão utilizados na comparação de desempenho dos dois algoritmos. 
+% O resultado dos experimentos está separado de acordo com o tipo de teste realizado, com variação do
+% conjunto de dados, da quantidade de dados ordenada e da quantidade de máquinas utilizadas. 
+
+
+% --------------------------------------------------------
+% ----------------- VERIFICAÇÃO --------------------------
+% --------------------------------------------------------
+
+\section{Verificação dos Algoritmos ?}
+
+
+% --------------------------------------------------------
+% ----------------- ESTABILIDADE -------------------------
+% --------------------------------------------------------
+\newpage
+\section{Estabilidade do Sistema}
+
+<INLCUIR DESCRIÇÃO GRÁFICO TEMPO>
+ 
+\begin{defaultFigure}{0.75\textwidth}{graficos/EstabilidadeTempo.pdf}
+{Gráfico do tempo para ordenação de conjuntos de 10$^8$ dados em 5 máquinas}
+\label{fig:EstabilidadeTempo}
+\end{defaultFigure}
+
+A seguir 3 versões para o plot das partições:
+
+\begin{defaultFigure}{0.75\textwidth}{graficos/EstabilidadeParticoes1.pdf}
+{Partições obtidas na ordenação de conjuntos de 10$^8$ dados em 5 máquinas}
+\label{fig:EstabilidadeParticoes}
+\end{defaultFigure}
+
+\begin{defaultFigure}{0.75\textwidth}{graficos/EstabilidadeParticoes2.pdf}
+{Partições obtidas na ordenação de conjuntos de 10$^8$ dados em 5 máquinas}
+\label{fig:EstabilidadeParticoes}
+\end{defaultFigure}
+
+\begin{defaultFigure}{0.75\textwidth}{graficos/EstabilidadeParticoes3.pdf}
+{Partições obtidas na ordenação de conjuntos de 10$^8$ dados em 5 máquinas}
+\label{fig:EstabilidadeParticoes}
+\end{defaultFigure}
+
+% --------------------------------------------------------
+% ----------------- PARTIÇÕES ----------------------------
+% --------------------------------------------------------
+\newpage
+\section{Variando o Número de Partições}
+
+<INLCUIR DESCRIÇÃO GRÁFICO TEMPO>
+ 
+\begin{defaultFigure}{0.75\textwidth}{graficos/ParticoesTempo.pdf}
+{Gráfico do tempo para ordenação de conjuntos de 10$^8$ dados em 5 máquinas com diferentes números
+de partições}
+\label{fig:ParticoesTempo}
+\end{defaultFigure}
+
+% --------------------------------------------------------
+% ----------------- DISTRIBUIÇÃO -------------------------
+% --------------------------------------------------------
+\newpage
+\section{Variando a Distribuição de Dados}
+
+<TEXTO> 
+
+<DESCRIÇÃO GRÁFICO TEMPO>
+\begin{defaultFigure}{0.75\textwidth}{graficos/DistribuicaoTempo.pdf}
+{Gráfico dos tempos médios para ordenação de 10$^8$ dados em 5 máquinas}
+\label{fig:DadosTempos}
+\end{defaultFigure}
+
+<TABELA TEMPO>
+
+<DESCRIÇÃO GRÁFICO PARTIÇÕES>
+% \begin{defaultFigure}{0.75\textwidth}{graficos/DistribuicaoTempo.pdf}
+% {Gráfico dos tempos médios para ordenação de 10$^8$ dados em 5 máquinas}
+% \label{fig:DadosTempos}
+% \end{defaultFigure}
+
+<TABELA PARTIÇÕES>
+
+% --------------------------------------------------------
+% -------------------- DADOS -----------------------------
+% --------------------------------------------------------
+
+\newpage
+\section{Variando a Quantidade de Dados}
+
+Os testes variando a quantidade de dados buscavam avaliar a complexidade dos dois algoritmos,
+observando seu comportamento com o aumento na entrada de dados. Para esse teste, foram feitas
+execuções com dados uniformes, com quantidade variando de 10$^6$ a 10$^{10}$. 
+O algoritmo Quicksort foi executado com 2 partições, e Samplesort manteve a fórmula anteriormente
+usada: partições = máquinas x núcleos. As ordenações
+foram feitas em cinco máquinas, e o teste foi repetido 5 vezes para cada quantidade de
+dados. 
+A seguir são apresentados os tempos de ordenação total e relativo a cada conjunto de 10$^6$ dados,
+que incluem a média dos tempos para as 5 execuções.
+
+
+A Figura \ref{fig:DadosTempos} apresenta o tempo médio de ordenação de cada conjunto. O gráfico
+apresenta os eixos x e y em escala logarítmica para melhor visualização. Os resultados mostram que
+o tempo médio do Quicksort foi ligeiramente menor com o conjunto de 10$^6$ dados, mas nos demais
+casos se manteve acima do tempo médio do Samplesort. Além disso, quanto maior o
+arquivo, maior foi a diferença entre os tempos. 
+
+\begin{defaultFigure}{0.75\textwidth}{graficos/DadosTempo.pdf}
+{Gráfico dos tempos médios para ordenação de 10$^6$ a 10$^{10}$ dados em 5 máquinas}
+\label{fig:DadosTempos}
+\end{defaultFigure}
+ 
+
+<INCLUIR DESCRIÇÃO DA TABELA>
+\input{tabelas/DadosTempo}
+
+
+Com a finalidade de dimensionar o \textit{overhead} do algoritmo, isto é, a sobrecarga ou custo
+adicional de comunicação entre os processadores mestre e escravos, assim como sua escalabilidade em
+relação ao número de dados, foi calculado o tempo médio relativo de ordenação para cada conjunto de
+10$^6$ dados. 
+ 
+<INLCUIR DESCRIÇÃO GRÁFICO MEGADADOS>
+ 
+\begin{defaultFigure}{0.75\textwidth}{graficos/DadosMegaDados.pdf}
+{Gráfico do tempo médio relativo para ordenação de conjuntos de 10$^6$ dados em 5 máquinas}
+\label{fig:DadosMegaDados}
+\end{defaultFigure}
+ 
+ 
+% DESCRIÇÃO GRÁFICO COMPLEXIDADE
+% 
+<INCLUIR GRÁFICO COMPLEXIDADE>
+% 
+% \newpage
+
+
+% --------------------------------------------------------
+% -------------------- MÁQUINAS --------------------------
+% --------------------------------------------------------
+\newpage
+\section{Variando a Quantidade de Máquinas}
+
+Os testes variando a quantidade de máquinas foram realizados para avaliar a escalabilidade do
+algoritmo, de forma a medir o ganho de tempo obtido com o aumento do número de máquinas
+utilizadas na ordenação. Para tal, cada algoritmo foi executado cinco vezes e foi medido o tempo
+gasto na ordenação. 
+Além do tempo gasto em cada execução, foram calculados também o \textit{speedup}
+e a eficiência de cada algoritmo. Cada teste foi realizado com um conjunto de 10$^8$
+chaves uniformes, que foram ordenadas por grupos de 2, 3, 4 e 5 máquinas.
+
+A Figura \ref{fig:MaquinasTempos} representa graficamente a variação do tempo à medida que o número
+de máquinas aumenta. Como se pode observar, a variação, representada pela inclinação da curva é
+similar para os dois algoritmos, mantendo uma queda gradativa no tempo de execução com o aumento
+do número de máquinas. Ainda pode-se observar que a diminuição do tempo não é linear, não
+ocorre na mesma proporção que o aumento no número de máquinas. 
+
+
+\begin{defaultFigure}{0.75\textwidth}{graficos/MaquinasTempo.pdf}
+{Gráfico dos tempos médios para ordenação de 10$^8$ dados em 2 a 5 máquinas}
+\label{fig:MaquinasTempos}
+\end{defaultFigure}
+
+As Tabelas \ref{tab:MaquinasTempoS} e \ref{tab:MaquinasTempoQ} apresentam os tempos médios, em
+segundos,
+necessários para as ordenações de $10^8$ elementos em diferentes quantidade de máquinas, com os
+algoritmos Quicksort e Samplesort, respectivamente. 
+
+O tempo médio para a execução em duas máquinas do algoritmo Samplesort foi de aproximadamente 6
+minutos, do algoritmo Quicksort foi perto de 7 minutos. Em três máquinas o algoritmo Samplesort
+gastou cerca de 4 minutos para concluir a ordenação, 36\% menos que o Quicksort, que precisou
+de pouco mais de 5 minutos.
+Com quatro máquinas os tempos de execução para Samplesort e Quicksort foram de aproximadamente 3 e 4
+minutos, respectivamente.
+Em cinco máquinas a ordenação foi realizada em aproximadamente 4 minutos
+com Quicksort e 2 minutos com Samplesort. De forma geral, a avaliação dos resultados mostra que
+para cada acréscimo de uma máquina houve uma diminuição de 1 minuto no tempo de execução do
+algoritmo.
+
+\input{tabelas/MaquinasTempoS}
+
+\input{tabelas/MaquinasTempoQ}
+
+O tempo médio de execução do algoritmo Quicksort em cinco máquinas foi cerca de 45\% menor que o
+tempo médio obtido em duas máquinas. 
+Para o Samplesort o percentual reduzido é ainda maior: em cinco máquinas reduz-se 57\% o tempo
+necessário para a execução em duas máquinas. 
+
+Em todos os casos, o coeficiente de variação calculado foi menor que 0,03, o que indica
+tempos de execução bastante homogêneos para os dois algoritmos. 
+
+
+
+
+A fim de avaliar o desempenho do algoritmo nas diferentes configurações de máquinas foram calculadas
+as métricas \textit{speedup}
+e eficiência.
+
+Como foi descrito na Seção \ref{sec:computacaoparalela}, o \textit{speedup} indica quão mais rápida
+é a aplicação paralela comparada à aplicação sequencial. Já a eficiência  indica a taxa de
+utilização de cada processador. Ela é  excelente quando é 100\%, indicando que os processadores tem
+utilização total.
+Nesse trabalho o algoritmo foi implementado apenas em paralelo, assim, considera-se para fins de
+comparação a execução em quatro processadores (duas máquinas), ao invés da execução sequencial. As
+fórmulas
+foram adaptadas para verificar a melhora de desempenho e eficiência obtidas a partir de duas
+máquinas: 
+\[ S = \frac{T_{4 \quad processadores}}{T_{paralelo}}  
+\quad\mbox{e}\quad
+ E = \frac{S_{real}}{S_{ideal}}\]
+
+Os tempos descritos nas Tabelas \ref{tab:MaquinasTempoS} e \ref{tab:MaquinasTempoQ} foram
+utilizados no cálculo do \textit{speedup} e, consequentemente, da eficiência.
+A Tabela \ref{tab:MaquinasSpeedup} mosta os valores do \textit{speedup} real calculado e o valor
+ideal para comparação. 
+Considera-se que a execução com quatro processadores é o valor de referência, e assim
+o \textit{speedup} real é igual ao ideal. 
+Observa-se que à medida que aumenta o número de processadores o \textit{speedup} real se afasta do
+\textit{speedup} ideal. 
+A variação do \textit{speedup} já era um comportamento esperado, uma vez que paralelizações em geral
+introduzem sobrecargas para realizar o balanceamento e a comunicação entre os processos.
+
+\input{tabelas/MaquinasSpeedup}
+
+
+A Figura \ref{fig:MaquinasSpeedup} apresenta a curva do \textit{speedup} real dos algoritmos
+Quicksort e Samplesort à medida que o número de processadores aumenta, além  da curva de
+\textit{speedup} ideal para comparação. 
+Como se pode ver, inicialmente todos os valores de \textit{speedup} são iguais mas, com o aumento no número de processadores, a curva representando o valor do \textit{speedup} real se afasta da curva
+do \textit{speedup} ideal, fato que ocorre com maior acentuação no algoritmo Quicksort.
+
+
+\begin{defaultFigure}{0.75\textwidth}{graficos/MaquinasSpeedup.pdf}
+{Gráfico do \textit{speedup} para ordenação de 10$^8$ dados em em 2 a 5 máquinas}
+\label{fig:MaquinasSpeedup}
+\end{defaultFigure}
+
+A Tabela \ref{tab:MaquinasEficiencia} apresenta os valores de eficiência calculados para as
+diferentes quantidades de processadores utilizados na ordenação. Observa-se que, conforme aumenta a
+quantidade de processadores, o valor da eficiência decresce, mostrando que, com maior número de
+processadores, a taxa de utilização é menor. Além disso, observa-se que a eficiência
+do algoritmo Samplesort é maior que a eficiência do Quicksort o que indica uma melhor escalabilidade
+do algoritmo Samplesort. 
+
+\input{tabelas/MaquinasEficiencia}
+
+
+A Figura \ref{fig:MaquinasEficiencia} representa graficamente a eficiência em diferentes números de
+processadores. Nela observa-se que, à medida que o número de processadores aumenta o percentual da
+eficiência diminui, o que ocorre mais acentuadamente no algoritmo Quicksort. 
+
+\begin{defaultFigure}{0.75\textwidth}{graficos/MaquinasEficiencia.pdf}
+{Gráfico da eficiência para ordenação de 10$^8$ dados em em 2 a 5 máquinas}
+\label{fig:MaquinasEficiencia}
+\end{defaultFigure}
+
+\section{Considerações Finais}
