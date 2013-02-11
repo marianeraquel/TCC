@@ -1,0 +1,23 @@
+Outubro 2012
+
+Inicio das atividades de TCC2.
+Objetivo: implementar o quicksort.
+
+16/10
+
+Problemas no laboratório. O proxy do decom não está mais em funcionamento, portanto os computadores não funcionam mais em IP estático. Gabriel falou que vai olhar isso.
+
+Testes com arquivos diversos. Nova configuração para usar o mesmo pacote JAR para todos os programas. Ver o quão interessante é essa abordagem nos próximos dias. 
+
+17/10
+Nova estrutura de pastas para os arquivos do TCC. 
+Tentativas de criar uma interface robusta para IO de arquivos em formato texto e binário.
+
+A ideia dos algoritmos é manter cada um em sua própria pasta, para melhor compreensão, e criar o pacote jar contendo todos, para tornar o uso mais fácil.
+Dois sites interessantes encontrados:
+
+Esse ensina a usar o hadoop com o karmasphere studio. É útil para criar arquivos específicos para os programas.
+http://arifn.web.id/blog/2012/05/15/programming-hadoop-in-eclipse.html
+
+Esse segundo inclui o próprio hadoop como um projeto eclipse, e permite que você execute os programas diretamente na IDE, assim como utilizar o hadoop como 
+debug. Pode ser interessante ver se isso funciona no Netbeans, ou se funciona corretamente no modo debug. 
